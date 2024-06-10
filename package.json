@@ -4,6 +4,7 @@
 	"description": "Madness system for Foundry VTT",
 	"type": "module",
 	"scripts": {
+		"link": "node ./build/link-foundry.js",
 	},
 	"author": "Arkia",
 	"license": "MIT",
