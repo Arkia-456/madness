@@ -17,4 +17,11 @@ export default class ActorSheetMadness extends ActorSheet {
 	get template() {
 		return 'systems/madness/templates/actor/sheet.hbs';
 	}
+
+	async getData(options) {
+		const sheetData = await super.getData(options);
+		const actor = this.actor;
+		sheetData.system = actor.system;
+		return sheetData;
+	}
 }

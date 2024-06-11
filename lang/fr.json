@@ -1,5 +1,13 @@
 {
 	"Madness": {
+		"Character": {
+			"Age": "Âge",
+			"Ethnicity": "Ethnie",
+			"Faction": "Affiliation",
+			"FirstName": "Prénom",
+			"Job": "Profession",
+			"LastName": "Nom"
+		},
 		"Tab": {
 			"Actions": "Actions",
 			"Character": "Personnage",
