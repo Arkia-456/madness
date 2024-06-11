@@ -1,2 +1,10 @@
 {
+	"Madness": {
+		"Tab": {
+			"Actions": "Actions",
+			"Character": "Personnage",
+			"Inventory": "Inventaire",
+			"Notes": "Notes"
+		}
+	}
 }
