@@ -9,7 +9,7 @@
 		"verified": "12"
 	},
 	"esmodules": ["madness.js"],
-	"styles": [],
+	"styles": ["madness.css"],
 	"packs": [],
 	"languages": [
 		{

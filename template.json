@@ -3,4 +3,33 @@
 		"types": ["character"],
 		}
 	},
+	"Item": {
+		"types": ["ethnicity"],
+		"templates": {
+			"common": {
+				"description": ""
+			}
+		},
+		"htmlFields": ["description"],
+		"ethnicity": {
+			"templates": ["common"],
+			"attributes": {
+				"agi": {
+					"value": 0
+				},
+				"con": {
+					"value": 0
+				},
+				"dex": {
+					"value": 0
+				},
+				"int": {
+					"value": 0
+				},
+				"str": {
+					"value": 0
+				}
+			}
+		}
+	}
 }
