@@ -72,5 +72,16 @@
 				</li>
 			{{/each}}
 		</ul>
+		<button data-action='edit-magics'>
+			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+		</button>
+		<ul>
+			{{#each system.magics as |magic id|}}
+				<li class='attribute magic' data-id='{{id}}'>
+					<div>{{id}}</div>
+					<div>{{magic.total}}</div>
+				</li>
+			{{/each}}
+		</ul>
 	</div>
 </section>

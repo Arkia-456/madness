@@ -66,6 +66,25 @@ class ActorMadness extends Actor {
 			(attr) => (system.secondaryAttributes[attr].rollable = true),
 		);
 
+		// Magics modifiers
+
+		Object.entries(system.magics).forEach(([key, value]) => {
+			const modifiers = [];
+			const modifierTypes = [];
+			modifierTypes.forEach((type) => {
+				if (value[type]) {
+					modifiers.push(this.generateAttributeModifier(key, type));
+				}
+			});
+			const stat = foundry.utils.mergeObject(
+				new Attribute(key, modifiers),
+				value,
+				{ overwrite: false },
+			);
+			stat.total = stat.totalModifier + stat.value;
+			system.magics[key] = stat;
+		});
+
 		console.log('Madness system | Actor | Derived data prepared ✅');
 	}
 
@@ -83,6 +102,13 @@ class ActorMadness extends Actor {
 			this.system.attributes[key].value = value;
 		});
 		this.update({ 'system.attributes': this.system.attributes });
+	}
+
+	updateMagics(magics) {
+		Object.entries(magics).forEach(([key, value]) => {
+			this.system.magics[key].value = value;
+		});
+		this.update({ 'system.magics': this.system.magics });
 	}
 
 	prepareEmbeddedDocuments() {

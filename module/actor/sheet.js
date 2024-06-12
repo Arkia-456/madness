@@ -1,5 +1,6 @@
 import { fontAwesomeIcon } from '../../utils/index.js';
 import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
+import { EditMagicsPopup } from './popups/edit-magics-popup.js';
 
 class ActorSheetMadness extends ActorSheet {
 	static get defaultOptions() {
@@ -112,6 +113,10 @@ class ActorSheetMadness extends ActorSheet {
 
 		handlers['edit-attributes'] = () => {
 			return new EditAttributesPopup(this.actor).render(true);
+		};
+
+		handlers['edit-magics'] = () => {
+			return new EditMagicsPopup(this.actor).render(true);
 		};
 
 		handlers['open-compendium'] = (_, actionTarget) => {

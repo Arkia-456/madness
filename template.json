@@ -18,6 +18,23 @@
 				"str": {
 					"value": 0
 				}
+			},
+			"magics": {
+				"erah": {
+					"value": 0
+				},
+				"ome": {
+					"value": 0
+				},
+				"shor": {
+					"value": 0
+				},
+				"sith": {
+					"value": 0
+				},
+				"teruuk": {
+					"value": 0
+				}
 			}
 		}
 	},
