@@ -73,6 +73,10 @@ class ActorMadness extends Actor {
 		}
 		console.log('Madness system | Actor | Data from items prepared ✅');
 	}
+
+	getAttribute(attr) {
+		return this.system.attributes[attr];
+	}
 }
 
 export { ActorMadness };

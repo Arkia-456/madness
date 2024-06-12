@@ -34,4 +34,11 @@ export class Attribute {
 			0,
 		);
 	}
+
+	async roll() {
+		const rollFormula = '1d@value';
+		const rollData = { value: this.total };
+		const roll = await new Roll(rollFormula, rollData).roll();
+		return roll;
+	}
 }

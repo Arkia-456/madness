@@ -120,6 +120,13 @@ class ActorSheetMadness extends ActorSheet {
 				?.render(true);
 		};
 
+		handlers['roll-check'] = (event, anchor) => {
+			const attrLabel = anchor.closest('[data-attribute]')?.dataset.attribute;
+			if (!attrLabel) return;
+			const attr = this.actor.getAttribute(attrLabel);
+			return attr.roll();
+		};
+
 		const sheetHandler = async (event) => {
 			const element = event.target;
 			const actionTarget = element.closest(
