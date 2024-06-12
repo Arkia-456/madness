@@ -36,7 +36,7 @@ class ActorMadness extends Actor {
 				value,
 				{ overwrite: false },
 			);
-			stat.value = stat.totalModifier;
+			stat.total = stat.totalModifier + stat.value;
 			system.attributes[key] = stat;
 		});
 
