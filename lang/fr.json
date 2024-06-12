@@ -8,6 +8,10 @@
 			"Job": "Profession",
 			"LastName": "Nom"
 		},
+		"Controls": {
+			"Delete": "Supprimer",
+			"Edit": "Modifier"
+		},
 		"Tab": {
 			"Actions": "Actions",
 			"Character": "Personnage",

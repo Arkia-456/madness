@@ -1,6 +1,24 @@
 {
 	"Actor": {
 		"types": ["character"],
+		"character": {
+			"attributes": {
+				"agi": {
+					"value": 0
+				},
+				"con": {
+					"value": 0
+				},
+				"dex": {
+					"value": 0
+				},
+				"int": {
+					"value": 0
+				},
+				"str": {
+					"value": 0
+				}
+			}
 		}
 	},
 	"Item": {
