@@ -40,6 +40,41 @@
 			<input name='system.faction' type='text' value='{{system.faction}}' />
 		</div>
 	</div>
+	<div>
+		<div class='container hp'>
+			<label>{{localize 'Madness.Label.HitPoints'}}</label>
+			<input
+				name='system.hp.value'
+				type='number'
+				value='{{system.hp.value}}'
+				placeholder='0'
+			/>
+			<span>{{system.hp.max}}</span>
+		</div>
+		<div class='container temp-hp'>
+			<label>{{localize 'Madness.Label.ShieldPoints'}}</label>
+			<input
+				name='system.hp.temp'
+				type='number'
+				value='{{system.hp.temp}}'
+				placeholder='0'
+			/>
+		</div>
+		<div class='container mp'>
+			<label>{{localize 'Madness.Label.ManaPoints'}}</label>
+			<input
+				name='system.mp.value'
+				type='number'
+				value='{{system.mp.value}}'
+				placeholder='0'
+			/>
+			<span>{{system.mp.max}}</span>
+		</div>
+		<div class='container ap'>
+			<label>{{localize 'Madness.Label.ArmorPoints'}}</label>
+			<span>0</span>
+		</div>
+	</div>
 	<div class='attributes'>
 		<button data-action='edit-attributes'>
 			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>

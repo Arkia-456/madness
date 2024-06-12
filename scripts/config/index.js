@@ -18,6 +18,8 @@ export const MadnessConfig = {
 			maxWeight: '20 * @{str}',
 			parryDamageReduction: '50 + 2 * @{con}',
 		},
+		HP: '30 + 6 * @{con}',
+		MP: '15 + 3 * @{int}',
 		Rolls: {
 			critRate: '1d100',
 			dodgeRate: '1d100',

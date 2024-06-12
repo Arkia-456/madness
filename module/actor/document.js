@@ -42,11 +42,39 @@ class ActorMadness extends Actor {
 			system.attributes[key] = stat;
 		});
 
-		// Secondary attributes
 		const totals = {};
 		Object.entries(system.attributes).forEach(
 			([key, value]) => (totals[key] = value.total),
 		);
+
+		// Calculate HP and MP
+		const hitPoints = system.hp;
+		const hpModifiers = [];
+		const hpStat = foundry.utils.mergeObject(
+			new Attribute('hp', hpModifiers),
+			hitPoints,
+			{ overwrite: false },
+		);
+		hpStat.max = new Formula(CONFIG.Madness.Formulas.HP).compute(
+			totals,
+		)?.evaluated;
+		hpStat.value = Math.min(hpStat.value, hpStat.max);
+		system.hp = hpStat;
+
+		const manaPoints = system.mp;
+		const mpModifiers = [];
+		const mpStat = foundry.utils.mergeObject(
+			new Attribute('mp', mpModifiers),
+			manaPoints,
+			{ overwrite: false },
+		);
+		mpStat.max = new Formula(CONFIG.Madness.Formulas.MP).compute(
+			totals,
+		)?.evaluated;
+		mpStat.value = Math.min(mpStat.value, mpStat.max);
+		system.mp = mpStat;
+
+		// Secondary attributes
 		system.secondaryAttributes = {};
 		Object.entries(CONFIG.Madness.Formulas.Attributes).forEach(
 			([key, value]) => {

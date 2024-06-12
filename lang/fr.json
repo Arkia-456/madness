@@ -23,7 +23,11 @@
 		"Label": {
 			"Character": "Personnage",
 			"EditAttributes": "Editer les attributs",
-			"EditMagics": "Editer les magies"
+			"EditMagics": "Editer les magies",
+			"ArmorPoints": "Points d'armure",
+			"HitPoints": "Points de vie",
+			"ManaPoints": "Points de mana",
+			"ShieldPoints": "Points de bouclier"
 		},
 		"Magics": {
 			"Erah": "Erah",
