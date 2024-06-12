@@ -28,6 +28,7 @@ class ActorMadness extends Actor {
 			const modifiers = [
 				new ModifierMadness(
 					`Madness.Ethnicity${capitalizeFirstLetter(key)}`,
+					'Ethnicity',
 					ethnicityAttr,
 				),
 			];

@@ -2,9 +2,11 @@ export class ModifierMadness {
 	constructor(...args) {
 		const params = {
 			label: args[0],
-			modifier: args[1],
+			sourceType: args[1],
+			modifier: args[2],
 		};
 		this.label = game.i18n.localize(params.label);
+		this.sourceType = game.i18n.localize(params.sourceType);
 		this.modifier = params.modifier;
 	}
 }

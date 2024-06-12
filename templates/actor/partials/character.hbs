@@ -43,7 +43,7 @@
 	<div class='attributes'>
 		<ul>
 			{{#each system.attributes as |attribute id|}}
-				<li class='attribute'>
+				<li class='attribute' data-id='{{id}}'>
 					<div>{{id}}</div>
 					<div>{{attribute.value}}</div>
 				</li>

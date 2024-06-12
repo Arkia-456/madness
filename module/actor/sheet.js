@@ -46,6 +46,21 @@ class ActorSheetMadness extends ActorSheet {
 	activateListeners($html) {
 		super.activateListeners($html);
 
+		const actor = this.actor;
+		const system = actor.system;
+		Object.entries(system.attributes).forEach(([key, value]) => {
+			const attributeContainer = $html[0].querySelector(
+				`.attribute[data-id=${key}]`,
+			);
+			const tooltip = value._modifiers.reduce((str, modifier) => {
+				if (str.length) {
+					str += '<br />';
+				}
+				return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : '-'}${Math.abs(modifier.modifier)}`);
+			}, '');
+			attributeContainer.dataset.tooltip = tooltip;
+		});
+
 		const characterTab = $html[0].querySelector('.tab[data-tab=character]');
 		if (characterTab && this.isEditable) {
 			const contextMenuEntryEdit = {
@@ -53,7 +68,7 @@ class ActorSheetMadness extends ActorSheet {
 				icon: fontAwesomeIcon('edit'),
 				callback: ($target) => {
 					const itemId = $target[0].closest('[data-item-id]')?.dataset.itemId;
-					const item = this.actor.items.get(itemId);
+					const item = actor.items.get(itemId);
 					item.sheet.render(true, { focus: true });
 				},
 			};
@@ -63,7 +78,7 @@ class ActorSheetMadness extends ActorSheet {
 				icon: fontAwesomeIcon('trash'),
 				callback: ($target) => {
 					const itemId = $target[0].closest('[data-item-id]')?.dataset.itemId;
-					const item = this.actor.items.get(itemId);
+					const item = actor.items.get(itemId);
 					item.delete();
 				},
 			};
