@@ -41,6 +41,9 @@
 		</div>
 	</div>
 	<div class='attributes'>
+		<button data-action='edit-attributes'>
+			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+		</button>
 		<ul>
 			{{#each system.attributes as |attribute id|}}
 				<li class='attribute' data-id='{{id}}'>

@@ -1,4 +1,5 @@
 import { fontAwesomeIcon } from '../../utils/index.js';
+import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
 
 class ActorSheetMadness extends ActorSheet {
 	static get defaultOptions() {
@@ -52,13 +53,16 @@ class ActorSheetMadness extends ActorSheet {
 			const attributeContainer = $html[0].querySelector(
 				`.attribute[data-id=${key}]`,
 			);
-			const tooltip = value._modifiers.reduce((str, modifier) => {
+			const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${value.value >= 0 ? '+' : ''}${value.value}`;
+			const modifiersStr = value._modifiers.reduce((str, modifier) => {
 				if (str.length) {
 					str += '<br />';
 				}
-				return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : '-'}${Math.abs(modifier.modifier)}`);
+				return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
 			}, '');
-			attributeContainer.dataset.tooltip = tooltip;
+			attributeContainer.dataset.tooltip = [naturalStr, modifiersStr].join(
+				'<br />',
+			);
 		});
 
 		const characterTab = $html[0].querySelector('.tab[data-tab=character]');
@@ -106,6 +110,10 @@ class ActorSheetMadness extends ActorSheet {
 	activateClickListener(html) {
 		const handlers = {};
 
+		handlers['edit-attributes'] = () => {
+			return new EditAttributesPopup(this.actor).render(true);
+		};
+
 		handlers['open-compendium'] = (_, actionTarget) => {
 			return game.packs
 				.get(actionTarget.dataset.compendium ?? '')
@@ -114,7 +122,9 @@ class ActorSheetMadness extends ActorSheet {
 
 		const sheetHandler = async (event) => {
 			const element = event.target;
-			const actionTarget = element.closest('a[data-action]');
+			const actionTarget = element.closest(
+				'a[data-action], button[data-action]',
+			);
 			const handler = handlers[actionTarget?.dataset.action ?? ''];
 			if (handler && actionTarget) {
 				event.stopImmediatePropagation();

@@ -52,6 +52,13 @@ class ActorMadness extends Actor {
 		);
 	}
 
+	updateAttributes(attributes) {
+		Object.entries(attributes).forEach(([key, value]) => {
+			this.system.attributes[key].value = value;
+		});
+		this.update({ 'system.attributes': this.system.attributes });
+	}
+
 	prepareEmbeddedDocuments() {
 		console.log('Madness system | Actor | Preparing embedded documents...');
 		super.prepareEmbeddedDocuments();

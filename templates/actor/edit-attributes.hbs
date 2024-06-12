@@ -1,0 +1,19 @@
+<form autocomplete='off'>
+	<ul>
+		{{#each system.attributes as |attribute id|}}
+			<li class='attribute' data-id='{{id}}'>
+				<label>{{id}}</label>
+				<input
+					type='number'
+					name='{{id}}'
+					value='{{attribute.value}}'
+					min='0'
+					step='1'
+				/>
+			</li>
+		{{/each}}
+	</ul>
+	<button type='submit'><i class='fa-regular fa-save'></i>{{localize
+			'Madness.Label.EditAttributes'
+		}}</button>
+</form>
