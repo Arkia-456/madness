@@ -24,14 +24,13 @@ class ActorMadness extends Actor {
 		const system = this.system;
 
 		Object.entries(system.attributes).forEach(([key, value]) => {
-			const ethnicityAttr = system.attributes[key].ethnicity;
-			const modifiers = [
-				new ModifierMadness(
-					`Madness.Ethnicity${capitalizeFirstLetter(key)}`,
-					'Ethnicity',
-					ethnicityAttr,
-				),
-			];
+			const modifiers = [];
+			const modifierTypes = ['ethnicity'];
+			modifierTypes.forEach((type) => {
+				if (value[type]) {
+					modifiers.push(this.generateAttributeModifier(key, type));
+				}
+			});
 			const stat = foundry.utils.mergeObject(
 				new StatisticModifier(key, modifiers),
 				value,
@@ -42,6 +41,15 @@ class ActorMadness extends Actor {
 		});
 
 		console.log('Madness system | Actor | Derived data prepared ✅');
+	}
+
+	generateAttributeModifier(key, type) {
+		const attr = this.system.attributes[key][type];
+		return new ModifierMadness(
+			`Madness.${capitalizeFirstLetter(type)}${capitalizeFirstLetter(key)}`,
+			capitalizeFirstLetter(type),
+			attr,
+		);
 	}
 
 	prepareEmbeddedDocuments() {
