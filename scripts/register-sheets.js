@@ -1,5 +1,5 @@
-import ActorSheetMadness from '../module/actor/sheet.js';
-import EthnicitySheetMadness from '../module/item/ethnicity/sheet.js';
+import { ActorSheetMadness } from '../module/actor/index.js';
+import { EthnicitySheetMadness } from '../module/item/index.js';
 
 export function registerSheets() {
 	Actors.unregisterSheet('core', ActorSheet);

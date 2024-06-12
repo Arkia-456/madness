@@ -1,4 +1,4 @@
-export default class ItemSheetMadness extends ItemSheet {
+class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes.push('madness', 'item');
@@ -23,3 +23,5 @@ export default class ItemSheetMadness extends ItemSheet {
 		return sheetData;
 	}
 }
+
+export { ItemSheetMadness };

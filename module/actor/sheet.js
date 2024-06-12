@@ -1,4 +1,4 @@
-export default class ActorSheetMadness extends ActorSheet {
+class ActorSheetMadness extends ActorSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes = ['madness', 'sheet'];
@@ -25,3 +25,5 @@ export default class ActorSheetMadness extends ActorSheet {
 		return sheetData;
 	}
 }
+
+export { ActorSheetMadness };
