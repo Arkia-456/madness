@@ -117,6 +117,12 @@
 					<div>{{magic.total}}</div>
 				</li>
 			{{/each}}
+			{{#each system.secondaryMagics as |magic id|}}
+				<li class='attribute magic' data-id='{{id}}'>
+					<div>{{id}}</div>
+					<div>{{magic.total}}</div>
+				</li>
+			{{/each}}
 		</ul>
 	</div>
 </section>

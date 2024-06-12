@@ -19,6 +19,10 @@ export const MadnessConfig = {
 			parryDamageReduction: '50 + 2 * @{con}',
 		},
 		HP: '30 + 6 * @{con}',
+		Magics: {
+			doka: 'Math.min(@{ome}, @{teruuk})',
+			natah: 'Math.min(@{erah}, @{shor}, @{sith}, @{ome}, @{teruuk})',
+		},
 		MP: '15 + 3 * @{int}',
 		Rolls: {
 			critRate: '1d100',

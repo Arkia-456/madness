@@ -113,6 +113,23 @@ class ActorMadness extends Actor {
 			system.magics[key] = stat;
 		});
 
+		const magicTotals = {};
+		Object.entries(system.magics).forEach(
+			([key, value]) => (magicTotals[key] = value.total),
+		);
+
+		system.secondaryMagics = {};
+		Object.entries(CONFIG.Madness.Formulas.Magics).forEach(([key, value]) => {
+			const modifiers = [];
+			const stat = foundry.utils.mergeObject(
+				new Attribute(key, modifiers),
+				{ value: new Formula(value).compute(magicTotals)?.evaluated },
+				{ overwrite: false },
+			);
+			stat.total = stat.totalModifier + stat.value;
+			system.secondaryMagics[key] = stat;
+		});
+
 		console.log('Madness system | Actor | Derived data prepared ✅');
 	}
 
