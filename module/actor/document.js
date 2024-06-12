@@ -1,5 +1,5 @@
 import { capitalizeFirstLetter } from '../../utils/index.js';
-import { ModifierMadness, StatisticModifier } from './modifiers.js';
+import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
 	prepareBaseData() {
@@ -32,7 +32,7 @@ class ActorMadness extends Actor {
 				}
 			});
 			const stat = foundry.utils.mergeObject(
-				new StatisticModifier(key, modifiers),
+				new Attribute(key, modifiers),
 				value,
 				{ overwrite: false },
 			);

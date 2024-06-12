@@ -11,7 +11,7 @@ export class ModifierMadness {
 	}
 }
 
-export class StatisticModifier {
+export class Attribute {
 	constructor(label, modifiers) {
 		this.label = label;
 		const seen = modifiers.reduce((result, modifier) => {
