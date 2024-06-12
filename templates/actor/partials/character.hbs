@@ -55,5 +55,22 @@
 				</li>
 			{{/each}}
 		</ul>
+		<ul>
+			{{#each system.secondaryAttributes as |attribute id|}}
+				<li class='attribute' data-id='{{id}}'>
+					{{#if attribute.rollable}}
+						<a
+							class='roll-icon'
+							data-action='roll-check'
+							data-secondary-attribute='{{id}}'
+						>
+							<i class='fa-solid fa-fw fa-dice-d20'></i>
+						</a>
+					{{/if}}
+					<div>{{id}}</div>
+					<div>{{attribute.total}}</div>
+				</li>
+			{{/each}}
+		</ul>
 	</div>
 </section>

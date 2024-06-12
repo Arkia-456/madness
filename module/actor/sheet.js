@@ -121,10 +121,17 @@ class ActorSheetMadness extends ActorSheet {
 		};
 
 		handlers['roll-check'] = (event, anchor) => {
-			const attrLabel = anchor.closest('[data-attribute]')?.dataset.attribute;
-			if (!attrLabel) return;
-			const attr = this.actor.getAttribute(attrLabel);
-			return attr.roll();
+			let attrId = anchor.closest('[data-attribute]')?.dataset.attribute;
+			if (attrId) {
+				const attr = this.actor.getAttribute(attrId);
+				return attr.roll();
+			} else {
+				attrId = anchor.closest('[data-secondary-attribute]')?.dataset
+					.secondaryAttribute;
+				const attr = this.actor.getSecondaryAttribute(attrId);
+				const rollFormula = CONFIG.Madness.Formulas.Rolls[attrId];
+				return attr.roll(rollFormula);
+			}
 		};
 
 		const sheetHandler = async (event) => {

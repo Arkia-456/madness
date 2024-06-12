@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from '../../utils/index.js';
+import { Formula, capitalizeFirstLetter } from '../../utils/index.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
@@ -23,6 +23,8 @@ class ActorMadness extends Actor {
 
 		const system = this.system;
 
+		// Attributes modifiers from items
+
 		Object.entries(system.attributes).forEach(([key, value]) => {
 			const modifiers = [];
 			const modifierTypes = ['ethnicity'];
@@ -39,6 +41,30 @@ class ActorMadness extends Actor {
 			stat.total = stat.totalModifier + stat.value;
 			system.attributes[key] = stat;
 		});
+
+		// Secondary attributes
+		const totals = {};
+		Object.entries(system.attributes).forEach(
+			([key, value]) => (totals[key] = value.total),
+		);
+		system.secondaryAttributes = {};
+		Object.entries(CONFIG.Madness.Formulas.Attributes).forEach(
+			([key, value]) => {
+				const modifiers = [];
+				const stat = foundry.utils.mergeObject(
+					new Attribute(key, modifiers),
+					{ value: new Formula(value).compute(totals)?.evaluated },
+					{ overwrite: false },
+				);
+				stat.total = stat.totalModifier + stat.value;
+				system.secondaryAttributes[key] = stat;
+			},
+		);
+
+		const rollableSecondaryAttributes = ['critRate', 'dodgeRate', 'initiative'];
+		rollableSecondaryAttributes.forEach(
+			(attr) => (system.secondaryAttributes[attr].rollable = true),
+		);
 
 		console.log('Madness system | Actor | Derived data prepared ✅');
 	}
@@ -76,6 +102,10 @@ class ActorMadness extends Actor {
 
 	getAttribute(attr) {
 		return this.system.attributes[attr];
+	}
+
+	getSecondaryAttribute(attr) {
+		return this.system.secondaryAttributes[attr];
 	}
 }
 
