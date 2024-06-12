@@ -22,21 +22,29 @@ class ItemMadness extends Item {
 		const sources = data.map((d) =>
 			d instanceof ItemMadness ? d.toObject() : d,
 		);
-		// If any created types are "singular", remove existing competing ones.
-		const singularTypes = ['ethnicity'];
-		const singularTypesToDelete = singularTypes.filter((type) =>
-			sources.some((s) => s.type === type),
-		);
-		const preCreateDeletions = singularTypesToDelete.flatMap(
-			(type) => actor.itemTypes[type],
-		);
-		if (preCreateDeletions.length) {
-			const idsToDelete = preCreateDeletions.map((item) => item.id);
+		await ItemMadness.preCreateDelete(sources, actor);
+		return super.createDocuments(data, operation);
+	}
+
+	static async preCreateDelete(sources, actor) {
+		const idsToDelete = [];
+		idsToDelete.push(...ItemMadness.getSingularTypesToDelete(sources, actor));
+		if (idsToDelete.length) {
 			await actor.deleteEmbeddedDocuments('Item', idsToDelete, {
 				render: false,
 			});
 		}
-		return super.createDocuments(data, operation);
+	}
+
+	static getSingularTypesToDelete(sources, actor) {
+		const singularTypes = ['ethnicity'];
+		const singularTypesToDelete = singularTypes.filter((type) =>
+			sources.some((s) => s.type === type),
+		);
+		const itemsToDelete = singularTypesToDelete.flatMap(
+			(type) => actor.itemTypes[type],
+		);
+		return itemsToDelete.map((item) => item.id);
 	}
 }
 
