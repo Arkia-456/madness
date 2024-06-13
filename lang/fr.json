@@ -30,11 +30,23 @@
 			"ShieldPoints": "Points de bouclier"
 		},
 		"Magics": {
+			"Doka": "Dokah",
 			"Erah": "Erah",
+			"Natah": "Natah",
 			"Ome": "Omé",
 			"Shor": "Shor",
 			"Sith": "Sith",
 			"Teruuk": "Teruuk"
+		},
+		"Item": {
+			"Damage": "Dégâts",
+			"Flat": "Plats",
+			"Range": "Portée",
+			"Spell": {
+				"Cost": "Coût",
+				"Level": "Niveau",
+				"Requirements": "Pré-requis"
+			}
 		},
 		"Tab": {
 			"Actions": "Actions",

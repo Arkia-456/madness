@@ -46,7 +46,7 @@
 		}
 	},
 	"Item": {
-		"types": ["ethnicity"],
+		"types": ["ethnicity", "spell"],
 		"templates": {
 			"common": {
 				"description": ""
@@ -71,6 +71,20 @@
 				"str": {
 					"value": 0
 				}
+			}
+		},
+		"spell": {
+			"templates": ["common"],
+			"requirements": {
+				"magic0": {},
+				"magic1": {}
+			},
+			"range": {
+				"value": 0
+			},
+			"damage": {},
+			"cost": {
+				"value": 0
 			}
 		}
 	}
