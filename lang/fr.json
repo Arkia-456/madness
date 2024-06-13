@@ -40,7 +40,8 @@
 			"Actions": "Actions",
 			"Character": "Personnage",
 			"Inventory": "Inventaire",
-			"Notes": "Notes"
+			"Notes": "Notes",
+			"Status": "Statut"
 		}
 	}
 }
