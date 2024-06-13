@@ -46,7 +46,7 @@
 		}
 	},
 	"Item": {
-		"types": ["ethnicity", "spell"],
+		"types": ["effect", "ethnicity", "spell"],
 		"templates": {
 			"common": {
 				"description": ""
@@ -86,6 +86,11 @@
 			"cost": {
 				"value": 0
 			}
+		},
+		"effect": {
+			"templates": ["common"],
+			"power": 0,
+			"requirements": {}
 		}
 	}
 }

@@ -1,4 +1,8 @@
-import { EthnicityMadness, SpellMadness } from '../../module/item/index.js';
+import {
+	EffectMadness,
+	EthnicityMadness,
+	SpellMadness,
+} from '../../module/item/index.js';
 
 export const MadnessConfig = {
 	Attributes: {
@@ -11,6 +15,7 @@ export const MadnessConfig = {
 	Item: {
 		documentClasses: {
 			ethnicity: EthnicityMadness,
+			effect: EffectMadness,
 			spell: SpellMadness,
 		},
 	},

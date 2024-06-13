@@ -1,5 +1,6 @@
 import { ActorSheetMadness } from '../module/actor/index.js';
 import {
+	EffectSheetMadness,
 	EthnicitySheetMadness,
 	SpellSheetMadness,
 } from '../module/item/index.js';
@@ -13,6 +14,11 @@ export function registerSheets() {
 	Items.unregisterSheet('core', ItemSheet);
 	Items.registerSheet('madness', EthnicitySheetMadness, {
 		types: ['ethnicity'],
+		makeDefault: true,
+	});
+
+	Items.registerSheet('madness', EffectSheetMadness, {
+		types: ['effect'],
 		makeDefault: true,
 	});
 	Items.registerSheet('madness', SpellSheetMadness, {

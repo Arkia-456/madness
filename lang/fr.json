@@ -39,13 +39,16 @@
 			"Teruuk": "Teruuk"
 		},
 		"Item": {
+			"Effect": {
+				"Power": "Puissance"
+			},
 			"Damage": "Dégâts",
 			"Flat": "Plats",
 			"Range": "Portée",
+			"Requirements": "Pré-requis",
 			"Spell": {
 				"Cost": "Coût",
-				"Level": "Niveau",
-				"Requirements": "Pré-requis"
+				"Level": "Niveau"
 			}
 		},
 		"Tab": {
