@@ -1,9 +1,10 @@
-import { EthnicityMadness } from '../../module/item/index.js';
+import { EffectMadness, EthnicityMadness } from '../../module/item/index.js';
 
 export const MadnessConfig = {
 	Item: {
 		documentClasses: {
 			ethnicity: EthnicityMadness,
+			effect: EffectMadness,
 		},
 	},
 	Formulas: {
@@ -29,5 +30,14 @@ export const MadnessConfig = {
 			dodgeRate: '1d100',
 			initiative: '1d10 + @value',
 		},
+	},
+	Magics: {
+		doka: 'Madness.Magics.Doka',
+		erah: 'Madness.Magics.Erah',
+		natah: 'Madness.Magics.Natah',
+		ome: 'Madness.Magics.Ome',
+		shor: 'Madness.Magics.Shor',
+		sith: 'Madness.Magics.Sith',
+		teruuk: 'Madness.Magics.Teruuk',
 	},
 };

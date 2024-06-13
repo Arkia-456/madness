@@ -46,7 +46,7 @@
 		}
 	},
 	"Item": {
-		"types": ["ethnicity"],
+		"types": ["effect", "ethnicity"],
 		"templates": {
 			"common": {
 				"description": ""
@@ -72,6 +72,11 @@
 					"value": 0
 				}
 			}
+		},
+		"effect": {
+			"templates": ["common"],
+			"power": 0,
+			"requirements": {}
 		}
 	}
 }
