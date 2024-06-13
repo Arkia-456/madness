@@ -1,0 +1,77 @@
+{
+	"Actor": {
+		"types": ["character"],
+		"character": {
+			"hp": {
+				"value": 0,
+				"temp": 0
+			},
+			"mp": {
+				"value": 0
+			},
+			"attributes": {
+				"agi": {
+					"value": 0
+				},
+				"con": {
+					"value": 0
+				},
+				"dex": {
+					"value": 0
+				},
+				"int": {
+					"value": 0
+				},
+				"str": {
+					"value": 0
+				}
+			},
+			"magics": {
+				"erah": {
+					"value": 0
+				},
+				"ome": {
+					"value": 0
+				},
+				"shor": {
+					"value": 0
+				},
+				"sith": {
+					"value": 0
+				},
+				"teruuk": {
+					"value": 0
+				}
+			}
+		}
+	},
+	"Item": {
+		"types": ["ethnicity"],
+		"templates": {
+			"common": {
+				"description": ""
+			}
+		},
+		"htmlFields": ["description"],
+		"ethnicity": {
+			"templates": ["common"],
+			"attributes": {
+				"agi": {
+					"value": 0
+				},
+				"con": {
+					"value": 0
+				},
+				"dex": {
+					"value": 0
+				},
+				"int": {
+					"value": 0
+				},
+				"str": {
+					"value": 0
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"id": "madness",
+	"title": "Madness",
+	"description": "Madness system",
+	"author": "Arkia",
+	"version": "1.0.0",
+	"compatibility": {
+		"minimum": "12",
+		"verified": "12"
+	},
+	"esmodules": ["madness.js"],
+	"styles": ["madness.css"],
+	"packs": [],
+	"languages": [
+		{
+			"lang": "fr",
+			"name": "Français",
+			"path": "lang/fr.json"
+		}
+	],
+	"gridDistance": 2,
+	"gridUnits": "m"
+}

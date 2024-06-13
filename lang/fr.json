@@ -1,0 +1,47 @@
+{
+	"Madness": {
+		"Attributes": {
+			"Agility": "Agilité",
+			"Constitution": "Physique",
+			"Dexterity": "Dextérité",
+			"Intelligence": "Intelligence",
+			"Strength": "Force"
+		},
+		"Character": {
+			"Age": "Âge",
+			"Ethnicity": "Ethnie",
+			"Faction": "Affiliation",
+			"FirstName": "Prénom",
+			"Job": "Profession",
+			"LastName": "Nom"
+		},
+		"Controls": {
+			"Delete": "Supprimer",
+			"Edit": "Modifier"
+		},
+		"Ethnicity": "Ethnie",
+		"Label": {
+			"Character": "Personnage",
+			"EditAttributes": "Editer les attributs",
+			"EditMagics": "Editer les magies",
+			"ArmorPoints": "Points d'armure",
+			"HitPoints": "Points de vie",
+			"ManaPoints": "Points de mana",
+			"ShieldPoints": "Points de bouclier"
+		},
+		"Magics": {
+			"Erah": "Erah",
+			"Ome": "Omé",
+			"Shor": "Shor",
+			"Sith": "Sith",
+			"Teruuk": "Teruuk"
+		},
+		"Tab": {
+			"Actions": "Actions",
+			"Character": "Personnage",
+			"Inventory": "Inventaire",
+			"Notes": "Notes",
+			"Status": "Statut"
+		}
+	}
+}

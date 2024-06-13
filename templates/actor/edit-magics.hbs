@@ -1,0 +1,19 @@
+<form autocomplete='off'>
+	<ul>
+		{{#each system.magics as |magic id|}}
+			<li class='attribute' data-id='{{id}}'>
+				<label>{{id}}</label>
+				<input
+					type='number'
+					name='{{id}}'
+					value='{{magic.value}}'
+					min='0'
+					step='1'
+				/>
+			</li>
+		{{/each}}
+	</ul>
+	<button type='submit'><i class='fa-regular fa-save'></i>{{localize
+			'Madness.Label.EditMagics'
+		}}</button>
+</form>

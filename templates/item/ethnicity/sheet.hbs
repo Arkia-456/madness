@@ -1,0 +1,38 @@
+<form class='{{cssClass}}' autocomplete='off'>
+	<header class='sheet-header'>
+		<img src='{{item._source.img}}' data-edit='img' />
+		<input
+			name='name'
+			type='text'
+			value='{{item._source.name}}'
+			placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+			spellcheck='false'
+		/>
+	</header>
+	<section class='sheet-content'>
+		<div class='description'>
+			{{editor
+				enrichedContent.description
+				target='system.description'
+				button=true
+				editable=editable
+				engine='prosemirror'
+			}}
+		</div>
+		<div class='details'>
+			<ul>
+				{{#each system.attributes as |attribute id|}}
+					<li data-attribute='{{id}}'>
+						<span id='{{id}}'>{{id}}</span>
+						<input
+							type='text'
+							name='system.attributes.{{id}}.value'
+							value='{{attribute.value}}'
+							data-dtype='Number'
+						/>
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	</section>
+</form>

@@ -1,0 +1,128 @@
+<section class='tab character' data-tab='character'>
+	<div class='identity'>
+		<div>
+			<label>{{localize 'Madness.Character.FirstName'}}</label>
+			<input name='name' type='text' value='{{actor.name}}' />
+		</div>
+		<div>
+			<label>{{localize 'Madness.Character.LastName'}}</label>
+			<input name='system.lastName' type='text' value='{{system.lastName}}' />
+		</div>
+		<div>
+			<label>{{localize 'Madness.Character.Age'}}</label>
+			<input name='system.age' type='text' value='{{system.age}}' />
+		</div>
+		<div>
+			<span class='details-label'>{{localize
+					'Madness.Character.Ethnicity'
+				}}</span>
+			<div class='value'>{{ethnicity.name}}
+				{{#if @root}}
+					{{#if ethnicity}}
+						<span class='detail-item-control' data-item-id='{{ethnicity.id}}'><i
+								class='fa-solid fa-fw fa-ellipsis-v'
+							></i></span>
+					{{else}}
+						<a
+							data-action='open-compendium'
+							data-compendium='madness-compendium.ethnies'
+						><i class='fa-solid fa-fw fa-search'></i></a>
+					{{/if}}
+				{{/if}}
+			</div>
+		</div>
+		<div>
+			<label>{{localize 'Madness.Character.Job'}}</label>
+			<input name='system.job' type='text' value='{{system.job}}' />
+		</div>
+		<div>
+			<label>{{localize 'Madness.Character.Faction'}}</label>
+			<input name='system.faction' type='text' value='{{system.faction}}' />
+		</div>
+	</div>
+	<div>
+		<div class='container hp'>
+			<label>{{localize 'Madness.Label.HitPoints'}}</label>
+			<input
+				name='system.hp.value'
+				type='number'
+				value='{{system.hp.value}}'
+				placeholder='0'
+			/>
+			<span>{{system.hp.max}}</span>
+		</div>
+		<div class='container temp-hp'>
+			<label>{{localize 'Madness.Label.ShieldPoints'}}</label>
+			<input
+				name='system.hp.temp'
+				type='number'
+				value='{{system.hp.temp}}'
+				placeholder='0'
+			/>
+		</div>
+		<div class='container mp'>
+			<label>{{localize 'Madness.Label.ManaPoints'}}</label>
+			<input
+				name='system.mp.value'
+				type='number'
+				value='{{system.mp.value}}'
+				placeholder='0'
+			/>
+			<span>{{system.mp.max}}</span>
+		</div>
+		<div class='container ap'>
+			<label>{{localize 'Madness.Label.ArmorPoints'}}</label>
+			<span>0</span>
+		</div>
+	</div>
+	<div class='attributes'>
+		<button data-action='edit-attributes'>
+			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+		</button>
+		<ul>
+			{{#each system.attributes as |attribute id|}}
+				<li class='attribute' data-id='{{id}}'>
+					<a class='roll-icon' data-action='roll-check' data-attribute='{{id}}'>
+						<i class='fa-solid fa-fw fa-dice-d20'></i>
+					</a>
+					<div>{{id}}</div>
+					<div>{{attribute.total}}</div>
+				</li>
+			{{/each}}
+		</ul>
+		<ul>
+			{{#each system.secondaryAttributes as |attribute id|}}
+				<li class='attribute' data-id='{{id}}'>
+					{{#if attribute.rollable}}
+						<a
+							class='roll-icon'
+							data-action='roll-check'
+							data-secondary-attribute='{{id}}'
+						>
+							<i class='fa-solid fa-fw fa-dice-d20'></i>
+						</a>
+					{{/if}}
+					<div>{{id}}</div>
+					<div>{{attribute.total}}</div>
+				</li>
+			{{/each}}
+		</ul>
+		<button data-action='edit-magics'>
+			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+		</button>
+		<ul>
+			{{#each system.magics as |magic id|}}
+				<li class='attribute magic' data-id='{{id}}'>
+					<div>{{id}}</div>
+					<div>{{magic.total}}</div>
+				</li>
+			{{/each}}
+			{{#each system.secondaryMagics as |magic id|}}
+				<li class='attribute magic' data-id='{{id}}'>
+					<div>{{id}}</div>
+					<div>{{magic.total}}</div>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+</section>
