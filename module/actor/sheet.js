@@ -40,9 +40,16 @@ class ActorSheetMadness extends ActorSheet {
 
 	async _handleDroppedItem(event, item) {
 		const itemSource = item.toObject();
-		return this._onDropItemCreate(
-			new Item.implementation(itemSource).clone().toObject(),
-		);
+		const tab = event.target.closest('.tab').dataset?.tab;
+		let allowDrop = false;
+		if (itemSource.type === 'ethnicity' && tab === 'character') {
+			allowDrop = true;
+		}
+		if (allowDrop) {
+			return this._onDropItemCreate(
+				new Item.implementation(itemSource).clone().toObject(),
+			);
+		}
 	}
 
 	activateListeners($html) {
