@@ -9,6 +9,21 @@ class ItemMadness extends Item {
 		console.log('Madness system | Actor | Actor data prepared ✅');
 	}
 
+	createItem(data, operation = {}) {
+		operation.parent = this;
+		operation.pack = this.pack;
+		const cls = getDocumentClass('Item');
+		const id = foundry.utils.randomID(16);
+		data._id = id;
+		const document = new cls(data, operation);
+		document.item = this;
+		const items = this.system.items ?? {};
+		items[id] = document;
+		this.updateItems(items);
+	}
+
+	updateItems(data) {}
+
 	async delete(operation) {
 		if (this.actor) {
 			await this.actor.deleteEmbeddedDocuments('Item', [this.id], operation);

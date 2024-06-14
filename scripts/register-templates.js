@@ -9,6 +9,7 @@ const getPartials = () => {
 	const paths = {};
 	const appPartials = {
 		actor: ['character', 'navbar'],
+		item: ['effect-line'],
 	};
 	Object.entries(appPartials).forEach(([category, partials]) => {
 		partials.forEach((partial) => {

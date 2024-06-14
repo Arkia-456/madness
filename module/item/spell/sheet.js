@@ -15,6 +15,20 @@ class SpellSheetMadness extends ItemSheetMadness {
 		};
 		return sheetData;
 	}
+
+	_handleDroppedItem(event, item) {
+		const itemSource = item.toObject();
+		if (!this._isValidDrop(event, item, true)) {
+			return;
+		}
+		this._onDropItemCreate(
+			new Item.implementation(itemSource).clone().toObject(),
+		);
+	}
+
+	_onDropItemCreate(itemData) {
+		this.item.createItem(itemData);
+	}
 }
 
 export { SpellSheetMadness };

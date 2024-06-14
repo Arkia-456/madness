@@ -101,5 +101,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="item-list" data-drop-type="effect">
+			{{localize 'Madness.Label.Effects'}}
+			<ul>
+				{{#each system.items as |effect i|}}
+					{{> "madness.item.effect-line" this=effect}}
+				{{/each}}
+			</ul>
+		</div>
 	</section>
 </form>

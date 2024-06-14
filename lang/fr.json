@@ -22,11 +22,15 @@
 		"Ethnicity": "Ethnie",
 		"Label": {
 			"Character": "Personnage",
+			"Description": "Description",
 			"EditAttributes": "Editer les attributs",
 			"EditMagics": "Editer les magies",
+			"Effects": "Effets",
 			"ArmorPoints": "Points d'armure",
 			"HitPoints": "Points de vie",
 			"ManaPoints": "Points de mana",
+			"Name": "Nom",
+			"Power": "Puissance",
 			"ShieldPoints": "Points de bouclier"
 		},
 		"Magics": {
@@ -49,6 +53,11 @@
 			"Spell": {
 				"Cost": "Coût",
 				"Level": "Niveau"
+			}
+		},
+		"Message": {
+			"Warning": {
+				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\""
 			}
 		},
 		"Tab": {

@@ -1,0 +1,28 @@
+<li class='detail-item-control'>
+	<div>
+		<div>{{localize 'Madness.Label.Name'}}</div>
+		<div>{{name}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.Description'}}</div>
+		<div>{{system.description}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.Power'}}</div>
+		<div>{{system.power}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Item.Requirements'}}</div>
+		<ul>
+			{{#each system.requirements as |magic id|}}
+				<li>
+					<div>{{id}}</div>
+					<div>{{magic}}</div>
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+	<span class='detail-item-control' data-item-id='{{_id}}'><i
+			class='fa-solid fa-fw fa-ellipsis-v'
+		></i></span>
+</li>
