@@ -15,7 +15,7 @@ class Formula {
 	}
 
 	_replacePlaceholder(str, values) {
-		return str.replace(/@\{([^}]+)\}/g, (match, p) => values[p] || match);
+		return str.replace(/@\{([^}]+)\}/g, (match, p) => values[p] ?? match);
 	}
 
 	_evaluateExpression(expr) {
