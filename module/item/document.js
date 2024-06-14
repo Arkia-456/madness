@@ -18,10 +18,11 @@ class ItemMadness extends Item {
 	}
 
 	static async createDocuments(data, operation) {
-		const actor = operation.parent;
 		const sources = data.map((d) =>
 			d instanceof ItemMadness ? d.toObject() : d,
 		);
+		const actor = operation.parent;
+		if (!actor) return super.createDocuments(sources, operation);
 		await ItemMadness.preCreateDelete(sources, actor);
 		return super.createDocuments(data, operation);
 	}
