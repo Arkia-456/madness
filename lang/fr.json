@@ -16,6 +16,7 @@
 			"LastName": "Nom"
 		},
 		"Controls": {
+			"Attack": "Attaquer",
 			"Delete": "Supprimer",
 			"Edit": "Modifier"
 		},

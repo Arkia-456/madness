@@ -27,6 +27,7 @@ class ActorSheetMadness extends ActorSheet {
 		const actor = this.actor;
 		sheetData.system = actor.system;
 		sheetData.ethnicity = actor.ethnicity;
+		sheetData.spells = actor.items.filter((i) => i.type === 'spell');
 
 		return sheetData;
 	}
