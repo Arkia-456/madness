@@ -45,7 +45,7 @@
 		"Item": {
 			"Effect": {
 				"HasStrength": "A une puissance",
-				"Power": "Puissance"
+				"Strength": "Puissance"
 			},
 			"Damage": "Dégâts",
 			"Flat": "Plats",

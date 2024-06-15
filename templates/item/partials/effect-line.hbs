@@ -9,11 +9,11 @@
 	</div>
 	{{#with (lookup @root.system.items _id)}}
 		<div>
-			<div>{{localize 'Madness.Label.Power'}}</div>
+			<div>{{localize 'Madness.Item.Effect.Strength'}}</div>
 			<input
 				type='number'
-				name='system.items.{{_id}}.system.power'
-				value='{{system.power}}'
+				name='system.items.{{_id}}.system.strength'
+				value='{{system.strength}}'
 				data-dtype='number'
 			/>
 		</div>
