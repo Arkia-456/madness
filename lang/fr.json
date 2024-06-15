@@ -15,6 +15,9 @@
 			"Job": "Profession",
 			"LastName": "Nom"
 		},
+		"ChatMessage": {
+			"CheckOf": "Test de"
+		},
 		"Controls": {
 			"Attack": "Attaquer",
 			"Delete": "Supprimer",
