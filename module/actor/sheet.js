@@ -162,7 +162,7 @@ class ActorSheetMadness extends ActorSheet {
 	_generateAttributesTooltip(html, attributes) {
 		Object.entries(attributes).forEach(([key, value]) => {
 			const tooltip = this._generateAttributeTooltip(value).join('<br />');
-			this._addAttributeTooltip(html, key, tooltip);
+			this._addTooltip(html, `.attribute[data-id=${key}]`, tooltip);
 		});
 	}
 
@@ -175,11 +175,8 @@ class ActorSheetMadness extends ActorSheet {
 		return [naturalStr, modifiersStr];
 	}
 
-	_addAttributeTooltip(html, attrId, tooltip) {
-		const attributeContainer = html.querySelector(
-			`.attribute[data-id=${attrId}]`,
-		);
-		attributeContainer.dataset.tooltip = tooltip;
+	_addTooltip(html, querySelector, tooltip) {
+		html.querySelector(querySelector).dataset.tooltip = tooltip;
 	}
 }
 
