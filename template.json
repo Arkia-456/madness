@@ -89,7 +89,6 @@
 		},
 		"effect": {
 			"templates": ["common"],
-			"power": 0,
 			"requirements": {}
 		}
 	}
