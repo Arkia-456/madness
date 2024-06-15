@@ -21,6 +21,14 @@
 		</div>
 		<div class='details'>
 			<div>
+				<label>{{localize 'Madness.Item.Effect.HasStrength'}}</label>
+				<input
+					type='checkbox'
+					name='system.hasStrength'
+					{{checked system.hasStrength}}
+				/>
+			</div>
+			<div>
 				{{localize 'Madness.Item.Requirements'}}
 				<ul>
 					{{#each config.magics as |magic id|}}
