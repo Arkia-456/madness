@@ -16,17 +16,6 @@
 				value='{{system.power}}'
 				data-dtype='number'
 			/>
-	<div>
-		<div>{{localize 'Madness.Item.Requirements'}}</div>
-		<ul>
-			{{#each system.requirements as |magic id|}}
-				<li>
-					<div>{{id}}</div>
-					<div>{{magic}}</div>
-				</li>
-			{{/each}}
-		</ul>
-	</div>
 		</div>
 	{{/with}}
 	<span class='detail-item-control' data-item-id='{{_id}}'><i
