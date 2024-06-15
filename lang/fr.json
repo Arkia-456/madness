@@ -41,6 +41,7 @@
 		"Item": {
 			"Requirements": "Pré-requis",
 			"Effect": {
+				"HasStrength": "A une puissance",
 				"Power": "Puissance"
 			}
 		},
