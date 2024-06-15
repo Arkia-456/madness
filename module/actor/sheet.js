@@ -55,25 +55,13 @@ class ActorSheetMadness extends ActorSheet {
 	activateListeners($html) {
 		super.activateListeners($html);
 
+		const html = $html[0];
+
 		const actor = this.actor;
 		const system = actor.system;
-		Object.entries(system.attributes).forEach(([key, value]) => {
-			const attributeContainer = $html[0].querySelector(
-				`.attribute[data-id=${key}]`,
-			);
-			const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${value.value >= 0 ? '+' : ''}${value.value}`;
-			const modifiersStr = value._modifiers.reduce((str, modifier) => {
-				if (str.length) {
-					str += '<br />';
-				}
-				return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
-			}, '');
-			attributeContainer.dataset.tooltip = [naturalStr, modifiersStr].join(
-				'<br />',
-			);
-		});
+		this._generateAttributesTooltip(html, system.attributes);
 
-		const characterTab = $html[0].querySelector('.tab[data-tab=character]');
+		const characterTab = html.querySelector('.tab[data-tab=character]');
 		if (characterTab && this.isEditable) {
 			const contextMenuEntryEdit = {
 				name: 'Madness.Controls.Edit',
@@ -112,7 +100,7 @@ class ActorSheetMadness extends ActorSheet {
 			);
 		}
 
-		this.activateClickListener($html[0]);
+		this.activateClickListener(html);
 	}
 
 	activateClickListener(html) {
@@ -169,6 +157,29 @@ class ActorSheetMadness extends ActorSheet {
 		html.addEventListener('click', sheetHandler);
 
 		return handlers;
+	}
+
+	_generateAttributesTooltip(html, attributes) {
+		Object.entries(attributes).forEach(([key, value]) => {
+			const tooltip = this._generateAttributeTooltip(value).join('<br />');
+			this._addAttributeTooltip(html, key, tooltip);
+		});
+	}
+
+	_generateAttributeTooltip(value) {
+		const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${value.value >= 0 ? '+' : ''}${value.value}`;
+		const modifiersStr = value._modifiers.reduce((str, modifier) => {
+			if (str.length) str += '<br />';
+			return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
+		}, '');
+		return [naturalStr, modifiersStr];
+	}
+
+	_addAttributeTooltip(html, attrId, tooltip) {
+		const attributeContainer = html.querySelector(
+			`.attribute[data-id=${attrId}]`,
+		);
+		attributeContainer.dataset.tooltip = tooltip;
 	}
 }
 
