@@ -23,6 +23,9 @@
 		"Ethnicity": "Ethnie",
 		"Label": {
 			"Character": "Personnage",
+			"CriticalFailureScore": "Score d'échec critique",
+			"CriticalSuccessScore": "Score de succès critique",
+			"Damage": "Dégâts",
 			"Description": "Description",
 			"EditAttributes": "Editer les attributs",
 			"EditMagics": "Editer les magies",

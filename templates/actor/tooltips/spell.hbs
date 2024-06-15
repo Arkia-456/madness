@@ -1,0 +1,25 @@
+<div class='tooltip'>
+	<div>
+		<div>{{localize 'Madness.Label.Description'}}</div>
+		<div>{{{system.description}}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.Damage'}}</div>
+		<div>{{damageFormula}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.CriticalFailureScore'}}</div>
+		<div>&lt;= {{criticalFailureScore}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.CriticalSuccessScore'}}</div>
+		<div>&gt; {{criticalSuccessScore}}</div>
+	</div>
+	<div>
+		{{#each effects}}
+			<div>{{name}}</div>
+			<div>{{{system.description}}}</div>
+			<div>{{system.strength}}</div>
+		{{/each}}
+	</div>
+</div>

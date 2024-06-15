@@ -12,6 +12,9 @@ export const MadnessConfig = {
 		int: 'Madness.Attributes.Intelligence',
 		str: 'Madness.Attributes.Strength',
 	},
+	Default: {
+		CriticalFailureRate: 5,
+	},
 	Item: {
 		documentClasses: {
 			ethnicity: EthnicityMadness,

@@ -60,6 +60,10 @@ class ActorSheetMadness extends ActorSheet {
 		const actor = this.actor;
 		const system = actor.system;
 		this._generateAttributesTooltip(html, system.attributes);
+		this._generateSpellsTooltip(
+			html,
+			actor.items.filter((i) => i.type === 'spell'),
+		);
 
 		const characterTab = html.querySelector('.tab[data-tab=character]');
 		if (characterTab && this.isEditable) {
@@ -177,6 +181,36 @@ class ActorSheetMadness extends ActorSheet {
 
 	_addTooltip(html, querySelector, tooltip) {
 		html.querySelector(querySelector).dataset.tooltip = tooltip;
+	}
+
+	generateFormulaStr(attrDice) {
+		return Object.entries(attrDice).reduce((f, [attr, value]) => {
+			if (!value) return f;
+			if (f.length) f += ' + ';
+			return (f += attr === 'flat' ? value : `${value}d ${attr}`);
+		}, '');
+	}
+
+	async _generateSpellsTooltip(html, spells) {
+		for (const spell of spells) {
+			const tooltip = await this._generateSpellTooltip(spell);
+			this._addTooltip(html, `.spell[data-id='${spell.id}']`, tooltip);
+		}
+	}
+
+	_generateSpellTooltip(spell) {
+		const spellData = {
+			damageFormula: this.generateFormulaStr(spell.system.damage),
+			system: spell.system,
+			effects: spell.system.items,
+			criticalFailureScore: CONFIG.Madness.Default.CriticalFailureRate,
+			criticalSuccessScore:
+				100 - this.actor.system.secondaryAttributes.critRate.total,
+		};
+		return renderTemplate(
+			'systems/madness/templates/actor/tooltips/spell.hbs',
+			spellData,
+		);
 	}
 }
 
