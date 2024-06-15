@@ -1,0 +1,49 @@
+<form class='{{cssClass}}' autocomplete='off'>
+	<header class='sheet-header'>
+		<img src='{{item._source.img}}' data-edit='img' />
+		<input
+			name='name'
+			type='text'
+			value='{{item._source.name}}'
+			placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+			spellcheck='false'
+		/>
+	</header>
+	<section class='sheet-content'>
+		<div class='description'>
+			{{editor
+				enrichedContent.description
+				target='system.description'
+				button=true
+				editable=editable
+				engine='prosemirror'
+			}}
+		</div>
+		<div class='details'>
+			<div>
+				<label>{{localize 'Madness.Item.Effect.HasStrength'}}</label>
+				<input
+					type='checkbox'
+					name='system.hasStrength'
+					{{checked system.hasStrength}}
+				/>
+			</div>
+			<div>
+				{{localize 'Madness.Item.Requirements'}}
+				<ul>
+					{{#each config.magics as |magic id|}}
+						<li>
+							<label>{{localize magic}}</label>
+							<input
+								type='number'
+								name='system.requirements.{{id}}'
+								value='{{lookup @root.system.requirements id}}'
+								data-dtype='number'
+							/>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		</div>
+	</section>
+</form>

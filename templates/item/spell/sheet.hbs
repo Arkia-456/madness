@@ -1,0 +1,113 @@
+<form class='{{cssClass}}' autocomplete='off'>
+	<header class='sheet-header'>
+		<img src='{{item._source.img}}' data-edit='img' />
+		<input
+			name='name'
+			type='text'
+			value='{{item._source.name}}'
+			placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+			spellcheck='false'
+		/>
+	</header>
+	<section class='sheet-content'>
+		<div class='description'>
+			{{editor
+				enrichedContent.description
+				target='system.description'
+				button=true
+				editable=editable
+				engine='prosemirror'
+			}}
+		</div>
+		<div class='details'>
+			<div>
+				{{localize 'Madness.Item.Requirements'}}
+				<ul>
+					<li>
+						<select name='system.requirements.magic0.id'>
+							<option value=''></option>
+							{{selectOptions
+								config.magics
+								selected=system.requirements.magic0.id
+								localize=true
+							}}
+						</select>
+						<label>{{localize 'Madness.Item.Spell.Level'}}</label>
+						<input
+							type='number'
+							name='system.requirements.magic0.value'
+							value='{{system.requirements.magic0.value}}'
+							data-dtype='number'
+						/>
+						<select name='system.requirements.magic1.id'>
+							<option value=''></option>
+							{{selectOptions
+								config.magics
+								selected=system.requirements.magic1.id
+								localize=true
+							}}
+						</select>
+						<label>{{localize 'Madness.Item.Spell.Level'}}</label>
+						<input
+							type='number'
+							name='system.requirements.magic1.value'
+							value='{{system.requirements.magic1.value}}'
+							data-dtype='number'
+						/>
+					</li>
+				</ul>
+			</div>
+			<div>
+				<label>{{localize 'Madness.Item.Range'}}</label>
+				<input
+					type='number'
+					name='system.range.value'
+					value='{{system.range.value}}'
+					data-dtype='number'
+				/>
+			</div>
+			<div>
+				{{localize 'Madness.Item.Damage'}}
+				<ul>
+					{{#each config.attributes as |attr i|}}
+						<li>
+							<label>{{localize attr}}</label>
+							<input
+								type='number'
+								name='system.damage.{{i}}'
+								value='{{lookup @root.system.damage i}}'
+								data-dtype='number'
+							/>
+						</li>
+					{{/each}}
+					<li>
+						<label>{{localize 'Madness.Item.Flat'}}</label>
+						<input
+							type='number'
+							name='system.damage.flat'
+							value='{{system.damage.flat}}'
+							data-dtype='number'
+						/>
+					</li>
+				</ul>
+				<div>
+					<label>{{localize 'Madness.Item.Spell.Cost'}}</label>
+					<input
+						type='number'
+						name='system.cost.value'
+						value='{{system.cost.value}}'
+						data-dtype='number'
+					/>
+				</div>
+			</div>
+		</div>
+		<div class="item-list" data-drop-type="effect">
+			{{localize 'Madness.Label.Effects'}}
+			<ul>
+				{{#each system.items as |effect i|}}
+					{{> "madness.item.effect-line" this=effect}}
+				{{/each}}
+			</ul>
+		</div>
+	</section>
+</form>

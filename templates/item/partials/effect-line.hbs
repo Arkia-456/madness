@@ -1,0 +1,26 @@
+<li class='detail-item-control'>
+	<div>
+		<div>{{localize 'Madness.Label.Name'}}</div>
+		<div>{{name}}</div>
+	</div>
+	<div>
+		<div>{{localize 'Madness.Label.Description'}}</div>
+		<div>{{{system.description}}}</div>
+	</div>
+	{{#with (lookup @root.system.items _id)}}
+		{{#if system.hasStrength}}
+			<div>
+				<div>{{localize 'Madness.Item.Effect.Strength'}}</div>
+				<input
+					type='number'
+					name='system.items.{{_id}}.system.strength'
+					value='{{system.strength}}'
+					data-dtype='number'
+				/>
+			</div>
+		{{/if}}
+	{{/with}}
+	<span class='detail-item-control' data-item-id='{{_id}}'><i
+			class='fa-solid fa-fw fa-ellipsis-v'
+		></i></span>
+</li>
