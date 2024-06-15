@@ -34,7 +34,7 @@ class ActorMadness extends Actor {
 				}
 			});
 			const stat = foundry.utils.mergeObject(
-				new Attribute(key, modifiers),
+				new Attribute(this, { label: key, modifiers: modifiers }),
 				value,
 				{ overwrite: false },
 			);
@@ -51,7 +51,7 @@ class ActorMadness extends Actor {
 		const hitPoints = system.hp;
 		const hpModifiers = [];
 		const hpStat = foundry.utils.mergeObject(
-			new Attribute('hp', hpModifiers),
+			new Attribute(this, { label: 'hp', modifiers: hpModifiers }),
 			hitPoints,
 			{ overwrite: false },
 		);
@@ -64,7 +64,7 @@ class ActorMadness extends Actor {
 		const manaPoints = system.mp;
 		const mpModifiers = [];
 		const mpStat = foundry.utils.mergeObject(
-			new Attribute('mp', mpModifiers),
+			new Attribute(this, { label: 'mp', modifiers: mpModifiers }),
 			manaPoints,
 			{ overwrite: false },
 		);
@@ -80,7 +80,7 @@ class ActorMadness extends Actor {
 			([key, value]) => {
 				const modifiers = [];
 				const stat = foundry.utils.mergeObject(
-					new Attribute(key, modifiers),
+					new Attribute(this, { label: key, modifiers: modifiers }),
 					{ value: new Formula(value).compute(totals)?.evaluated },
 					{ overwrite: false },
 				);
@@ -105,7 +105,7 @@ class ActorMadness extends Actor {
 				}
 			});
 			const stat = foundry.utils.mergeObject(
-				new Attribute(key, modifiers),
+				new Attribute(this, { label: key, modifiers: modifiers }),
 				value,
 				{ overwrite: false },
 			);
@@ -122,7 +122,7 @@ class ActorMadness extends Actor {
 		Object.entries(CONFIG.Madness.Formulas.Magics).forEach(([key, value]) => {
 			const modifiers = [];
 			const stat = foundry.utils.mergeObject(
-				new Attribute(key, modifiers),
+				new Attribute(this, { label: key, modifiers: modifiers }),
 				{ value: new Formula(value).compute(magicTotals)?.evaluated },
 				{ overwrite: false },
 			);

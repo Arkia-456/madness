@@ -12,9 +12,11 @@ export class ModifierMadness {
 }
 
 export class Attribute {
-	constructor(label, modifiers) {
-		this.label = label;
-		const seen = modifiers.reduce((result, modifier) => {
+	constructor(actor, data) {
+		this.actor = actor;
+		this.id = data.label;
+		this.label = game.i18n.localize(CONFIG.Madness.Attributes[data.label]);
+		const seen = data.modifiers.reduce((result, modifier) => {
 			const existing = result[modifier.label];
 			if (
 				!existing ||
