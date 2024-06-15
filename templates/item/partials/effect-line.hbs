@@ -7,10 +7,15 @@
 		<div>{{localize 'Madness.Label.Description'}}</div>
 		<div>{{system.description}}</div>
 	</div>
-	<div>
-		<div>{{localize 'Madness.Label.Power'}}</div>
-		<div>{{system.power}}</div>
-	</div>
+	{{#with (lookup @root.system.items _id)}}
+		<div>
+			<div>{{localize 'Madness.Label.Power'}}</div>
+			<input
+				type='number'
+				name='system.items.{{_id}}.system.power'
+				value='{{system.power}}'
+				data-dtype='number'
+			/>
 	<div>
 		<div>{{localize 'Madness.Item.Requirements'}}</div>
 		<ul>
@@ -22,6 +27,8 @@
 			{{/each}}
 		</ul>
 	</div>
+		</div>
+	{{/with}}
 	<span class='detail-item-control' data-item-id='{{_id}}'><i
 			class='fa-solid fa-fw fa-ellipsis-v'
 		></i></span>
