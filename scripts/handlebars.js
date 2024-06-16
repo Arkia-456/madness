@@ -4,6 +4,14 @@ function registerHandlebarsHelpers() {
 	Handlebars.registerHelper('getRollResult', (minMax, attrDice, attributes) => {
 		return createFormula(attrDice, attributes, minMax);
 	});
+
+	Handlebars.registerHelper('lower', (translationKey) => {
+		return game.i18n.localize(translationKey).toLowerCase();
+	});
+
+	Handlebars.registerHelper('upper', (translationKey) => {
+		return game.i18n.localize(translationKey).toUpperCase();
+	});
 }
 
 function createFormula(attrDice, attributes, minMax) {
