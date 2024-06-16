@@ -6,10 +6,12 @@ class CheckMadness {
 		roll.critOutcome = await CheckMadness._rollCrit(
 			context.actor.critRate.total,
 		);
-		roll.outcome = await CheckMadness._rollDamage(
-			context.item.system.damage,
-			context.actor.attributesTotals,
-		);
+		if (context.rollType === 'spell') {
+			roll.outcome = await CheckMadness._rollDamage(
+				context.item.system.damage,
+				context.actor.attributesTotals,
+			);
+		}
 		return roll;
 	}
 

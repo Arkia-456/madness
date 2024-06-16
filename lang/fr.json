@@ -29,11 +29,14 @@
 		"ChatMessage": {
 			"CriticalFailure": "Echec critique",
 			"CriticalHit": "Coup critique",
-			"CheckOf": "Test de"
+			"CheckOf": "Test de",
+			"Failure": "Echec",
+			"Success": "Succès"
 		},
 		"Controls": {
 			"Attack": "Attaquer",
 			"Delete": "Supprimer",
+			"Dodge": "Esquiver",
 			"Edit": "Modifier"
 		},
 		"Ethnicity": "Ethnie",
@@ -79,7 +82,8 @@
 		},
 		"Message": {
 			"Error": {
-				"NotEnoughMP": "Vous ne disposez pas d'assez de MP pour lancer ce sort"
+				"NotEnoughMP": "Vous ne disposez pas d'assez de MP pour lancer ce sort",
+				"NoTokenSelected": "Aucun token sélectionné pour cette action"
 			},
 			"Warning": {
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\""

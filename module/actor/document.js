@@ -1,9 +1,20 @@
-import { Formula, capitalizeFirstLetter } from '../../utils/index.js';
+import {
+	Formula,
+	capitalizeFirstLetter,
+	createHTMLElement,
+	elide,
+} from '../../utils/index.js';
+import { ChatMessageMadness } from '../chat-message/index.js';
+import { CheckMadness } from '../system/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
 	get critRate() {
 		return this.system.secondaryAttributes?.critRate;
+	}
+
+	get dodgeRate() {
+		return this.system.secondaryAttributes?.dodgeRate;
 	}
 
 	get attributesTotals() {
@@ -211,6 +222,35 @@ class ActorMadness extends Actor {
 
 	removeMP(mp) {
 		this.update({ 'system.mp.value': this.system.mp.value - mp });
+	}
+
+	async dodge(token) {
+		const context = {
+			actor: this,
+			rollType: 'dodge',
+		};
+		const roll = (await CheckMadness.roll(context)).critOutcome;
+		if (!roll.isCritical) {
+			roll.result =
+				roll.roll.total > 100 - this.dodgeRate.total ? 'success' : 'failure';
+		}
+		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.dodgeRate.label)}${this.dodgeRate.label.toLowerCase()}`;
+		const flavor = createHTMLElement('h4', [title]).outerHTML;
+		const templateData = {
+			roll,
+		};
+		const chatData = {
+			speaker: ChatMessageMadness.getSpeaker({
+				actor: this,
+				token,
+			}),
+			content: await renderTemplate(
+				'systems/madness/templates/chat/dodge-card.hbs',
+				templateData,
+			),
+			flavor,
+		};
+		return ChatMessageMadness.create(chatData);
 	}
 }
 

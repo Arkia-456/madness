@@ -14,6 +14,7 @@ class SpellMadness extends ItemMadness {
 		const context = {
 			actor: this.actor,
 			item: this,
+			rollType: 'spell',
 		};
 		if (!this.checkMP()) {
 			const notEnoughMPErrorMsg = game.i18n.localize(

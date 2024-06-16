@@ -20,6 +20,11 @@ class ChatMessageMadness extends ChatMessage {
 
 	activateClickListener(html) {
 		const handlers = {};
+
+		handlers['dodge'] = (event, actionTarget) => {
+			this.dodgeFromMessage();
+		};
+
 		const cardHandler = async (event) => {
 			const element = event.target;
 			const actionTarget = element.closest(
@@ -42,6 +47,18 @@ class ChatMessageMadness extends ChatMessage {
 		html.addEventListener('click', cardHandler);
 
 		return handlers;
+	}
+
+	dodgeFromMessage() {
+		const tokens = game.user.getActiveTokens();
+		if (!tokens.length) {
+			const errorMessage = game.i18n.localize(
+				'Madness.Message.Error.NoTokenSeleted',
+			);
+			return ui.notifications.error(errorMessage);
+		}
+		const token = tokens[0];
+		this.actor.dodge(token);
 	}
 }
 
