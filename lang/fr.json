@@ -5,7 +5,18 @@
 			"Constitution": "Physique",
 			"Dexterity": "Dextérité",
 			"Intelligence": "Intelligence",
-			"Strength": "Force"
+			"Strength": "Force",
+			"HitPoints": "Points de vie",
+			"ManaPoints": "Points de mana",
+			"CriticalRate": "Taux de critique",
+			"DodgeRate": "Taux d'esquive",
+			"Initiative": "Initiative",
+			"InventoryMaxSlots": "Nombre maximal d'emplacements d'inventaire",
+			"ManaRegeneration": "Régénération de mana",
+			"MaxEquipmentWeight": "Charge maximale de l'équipement",
+			"MaxMoveDistance": "Distance maximale de mouvement",
+			"MaxWeight": "Charge maximale",
+			"ParryDamageReduction": "Réduction de dégâts en parade"
 		},
 		"Character": {
 			"Age": "Âge",
