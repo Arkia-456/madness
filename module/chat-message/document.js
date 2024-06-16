@@ -24,6 +24,9 @@ class ChatMessageMadness extends ChatMessage {
 		handlers['dodge'] = (event, actionTarget) => {
 			this.dodgeFromMessage();
 		};
+		handlers['parry'] = (event, actionTarget) => {
+			this.parryFromMessage();
+		};
 
 		const cardHandler = async (event) => {
 			const element = event.target;
@@ -59,6 +62,18 @@ class ChatMessageMadness extends ChatMessage {
 		}
 		const token = tokens[0];
 		this.actor.dodge(token);
+	}
+
+	parryFromMessage() {
+		const tokens = game.user.getActiveTokens();
+		if (!tokens.length) {
+			const errorMessage = game.i18n.localize(
+				'Madness.Message.Error.NoTokenSeleted',
+			);
+			return ui.notifications.error(errorMessage);
+		}
+		const token = tokens[0];
+		this.actor.parry(token);
 	}
 }
 

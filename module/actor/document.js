@@ -17,6 +17,10 @@ class ActorMadness extends Actor {
 		return this.system.secondaryAttributes?.dodgeRate;
 	}
 
+	get parryDamageReduction() {
+		return this.system.secondaryAttributes?.parryDamageReduction;
+	}
+
 	get attributesTotals() {
 		const totals = {};
 		Object.entries(this.system.attributes).forEach(
@@ -246,6 +250,31 @@ class ActorMadness extends Actor {
 			}),
 			content: await renderTemplate(
 				'systems/madness/templates/chat/dodge-card.hbs',
+				templateData,
+			),
+			flavor,
+		};
+		return ChatMessageMadness.create(chatData);
+	}
+
+	async parry(token) {
+		const context = {
+			actor: this,
+			rollType: 'parry',
+		};
+		const roll = (await CheckMadness.roll(context)).critOutcome;
+		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.critRate.label)}${this.critRate.label.toLowerCase()}`;
+		const flavor = createHTMLElement('h4', [title]).outerHTML;
+		const templateData = {
+			roll,
+		};
+		const chatData = {
+			speaker: ChatMessageMadness.getSpeaker({
+				actor: this,
+				token,
+			}),
+			content: await renderTemplate(
+				'systems/madness/templates/chat/parry-card.hbs',
 				templateData,
 			),
 			flavor,

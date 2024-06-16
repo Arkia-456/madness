@@ -1,0 +1,16 @@
+<div class='chat-card'>
+	<div>
+		<span>
+			{{#if roll.isCritical}}
+				{{#if (eq roll.result 'criticalSuccess')}}
+					{{upper 'Madness.ChatMessage.CriticalHit'}}
+					!
+				{{else}}
+					{{upper 'Madness.ChatMessage.CriticalFailure'}}
+					!
+				{{/if}}
+			{{/if}}
+		</span>
+	</div>
+	<div>{{roll.roll.total}}</div>
+</div>

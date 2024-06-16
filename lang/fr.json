@@ -37,7 +37,8 @@
 			"Attack": "Attaquer",
 			"Delete": "Supprimer",
 			"Dodge": "Esquiver",
-			"Edit": "Modifier"
+			"Edit": "Modifier",
+			"Parry": "Parer"
 		},
 		"Ethnicity": "Ethnie",
 		"Label": {
