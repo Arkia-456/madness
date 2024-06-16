@@ -1,0 +1,61 @@
+<div class='chat-card item-card'>
+	{{log this}}
+	<div>
+		<img src='{{item.img}}' />
+		<h3>{{item.name}}</h3>
+	</div>
+	<p>{{{item.description}}}</p>
+	<div>
+		<span>{{localize 'Madness.Item.Range'}}</span>
+		<span>{{item.system.range.value}}</span>
+	</div>
+	<div>
+		<span>{{localize 'Madness.Item.Spell.Cost'}}</span>
+		<span>{{item.system.cost.value}}</span>
+	</div>
+	<div>
+		<span>{{localize 'Madness.ChatMessage.CheckOf'}}
+			{{lower 'Madness.Label.Critical'}}</span>
+		<span>{{roll.critOutcome.roll.total}}</span>
+		{{#if roll.critOutcome.isCritical}}
+			<span>
+				{{#if (eq roll.critOutcome.result 'criticalSuccess')}}
+					{{upper 'Madness.ChatMessage.CriticalHit'}}
+					!
+				{{else}}
+					{{upper 'Madness.ChatMessage.CriticalFailure'}}
+					!
+				{{/if}}
+			</span>
+		{{/if}}
+	</div>
+	{{#if roll.outcome}}
+		<div>
+			<span>{{localize 'Madness.Label.Damage'}}</span>
+			<span>{{roll.outcome.total}}</span>
+		</div>
+	{{/if}}
+	<div>
+		<span>{{localize 'Madness.Label.Effects'}}</span>
+		<ul>
+			{{#each item.system.items as |effect i|}}
+				<li>
+					<div>
+						<span>{{name}}</span>
+					</div>
+					<div>
+						<span>{{{system.description}}}</span>
+					</div>
+					{{#with (lookup @root.item.system.items _id)}}
+						{{#if system.hasStrength}}
+							<div>
+								<span>{{localize 'Madness.Item.Effect.Strength'}}</span>
+								<span>{{system.strength}}</span>
+							</div>
+						{{/if}}
+					{{/with}}
+				</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

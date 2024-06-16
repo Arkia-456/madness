@@ -2,6 +2,22 @@ import { Formula, capitalizeFirstLetter } from '../../utils/index.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
+	get critRate() {
+		return this.system.secondaryAttributes?.critRate;
+	}
+
+	get attributesTotals() {
+		const totals = {};
+		Object.entries(this.system.attributes).forEach(
+			([key, value]) => (totals[key] = value.total),
+		);
+		return totals;
+	}
+
+	get currentMP() {
+		return this.system.mp.value;
+	}
+
 	prepareBaseData() {
 		console.log('Madness system | Actor | Preparing base data...');
 		super.prepareBaseData();
@@ -177,6 +193,10 @@ class ActorMadness extends Actor {
 
 	getSecondaryAttribute(attr) {
 		return this.system.secondaryAttributes[attr];
+	}
+
+	removeMP(mp) {
+		this.update({ 'system.mp.value': this.system.mp.value - mp });
 	}
 }
 

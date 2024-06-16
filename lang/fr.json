@@ -16,6 +16,8 @@
 			"LastName": "Nom"
 		},
 		"ChatMessage": {
+			"CriticalFailure": "Echec critique",
+			"CriticalHit": "Coup critique",
 			"CheckOf": "Test de"
 		},
 		"Controls": {
@@ -26,6 +28,7 @@
 		"Ethnicity": "Ethnie",
 		"Label": {
 			"Character": "Personnage",
+			"Critical": "Critique",
 			"CriticalFailureScore": "Score d'échec critique",
 			"CriticalSuccessScore": "Score de succès critique",
 			"Damage": "Dégâts",
@@ -64,6 +67,9 @@
 			}
 		},
 		"Message": {
+			"Error": {
+				"NotEnoughMP": "Vous ne disposez pas d'assez de MP pour lancer ce sort"
+			},
 			"Warning": {
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\""
 			}

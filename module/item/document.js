@@ -52,6 +52,24 @@ class ItemMadness extends Item {
 		);
 		return itemsToDelete.map((item) => item.id);
 	}
+
+	async toMessage(options) {
+		const template = `systems/madness/templates/chat/${this.type}-card.hbs`;
+		const actor = this.actor;
+		const token = actor.token;
+		const templateData = {
+			actor,
+			item: this,
+			roll: options.roll,
+		};
+
+		const chatData = {
+			speaker: ChatMessage.getSpeaker({ actor: this.actor, token: token }),
+			content: await renderTemplate(template, templateData),
+		};
+
+		ChatMessage.create(chatData);
+	}
 }
 
 const ItemProxyMadness = new Proxy(ItemMadness, {

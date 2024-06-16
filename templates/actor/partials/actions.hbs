@@ -17,7 +17,9 @@
 						{{getRollResult 'max' system.damage @root.system.attributes}}
 					</div>
 					<div>{{system.range.value}}</div>
-					<button>{{localize 'Madness.Controls.Attack'}}</button>
+					<button data-action='roll-spell'>
+						{{localize 'Madness.Controls.Attack'}}
+					</button>
 				</div>
 			</div>
 		{{/each}}

@@ -138,6 +138,14 @@ class ActorSheetMadness extends ActorSheet {
 			}
 		};
 
+		handlers['roll-spell'] = (event, anchor) => {
+			const spellId = anchor.closest('.spell[data-id]')?.dataset.id;
+			if (spellId) {
+				const spell = this.actor.items.get(spellId);
+				return spell.roll();
+			}
+		};
+
 		const sheetHandler = async (event) => {
 			const element = event.target;
 			const actionTarget = element.closest(

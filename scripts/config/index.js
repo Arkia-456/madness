@@ -14,6 +14,7 @@ export const MadnessConfig = {
 	},
 	Default: {
 		CriticalFailureRate: 5,
+		RollFormula: '1d100',
 	},
 	Item: {
 		documentClasses: {
