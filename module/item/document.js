@@ -1,3 +1,5 @@
+import { ChatMessageMadness } from '../chat-message/index.js';
+
 class ItemMadness extends Item {
 	createItem(data, operation = {}) {
 		operation.parent = this;
@@ -64,11 +66,23 @@ class ItemMadness extends Item {
 		};
 
 		const chatData = {
-			speaker: ChatMessage.getSpeaker({ actor: this.actor, token: token }),
+			speaker: ChatMessageMadness.getSpeaker({
+				actor: this.actor,
+				token: token,
+			}),
 			content: await renderTemplate(template, templateData),
+			flags: { madness: { origin: this.getOriginData() } },
 		};
 
-		ChatMessage.create(chatData);
+		ChatMessageMadness.create(chatData);
+	}
+
+	getOriginData() {
+		return {
+			actor: this.actor?.uuid,
+			uuid: this.uuid,
+			type: this.type,
+		};
 	}
 }
 
