@@ -55,7 +55,7 @@ class ActorMadness extends Actor {
 			hitPoints,
 			{ overwrite: false },
 		);
-		hpStat.max = new Formula(CONFIG.Madness.Formulas.HP).compute(
+		hpStat.max = new Formula(CONFIG.Madness.Formulas.HP).evaluate(
 			totals,
 		)?.evaluated;
 		hpStat.value = Math.min(hpStat.value, hpStat.max);
@@ -68,7 +68,7 @@ class ActorMadness extends Actor {
 			manaPoints,
 			{ overwrite: false },
 		);
-		mpStat.max = new Formula(CONFIG.Madness.Formulas.MP).compute(
+		mpStat.max = new Formula(CONFIG.Madness.Formulas.MP).evaluate(
 			totals,
 		)?.evaluated;
 		mpStat.value = Math.min(mpStat.value, mpStat.max);
@@ -81,7 +81,7 @@ class ActorMadness extends Actor {
 				const modifiers = [];
 				const stat = foundry.utils.mergeObject(
 					new Attribute(this, { label: key, modifiers: modifiers }),
-					{ value: new Formula(value).compute(totals)?.evaluated },
+					{ value: new Formula(value).evaluate(totals)?.evaluated },
 					{ overwrite: false },
 				);
 				stat.total = stat.totalModifier + stat.value;
@@ -123,7 +123,7 @@ class ActorMadness extends Actor {
 			const modifiers = [];
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, { label: key, modifiers: modifiers }),
-				{ value: new Formula(value).compute(magicTotals)?.evaluated },
+				{ value: new Formula(value).evaluate(magicTotals)?.evaluated },
 				{ overwrite: false },
 			);
 			stat.total = stat.totalModifier + stat.value;

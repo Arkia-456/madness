@@ -6,6 +6,16 @@ class Formula {
 	compute(values) {
 		try {
 			this.computed = this._replacePlaceholder(this.raw, values);
+			return this;
+		} catch (error) {
+			console.error(`Error computing expression: ${this.raw}`, error);
+			return null;
+		}
+	}
+
+	evaluate(values) {
+		try {
+			this.computed ??= this._replacePlaceholder(this.raw, values);
 			this.evaluated = this._evaluateExpression(this.computed);
 			return this;
 		} catch (error) {

@@ -12,7 +12,6 @@ function createFormula(attrDice, attributes, minMax) {
 	Object.entries(attributes).forEach(
 		([attr, value]) => (values[attr] = minMax === 'max' ? value.total : 1),
 	);
-	return new Formula(formula).compute(values).evaluated;
 }
 
 function generateFormula(attrDice) {
@@ -21,6 +20,7 @@ function generateFormula(attrDice) {
 		if (f.length) f += ' + ';
 		return (f += attr === 'flat' ? value : `${value} * @{${attr}}`);
 	}, '');
+	return new Formula(formula).evaluate(values).evaluated;
 }
 
 export { registerHandlebarsHelpers };
