@@ -18,6 +18,20 @@ class ActorMadness extends Actor {
 		return this.system.mp.value;
 	}
 
+	static async createDocuments(data, operation) {
+		const sources = data.map((d) =>
+			d instanceof ActorMadness ? d.toObject() : d,
+		);
+		sources.forEach((source) => {
+			const merged = foundry.utils.mergeObject(source, { prototypeToken: {} });
+			if (source.type === 'character') {
+				merged.prototypeToken.actorLink = true;
+			}
+		});
+
+		return super.createDocuments(sources, operation);
+	}
+
 	prepareBaseData() {
 		console.log('Madness system | Actor | Preparing base data...');
 		super.prepareBaseData();
