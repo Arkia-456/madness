@@ -7,19 +7,11 @@ function registerHandlebarsHelpers() {
 }
 
 function createFormula(attrDice, attributes, minMax) {
-	const formula = generateFormula(attrDice, attributes);
+	const formula = Formula.generateCalculableFormula(attrDice);
 	const values = {};
 	Object.entries(attributes).forEach(
 		([attr, value]) => (values[attr] = minMax === 'max' ? value.total : 1),
 	);
-}
-
-function generateFormula(attrDice) {
-	return Object.entries(attrDice).reduce((f, [attr, value]) => {
-		if (!value) return f;
-		if (f.length) f += ' + ';
-		return (f += attr === 'flat' ? value : `${value} * @{${attr}}`);
-	}, '');
 	return new Formula(formula).evaluate(values).evaluated;
 }
 

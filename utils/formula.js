@@ -31,6 +31,26 @@ class Formula {
 	_evaluateExpression(expr) {
 		return new Function(`return ${expr}`)();
 	}
+
+	static generateFormulaStr(
+		attributeDice,
+		withDecoration = false,
+		calculable = false,
+	) {
+		return Object.entries(attributeDice).reduce((f, [attr, value]) => {
+			if (!value) return f;
+			if (f.length) f += ' + ';
+			const attrString = withDecoration ? '@{' + attr + '}' : ' ' + attr;
+			return (f +=
+				attr === 'flat'
+					? value
+					: `${value}${calculable ? '*' : 'd'}${attrString}`);
+		}, '');
+	}
+
+	static generateCalculableFormula(attributeDice) {
+		return Formula.generateFormulaStr(attributeDice, true, true);
+	}
 }
 
 export { Formula };

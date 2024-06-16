@@ -1,4 +1,4 @@
-import { fontAwesomeIcon } from '../../utils/index.js';
+import { Formula, fontAwesomeIcon } from '../../utils/index.js';
 import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
 import { EditMagicsPopup } from './popups/edit-magics-popup.js';
 
@@ -183,14 +183,6 @@ class ActorSheetMadness extends ActorSheet {
 		html.querySelector(querySelector).dataset.tooltip = tooltip;
 	}
 
-	generateFormulaStr(attrDice) {
-		return Object.entries(attrDice).reduce((f, [attr, value]) => {
-			if (!value) return f;
-			if (f.length) f += ' + ';
-			return (f += attr === 'flat' ? value : `${value}d ${attr}`);
-		}, '');
-	}
-
 	async _generateSpellsTooltip(html, spells) {
 		for (const spell of spells) {
 			const tooltip = await this._generateSpellTooltip(spell);
@@ -200,7 +192,7 @@ class ActorSheetMadness extends ActorSheet {
 
 	_generateSpellTooltip(spell) {
 		const spellData = {
-			damageFormula: this.generateFormulaStr(spell.system.damage),
+			damageFormula: Formula.generateFormulaStr(spell.system.damage),
 			system: spell.system,
 			effects: spell.system.items,
 			criticalFailureScore: CONFIG.Madness.Default.CriticalFailureRate,
