@@ -21,10 +21,10 @@ class ChatMessageMadness extends ChatMessage {
 	activateClickListener(html) {
 		const handlers = {};
 
-		handlers['dodge'] = (event, actionTarget) => {
+		handlers['dodge'] = () => {
 			this.dodgeFromMessage();
 		};
-		handlers['parry'] = (event, actionTarget) => {
+		handlers['parry'] = () => {
 			this.parryFromMessage();
 		};
 
