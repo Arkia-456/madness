@@ -56,7 +56,7 @@ class ChatMessageMadness extends ChatMessage {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			const errorMessage = game.i18n.localize(
-				'Madness.Message.Error.NoTokenSeleted',
+				'Madness.Message.Error.NoTokenSelected',
 			);
 			return ui.notifications.error(errorMessage);
 		}
@@ -70,7 +70,7 @@ class ChatMessageMadness extends ChatMessage {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			const errorMessage = game.i18n.localize(
-				'Madness.Message.Error.NoTokenSeleted',
+				'Madness.Message.Error.NoTokenSelected',
 			);
 			return ui.notifications.error(errorMessage);
 		}
