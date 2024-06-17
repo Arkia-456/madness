@@ -33,6 +33,10 @@ class ActorMadness extends Actor {
 		return this.system.mp.value;
 	}
 
+	get hitPoints() {
+		return this.system.hp;
+	}
+
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,
@@ -282,6 +286,39 @@ class ActorMadness extends Actor {
 		};
 		ChatMessageMadness.create(chatData);
 		return roll;
+	}
+
+	applyDamage(damage, context) {
+		const hitPoints = this.hitPoints;
+		if (!hitPoints) return;
+		const outcome = context?.parry
+			? this._applyParryDamageReduction(damage)
+			: damage;
+
+		const damageResult = this._calculateHealthDelta(hitPoints, outcome);
+		if (damageResult.totalApplied !== 0) {
+			this.update(damageResult.updates);
+		}
+	}
+
+	_calculateHealthDelta(hp, delta) {
+		const updates = {};
+		if (hp.max === 0) return { updates, totalApplied: 0 };
+
+		const appliedToTemp = !hp.temp || delta <= 0 ? 0 : Math.min(hp.temp, delta);
+		updates['system.hp.temp'] = Math.max(hp.temp - appliedToTemp, 0);
+
+		const appliedToHP = delta - appliedToTemp;
+		updates['system.hp.value'] = Math.clamp(hp.value - appliedToHP, 0, hp.max);
+
+		const totalApplied = appliedToTemp + appliedToHP;
+
+		return { updates, totalApplied };
+	}
+
+	_applyParryDamageReduction(damage) {
+		const parryDamageReduction = this.parryDamageReduction.total ?? 0;
+		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 }
 

@@ -62,6 +62,8 @@ class ChatMessageMadness extends ChatMessage {
 		}
 		const token = tokens[0];
 		const roll = await token.actor.dodge(token);
+		if (roll.isCritical || roll.result === 'success') return;
+		this.applyDamageFromMessage(token);
 	}
 
 	async parryFromMessage() {
@@ -74,6 +76,14 @@ class ChatMessageMadness extends ChatMessage {
 		}
 		const token = tokens[0];
 		const roll = await token.actor.parry(token);
+		if (roll.isCritical) return;
+		this.applyDamageFromMessage(token);
+	}
+
+	applyDamageFromMessage(token) {
+		const outcome = this.flags.madness?.context?.outcome?.total;
+		if (!outcome) return;
+		token.actor.applyDamage(outcome, { parry: true });
 	}
 }
 

@@ -65,13 +65,24 @@ class ItemMadness extends Item {
 			roll: options.roll,
 		};
 
+		const outcome = options.roll.outcome;
+
+		const contextFlag = {
+			outcome,
+		};
+
 		const chatData = {
 			speaker: ChatMessageMadness.getSpeaker({
 				actor: this.actor,
 				token: token,
 			}),
 			content: await renderTemplate(template, templateData),
-			flags: { madness: { origin: this.getOriginData() } },
+			flags: {
+				madness: {
+					context: contextFlag,
+					origin: this.getOriginData(),
+				},
+			},
 		};
 
 		ChatMessageMadness.create(chatData);
