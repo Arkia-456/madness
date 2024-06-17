@@ -254,7 +254,8 @@ class ActorMadness extends Actor {
 			),
 			flavor,
 		};
-		return ChatMessageMadness.create(chatData);
+		ChatMessageMadness.create(chatData);
+		return roll;
 	}
 
 	async parry(token) {
@@ -279,7 +280,8 @@ class ActorMadness extends Actor {
 			),
 			flavor,
 		};
-		return ChatMessageMadness.create(chatData);
+		ChatMessageMadness.create(chatData);
+		return roll;
 	}
 }
 

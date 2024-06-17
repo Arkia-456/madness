@@ -52,7 +52,7 @@ class ChatMessageMadness extends ChatMessage {
 		return handlers;
 	}
 
-	dodgeFromMessage() {
+	async dodgeFromMessage() {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			const errorMessage = game.i18n.localize(
@@ -61,10 +61,10 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
-		this.actor.dodge(token);
+		const roll = await token.actor.dodge(token);
 	}
 
-	parryFromMessage() {
+	async parryFromMessage() {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			const errorMessage = game.i18n.localize(
@@ -73,7 +73,7 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
-		this.actor.parry(token);
+		const roll = await token.actor.parry(token);
 	}
 }
 
