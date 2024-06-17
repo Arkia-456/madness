@@ -16,7 +16,7 @@ export class ModifierMadness {
 
 export class Attribute {
 	constructor(actor, data) {
-		this.actor = actor;
+		this.actorId = actor.id;
 		this.id = data.label;
 		this.label = game.i18n.localize(CONFIG.Madness.Attributes[data.label]);
 		const seen = data.modifiers.reduce((result, modifier) => {
@@ -31,6 +31,10 @@ export class Attribute {
 		}, {});
 		this._modifiers = Object.values(seen);
 		this.calculateTotal();
+	}
+
+	get actor() {
+		return game.actors.get(this.actorId);
 	}
 
 	calculateTotal() {
