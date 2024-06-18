@@ -59,6 +59,15 @@ export const MadnessConfig = {
 		},
 	},
 	Magic: {
+		Ome: {
+			Label: 'Madness.Magics.Ome',
+			Effects: [
+				{
+					name: 'decreaseMPCost',
+					formula: '(Math.ceil(@{ome}/2)*2)/@{nbMagics}',
+				},
+			],
+		},
 		Sith: {
 			Label: 'Madness.Magics.Sith',
 			Effects: [
