@@ -38,7 +38,7 @@ class CheckMadness {
 		const roll = {};
 		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell') {
-			const critFailureFormula =
+			const additionalDamageFormula =
 				context?.modifiers?.reduce((f, mod) => {
 					if (mod.name === 'increaseDamage') {
 						if (f.length) f += ' + ';
@@ -46,14 +46,14 @@ class CheckMadness {
 					}
 					return f;
 				}, '') ?? '';
-			const critFailureModifier =
-				new Formula(critFailureFormula).evaluate({
+			const additionalDamageModifier =
+				new Formula(additionalDamageFormula).evaluate({
 					...context.actor.magicsTotals,
 					...context,
 				}).evaluated ?? 0;
 			roll.outcome = await CheckMadness._rollDamage(
 				context.item.system.damage,
-				critFailureModifier,
+				additionalDamageModifier,
 				context.actor.attributesTotals,
 			);
 		}
