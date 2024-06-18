@@ -6,12 +6,12 @@ class CheckMadness {
 		const roll = {};
 		options.critRate = {
 			actorCritRate: context.actor.critRate.total,
-			mod: context.modifiers.critRate ?? 0,
+			mod: context.modifiers?.critRate ?? 0,
 		};
-		options.critFailureRate = context.modifiers.critFailureRate ?? 0;
+		options.critFailureRate = context.modifiers?.critFailureRate ?? 0;
 		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell') {
-			const additionalDamageModifier = context.modifiers.damage;
+			const additionalDamageModifier = context.modifiers?.damage;
 			roll.outcome = await CheckMadness._rollDamage(
 				context.item.system.damage,
 				additionalDamageModifier,
