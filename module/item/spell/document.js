@@ -67,6 +67,7 @@ class SpellMadness extends ItemMadness {
 		const buffsModifiers = this.context.modifiers.filter(
 			(m) => m.type === 'buff',
 		);
+		if (!buffsModifiers.length) return;
 		const buffs = {};
 		buffs.addTempHP = (() => {
 			const formula =
