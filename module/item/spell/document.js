@@ -33,8 +33,8 @@ class SpellMadness extends ItemMadness {
 			rollType: 'spell',
 		};
 		context.nbMagics = 0;
-		const modifiers = Object.entries(this.system.requirements).reduce(
-			(arr, magic) => {
+		const modifiers =
+			Object.entries(this.system.requirements).reduce((arr, magic) => {
 				if (magic[1].id) {
 					context.nbMagics += 1;
 					const magicId = capitalizeFirstLetter(magic[1].id);
@@ -42,9 +42,7 @@ class SpellMadness extends ItemMadness {
 					if (effects) arr.push(...effects);
 				}
 				return arr;
-			},
-			[],
-		);
+			}, []) ?? [];
 		context.modifiers = modifiers;
 		this.context = context;
 		if (!this.checkMP()) {
