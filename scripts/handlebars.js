@@ -15,7 +15,7 @@ function registerHandlebarsHelpers() {
 }
 
 function createFormula(attrDice, attributes, minMax) {
-	const formula = Formula.generateCalculableFormula(attrDice);
+	const formula = Formula.generateCalculableFormulaFromDice(attrDice);
 	const values = {};
 	Object.entries(attributes).forEach(
 		([attr, value]) => (values[attr] = minMax === 'max' ? value.total : 1),

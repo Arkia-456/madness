@@ -32,7 +32,7 @@ class Formula {
 		return new Function(`return ${expr}`)();
 	}
 
-	static generateFormulaStr(
+	static generateFormulaStrFromDice(
 		attributeDice,
 		modifier = 0,
 		withDecoration = false,
@@ -49,8 +49,13 @@ class Formula {
 		}, modifier.toString());
 	}
 
-	static generateCalculableFormula(attributeDice, modifier = 0) {
-		return Formula.generateFormulaStr(attributeDice, modifier, true, true);
+	static generateCalculableFormulaFromDice(attributeDice, modifier = 0) {
+		return Formula.generateFormulaStrFromDice(
+			attributeDice,
+			modifier,
+			true,
+			true,
+		);
 	}
 }
 

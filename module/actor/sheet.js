@@ -200,7 +200,7 @@ class ActorSheetMadness extends ActorSheet {
 
 	_generateSpellTooltip(spell) {
 		const spellData = {
-			damageFormula: Formula.generateFormulaStr(spell.system.damage),
+			damageFormula: Formula.generateFormulaStrFromDice(spell.system.damage),
 			system: spell.system,
 			effects: spell.system.items,
 			criticalFailureScore: CONFIG.Madness.Default.CriticalFailureRate,

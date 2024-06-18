@@ -85,7 +85,11 @@ class CheckMadness {
 	}
 
 	static _rollDamage(itemDamage, modifier, actorAttributes) {
-		const formulaStr = Formula.generateFormulaStr(itemDamage, modifier, true);
+		const formulaStr = Formula.generateFormulaStrFromDice(
+			itemDamage,
+			modifier,
+			true,
+		);
 		if (!formulaStr) return null;
 		const formula = new Formula(formulaStr).compute(actorAttributes);
 		return new Roll(formula.computed).roll();
