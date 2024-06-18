@@ -77,13 +77,13 @@ class ChatMessageMadness extends ChatMessage {
 		const token = tokens[0];
 		const roll = await token.actor.parry(token);
 		if (roll.isCritical) return;
-		this.applyDamageFromMessage(token);
+		this.applyDamageFromMessage(token, { parry: true });
 	}
 
-	applyDamageFromMessage(token) {
+	applyDamageFromMessage(token, context) {
 		const outcome = this.flags.madness?.context?.outcome?.total;
 		if (!outcome) return;
-		token.actor.applyDamage(outcome, { parry: true });
+		token.actor.applyDamage(outcome, context);
 	}
 }
 
