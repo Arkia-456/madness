@@ -4,8 +4,10 @@ class CheckMadness {
 	static async roll(context) {
 		const options = {};
 		const roll = {};
-		options.critRate =
-			context.actor.critRate.total + (context.modifiers.critRate ?? 0);
+		options.critRate = {
+			actorCritRate: context.actor.critRate.total,
+			mod: context.modifiers.critRate ?? 0,
+		};
 		options.critFailureRate = context.modifiers.critFailureRate ?? 0;
 		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell') {
@@ -22,10 +24,12 @@ class CheckMadness {
 	static async _rollCrit(options = {}) {
 		const formula = CONFIG.Madness.Default.RollFormula;
 		const roll = await new Roll(formula).roll();
-		const critFailureScore =
-			CONFIG.Madness.Default.CriticalFailureRate +
-			(options?.critFailureRate ?? 0);
-		const critSuccessScore = 100 - (options?.critRate ?? 0);
+		const critFailureScore = new Formula(
+			CONFIG.Madness.Formulas.Scores.criticalFailure,
+		).evaluate({ mod: options?.critFailureRate }).evaluated;
+		const critSuccessScore = new Formula(
+			CONFIG.Madness.Formulas.Scores.critical,
+		).evaluate(options.critRate).evaluated;
 		const result = CheckMadness._getCritResult(
 			roll.total,
 			critFailureScore,

@@ -57,6 +57,12 @@ export const MadnessConfig = {
 			dodgeRate: '1d100',
 			initiative: '1d10 + @value',
 		},
+		Scores: {
+			get criticalFailure() {
+				return `${MadnessConfig.Default.CriticalFailureRate} + @{mod}`;
+			},
+			critical: '100 - (@{actorCritRate} + @{mod})',
+		},
 	},
 	Magic: {
 		Erah: {
