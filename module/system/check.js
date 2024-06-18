@@ -2,22 +2,25 @@ import { Formula } from '../../utils/index.js';
 
 class CheckMadness {
 	static async roll(context) {
-		const formula =
-			context?.modifiers?.reduce((f, mod) => {
-				if (mod.name === 'increaseCritRate') {
-					if (f.length) f += ' + ';
-					f += mod.formula;
-				}
-				return f;
-			}, '') ?? '';
-		const mod =
-			new Formula(formula).evaluate({
-				...context.actor.magicsTotals,
-				...context,
-			}).evaluated ?? 0;
-		const critRate = context.actor.critRate.total + mod;
+		const options = {};
+		options.critRate = (() => {
+			const formula =
+				context?.modifiers?.reduce((f, mod) => {
+					if (mod.name === 'increaseCritRate') {
+						if (f.length) f += ' + ';
+						f += mod.formula;
+					}
+					return f;
+				}, '') ?? '';
+			const mod =
+				new Formula(formula).evaluate({
+					...context.actor.magicsTotals,
+					...context,
+				}).evaluated ?? 0;
+			return context.actor.critRate.total + mod;
+		})();
 		const roll = {};
-		roll.critOutcome = await CheckMadness._rollCrit(critRate);
+		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell') {
 			roll.outcome = await CheckMadness._rollDamage(
 				context.item.system.damage,
@@ -27,11 +30,11 @@ class CheckMadness {
 		return roll;
 	}
 
-	static async _rollCrit(critRate) {
+	static async _rollCrit(options = {}) {
 		const formula = CONFIG.Madness.Default.RollFormula;
 		const roll = await new Roll(formula).roll();
 		const critFailureScore = CONFIG.Madness.Default.CriticalFailureRate;
-		const critSuccessScore = 100 - critRate;
+		const critSuccessScore = 100 - (options?.critRate ?? 0);
 		const result = CheckMadness._getCritResult(
 			roll.total,
 			critFailureScore,
