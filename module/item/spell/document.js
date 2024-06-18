@@ -4,15 +4,16 @@ import { ItemMadness } from '../index.js';
 
 class SpellMadness extends ItemMadness {
 	get cost() {
-		const formula = this.context.modifiers?.reduce((f, mod) => {
-			if (mod.name === 'increaseMPCost' || mod.name === 'decreaseMPCost') {
-				const sign = mod.name === 'decreaseMPCost' ? '-' : '+';
-				const value = `${sign}${mod.formula}`;
-				if (f.length) f += ' + ';
-				f += value;
-			}
-			return f;
-		}, '');
+		const formula =
+			this.context.modifiers?.reduce((f, mod) => {
+				if (mod.name === 'increaseMPCost' || mod.name === 'decreaseMPCost') {
+					const sign = mod.name === 'decreaseMPCost' ? '-' : '+';
+					const value = `${sign}${mod.formula}`;
+					if (f.length) f += ' + ';
+					f += value;
+				}
+				return f;
+			}, '') ?? '';
 		const mod =
 			new Formula(formula).evaluate({
 				...this.context.actor.magicsTotals,

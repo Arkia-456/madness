@@ -2,13 +2,14 @@ import { Formula } from '../../utils/index.js';
 
 class CheckMadness {
 	static async roll(context) {
-		const formula = context?.modifiers?.reduce((f, mod) => {
-			if (mod.name === 'increaseCritRate') {
-				if (f.length) f += ' + ';
-				f += mod.formula;
-			}
-			return f;
-		}, '');
+		const formula =
+			context?.modifiers?.reduce((f, mod) => {
+				if (mod.name === 'increaseCritRate') {
+					if (f.length) f += ' + ';
+					f += mod.formula;
+				}
+				return f;
+			}, '') ?? '';
 		const mod =
 			new Formula(formula).evaluate({
 				...context.actor.magicsTotals,
