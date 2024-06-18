@@ -68,6 +68,16 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Shor: {
+			Label: 'Madness.Magics.Shor',
+			Effects: [
+				{
+					name: 'addTempHP',
+					type: 'buff',
+					formula: '(Math.ceil(@{shor}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
 		Sith: {
 			Label: 'Madness.Magics.Sith',
 			Effects: [

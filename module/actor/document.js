@@ -328,6 +328,14 @@ class ActorMadness extends Actor {
 		const parryDamageReduction = this.parryDamageReduction.total ?? 0;
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
+
+	addTempHP(value) {
+		if (!value) return;
+		const hitPoints = this.hitPoints;
+		if (!hitPoints) return;
+		if (hitPoints.temp >= value) return;
+		this.update({ 'system.hp.temp': value });
+	}
 }
 
 export { ActorMadness };

@@ -54,12 +54,39 @@ class SpellMadness extends ItemMadness {
 		const roll = await CheckMadness.roll(context);
 		if (roll.critOutcome.result === 'success') {
 			this.actor.removeMP(this.cost);
+			await this.applyBuffs();
 		}
 		this.toMessage({ context, roll });
 	}
 
 	checkMP(actor = this.actor) {
 		return actor.currentMP >= this.cost;
+	}
+
+	async applyBuffs(actor = this.actor) {
+		const buffsModifiers = this.context.modifiers.filter(
+			(m) => m.type === 'buff',
+		);
+		const buffs = {};
+		buffs.addTempHP = (() => {
+			const formula =
+				buffsModifiers.reduce((f, buff) => {
+					if (buff.name === 'addTempHP') {
+						if (f.length) f += ' + ';
+						f += buff.formula;
+					}
+					return f;
+				}, '') ?? '';
+			const mod =
+				new Formula(formula).evaluate({
+					...this.context.actor.magicsTotals,
+					...this.context,
+				}).evaluated ?? 0;
+			return mod;
+		})();
+		for (const [key, value] of Object.entries(buffs)) {
+			await actor[key]?.(value);
+		}
 	}
 }
 
