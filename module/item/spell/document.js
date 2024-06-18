@@ -4,22 +4,7 @@ import { ItemMadness } from '../index.js';
 
 class SpellMadness extends ItemMadness {
 	get cost() {
-		const formula =
-			this.context.modifiers?.reduce((f, mod) => {
-				if (mod.name === 'increaseMPCost' || mod.name === 'decreaseMPCost') {
-					const sign = mod.name === 'decreaseMPCost' ? '-' : '+';
-					const value = `${sign}${mod.formula}`;
-					if (f.length) f += ' + ';
-					f += value;
-				}
-				return f;
-			}, '') ?? '';
-		const mod =
-			new Formula(formula).evaluate({
-				...this.context.actor.magicsTotals,
-				...this.context,
-			}).evaluated ?? 0;
-		return Number(this.system.cost.value) + mod;
+		return Number(this.system.cost.value) + this.costMod;
 	}
 
 	get passives() {
@@ -39,6 +24,45 @@ class SpellMadness extends ItemMadness {
 		return Object.values(this.system.requirements).filter((el) => el.id).length;
 	}
 
+	get costMod() {
+		return this.getPassiveModifier('decreaseMPCost');
+	}
+
+	get critRateMod() {
+		return this.getPassiveModifier('increaseCritRate');
+	}
+
+	get criFailureRateMod() {
+		return this.getPassiveModifier('increaseCritFailureRate');
+	}
+
+	get damageMod() {
+		return this.getPassiveModifier('increaseDamage');
+	}
+
+	get tempHPMod() {
+		return this.getPassiveModifier('addTempHP');
+	}
+
+	getPassiveModifier(modifierName) {
+		const formula =
+			this.passives.reduce((f, mod) => {
+				if (mod.name === modifierName) {
+					const sign = modifierName.startsWith('decrease') ? '-' : '+';
+					const value = `${sign}${mod.formula}`;
+					if (f.length) f += ' + ';
+					f += value;
+				}
+				return f;
+			}, '') ?? '';
+		return (
+			new Formula(formula).evaluate({
+				...this.actor.magicsTotals,
+				...{ nbMagics: this.nbMagics },
+			}).evaluated ?? 0
+		);
+	}
+
 	async updateItems(items) {
 		await this.update({ 'system.items': items });
 	}
@@ -50,8 +74,11 @@ class SpellMadness extends ItemMadness {
 			rollType: 'spell',
 		};
 		context.nbMagics = this.nbMagics;
-		const modifiers = this.passives;
-		context.modifiers = modifiers;
+		context.modifiers = {
+			critRate: this.critRateMod,
+			critFailureRate: this.criFailureRateMod,
+			damage: this.damageMod,
+		};
 		this.context = context;
 		if (!this.checkMP()) {
 			const notEnoughMPErrorMsg = game.i18n.localize(
@@ -72,27 +99,10 @@ class SpellMadness extends ItemMadness {
 	}
 
 	async applyBuffs(actor = this.actor) {
-		const buffsModifiers = this.context.modifiers.filter(
-			(m) => m.type === 'buff',
-		);
+		const buffsModifiers = this.passives.filter((m) => m.type === 'buff');
 		if (!buffsModifiers.length) return;
 		const buffs = {};
-		buffs.addTempHP = (() => {
-			const formula =
-				buffsModifiers.reduce((f, buff) => {
-					if (buff.name === 'addTempHP') {
-						if (f.length) f += ' + ';
-						f += buff.formula;
-					}
-					return f;
-				}, '') ?? '';
-			const mod =
-				new Formula(formula).evaluate({
-					...this.context.actor.magicsTotals,
-					...this.context,
-				}).evaluated ?? 0;
-			return mod;
-		})();
+		buffs.addTempHP = this.tempHPMod;
 		for (const [key, value] of Object.entries(buffs)) {
 			await actor[key]?.(value);
 		}

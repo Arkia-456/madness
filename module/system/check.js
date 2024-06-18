@@ -3,54 +3,13 @@ import { Formula } from '../../utils/index.js';
 class CheckMadness {
 	static async roll(context) {
 		const options = {};
-		options.critRate = (() => {
-			const formula =
-				context?.modifiers?.reduce((f, mod) => {
-					if (mod.name === 'increaseCritRate') {
-						if (f.length) f += ' + ';
-						f += mod.formula;
-					}
-					return f;
-				}, '') ?? '';
-			const mod =
-				new Formula(formula).evaluate({
-					...context.actor.magicsTotals,
-					...context,
-				}).evaluated ?? 0;
-			return context.actor.critRate.total + mod;
-		})();
-		options.critFailureRate = (() => {
-			const formula =
-				context?.modifiers?.reduce((f, mod) => {
-					if (mod.name === 'increaseCritFailureRate') {
-						if (f.length) f += ' + ';
-						f += mod.formula;
-					}
-					return f;
-				}, '') ?? '';
-			const mod =
-				new Formula(formula).evaluate({
-					...context.actor.magicsTotals,
-					...context,
-				}).evaluated ?? 0;
-			return mod;
-		})();
 		const roll = {};
+		options.critRate =
+			context.actor.critRate.total + (context.modifiers.critRate ?? 0);
+		options.critFailureRate = context.modifiers.critFailureRate ?? 0;
 		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell') {
-			const additionalDamageFormula =
-				context?.modifiers?.reduce((f, mod) => {
-					if (mod.name === 'increaseDamage') {
-						if (f.length) f += ' + ';
-						f += mod.formula;
-					}
-					return f;
-				}, '') ?? '';
-			const additionalDamageModifier =
-				new Formula(additionalDamageFormula).evaluate({
-					...context.actor.magicsTotals,
-					...context,
-				}).evaluated ?? 0;
+			const additionalDamageModifier = context.modifiers.damage;
 			roll.outcome = await CheckMadness._rollDamage(
 				context.item.system.damage,
 				additionalDamageModifier,
