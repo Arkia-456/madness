@@ -34,6 +34,7 @@ class Formula {
 
 	static generateFormulaStr(
 		attributeDice,
+		modifier = 0,
 		withDecoration = false,
 		calculable = false,
 	) {
@@ -45,11 +46,11 @@ class Formula {
 				attr === 'flat'
 					? value
 					: `${value}${calculable ? '*' : 'd'}${attrString}`);
-		}, '');
+		}, modifier.toString());
 	}
 
-	static generateCalculableFormula(attributeDice) {
-		return Formula.generateFormulaStr(attributeDice, true, true);
+	static generateCalculableFormula(attributeDice, modifier = 0) {
+		return Formula.generateFormulaStr(attributeDice, modifier, true, true);
 	}
 }
 

@@ -59,6 +59,19 @@ export const MadnessConfig = {
 		},
 	},
 	Magic: {
+		Erah: {
+			Label: 'Madness.Magics.Erah',
+			Effects: [
+				{
+					name: 'increaseCritFailureRate',
+					formula: '(Math.ceil(@{erah}/2)*2)/@{nbMagics}',
+				},
+				{
+					name: 'increaseDamage',
+					formula: '(Math.ceil(@{erah}/2)*8)/@{nbMagics}',
+				},
+			],
+		},
 		Ome: {
 			Label: 'Madness.Magics.Ome',
 			Effects: [
