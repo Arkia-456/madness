@@ -22,6 +22,10 @@ class SpellMadness extends ItemMadness {
 		return Number(this.system.cost.value) + mod;
 	}
 
+	get nbMagics() {
+		return Object.values(this.system.requirements).filter((el) => el.id).length;
+	}
+
 	async updateItems(items) {
 		await this.update({ 'system.items': items });
 	}
@@ -32,17 +36,16 @@ class SpellMadness extends ItemMadness {
 			item: this,
 			rollType: 'spell',
 		};
-		context.nbMagics = 0;
 		const modifiers =
 			Object.entries(this.system.requirements).reduce((arr, magic) => {
 				if (magic[1].id) {
-					context.nbMagics += 1;
 					const magicId = capitalizeFirstLetter(magic[1].id);
 					const effects = CONFIG.Madness.Magic[magicId]?.Effects;
 					if (effects) arr.push(...effects);
 				}
 				return arr;
 			}, []) ?? [];
+		context.nbMagics = this.nbMagics;
 		context.modifiers = modifiers;
 		this.context = context;
 		if (!this.checkMP()) {
