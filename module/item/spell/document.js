@@ -44,6 +44,27 @@ class SpellMadness extends ItemMadness {
 		return this.getPassiveModifier('addTempHP');
 	}
 
+	getMinDamage(attributes) {
+		return this.getMinMaxDamage('min', attributes);
+	}
+
+	getMaxDamage(attributes) {
+		return this.getMinMaxDamage('max', attributes);
+	}
+
+	getMinMaxDamage(minMax, attributes) {
+		const damageFormula =
+			Formula.generateCalculableFormulaFromDice(
+				this.system.damage,
+				this.damageMod,
+			) || '0';
+		const values = {};
+		Object.entries(attributes).forEach(
+			([attr, value]) => (values[attr] = minMax === 'max' ? value.total : 1),
+		);
+		return new Formula(damageFormula).evaluate(values).evaluated;
+	}
+
 	getPassiveModifier(modifierName) {
 		const formula =
 			this.passives.reduce((f, mod) => {

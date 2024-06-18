@@ -11,10 +11,10 @@
 							{{/if}}
 						{{/each}}
 					</div>
-					<div>{{system.cost.value}}</div>
+					<div>{{cost}}</div>
 					<div>
-						{{getRollResult 'min' system.damage @root.system.attributes}}
-						{{getRollResult 'max' system.damage @root.system.attributes}}
+						{{minDamage}}
+						{{maxDamage}}
 					</div>
 					<div>{{system.range.value}}</div>
 					<button data-action='roll-spell'>

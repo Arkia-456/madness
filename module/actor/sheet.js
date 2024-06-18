@@ -27,8 +27,12 @@ class ActorSheetMadness extends ActorSheet {
 		const actor = this.actor;
 		sheetData.system = actor.system;
 		sheetData.ethnicity = actor.ethnicity;
-		sheetData.spells = actor.items.filter((i) => i.type === 'spell');
-
+		const spells = actor.items.filter((i) => i.type === 'spell');
+		spells.forEach((spell) => {
+			spell.minDamage = spell.getMinDamage(actor.system.attributes);
+			spell.maxDamage = spell.getMaxDamage(actor.system.attributes);
+		});
+		sheetData.spells = spells;
 		return sheetData;
 	}
 
@@ -199,13 +203,24 @@ class ActorSheetMadness extends ActorSheet {
 	}
 
 	_generateSpellTooltip(spell) {
+		const damageFormula =
+			Formula.generateFormulaStrFromDice(
+				spell.system.damage,
+				spell.damageMod,
+			) || '0';
 		const spellData = {
-			damageFormula: Formula.generateFormulaStrFromDice(spell.system.damage),
+			damageFormula,
 			system: spell.system,
 			effects: spell.system.items,
-			criticalFailureScore: CONFIG.Madness.Default.CriticalFailureRate,
-			criticalSuccessScore:
-				100 - this.actor.system.secondaryAttributes.critRate.total,
+			criticalFailureScore: new Formula(
+				CONFIG.Madness.Formulas.Scores.criticalFailure,
+			).evaluate({ mod: spell.criFailureRateMod }).evaluated,
+			criticalSuccessScore: new Formula(
+				CONFIG.Madness.Formulas.Scores.critical,
+			).evaluate({
+				actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
+				mod: spell.critRateMod,
+			}).evaluated,
 		};
 		return renderTemplate(
 			'systems/madness/templates/actor/tooltips/spell.hbs',
