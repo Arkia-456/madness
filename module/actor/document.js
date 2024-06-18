@@ -29,6 +29,14 @@ class ActorMadness extends Actor {
 		return totals;
 	}
 
+	get magicsTotals() {
+		const totals = {};
+		Object.entries(this.system.magics).forEach(
+			([key, value]) => (totals[key] = value.total),
+		);
+		return totals;
+	}
+
 	get currentMP() {
 		return this.system.mp.value;
 	}

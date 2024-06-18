@@ -58,6 +58,17 @@ export const MadnessConfig = {
 			initiative: '1d10 + @value',
 		},
 	},
+	Magic: {
+		Sith: {
+			Label: 'Madness.Magics.Sith',
+			Effects: [
+				{
+					name: 'increaseCritRate',
+					formula: '(Math.ceil(@{sith}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
+	},
 	Magics: {
 		doka: 'Madness.Magics.Doka',
 		erah: 'Madness.Magics.Erah',
