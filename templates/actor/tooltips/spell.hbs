@@ -1,7 +1,13 @@
 <div class='tooltip'>
 	<div>
 		<div>{{localize 'Madness.Label.Description'}}</div>
-		<div>{{{system.description}}}</div>
+		<div>
+			{{#if system.description}}
+				{{{system.description}}}
+			{{else}}
+				/
+			{{/if}}
+		</div>
 	</div>
 	<div>
 		<div>{{localize 'Madness.Label.Damage'}}</div>
