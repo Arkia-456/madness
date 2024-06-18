@@ -296,25 +296,37 @@ class ActorMadness extends Actor {
 		return roll;
 	}
 
-	applyDamage(damage, context) {
+	applyDamage(damage = 0, context) {
+		console.log(context);
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
 		const outcome = context?.parry
 			? this._applyParryDamageReduction(damage)
 			: damage;
-
-		const damageResult = this._calculateHealthDelta(hitPoints, outcome);
+		const damageResult = this._calculateHealthDelta(
+			hitPoints,
+			outcome,
+			context,
+		);
 		if (damageResult.totalApplied !== 0) {
 			this.update(damageResult.updates);
 		}
 	}
 
-	_calculateHealthDelta(hp, delta) {
+	_calculateHealthDelta(hp, delta, context) {
 		const updates = {};
 		if (hp.max === 0) return { updates, totalApplied: 0 };
 
-		const appliedToTemp = !hp.temp || delta <= 0 ? 0 : Math.min(hp.temp, delta);
-		updates['system.hp.temp'] = Math.max(hp.temp - appliedToTemp, 0);
+		const removeTempHPPassive = context.passives.filter(
+			(p) => p.name === 'removeTempHP',
+		);
+		const appliedToTemp =
+			removeTempHPPassive.length || !hp.temp || delta <= 0
+				? 0
+				: Math.min(hp.temp, delta);
+		updates['system.hp.temp'] = removeTempHPPassive.length
+			? 0
+			: Math.max(hp.temp - appliedToTemp, 0);
 
 		const appliedToHP = delta - appliedToTemp;
 		updates['system.hp.value'] = Math.clamp(hp.value - appliedToHP, 0, hp.max);

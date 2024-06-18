@@ -117,6 +117,7 @@ class SpellMadness extends ItemMadness {
 			critFailureRate: this.criFailureRateMod,
 			damage: this.damageMod,
 		};
+		context.passives = this.passives;
 		this.context = context;
 		if (!this.checkMP()) {
 			const notEnoughMPErrorMsg = game.i18n.localize(

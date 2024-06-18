@@ -37,6 +37,17 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Destruction: {
+			Effects: [
+				{
+					name: 'removeTempHP',
+				},
+				{
+					name: 'increaseCritRate',
+					formula: '20',
+				},
+			],
+		},
 	},
 	Item: {
 		documentClasses: {

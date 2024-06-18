@@ -81,9 +81,14 @@ class ChatMessageMadness extends ChatMessage {
 	}
 
 	applyDamageFromMessage(token, options) {
-		const outcome = this.flags.madness?.context?.outcome?.total;
-		if (!outcome) return;
-		token.actor.applyDamage(outcome, options);
+		const context = this.flags.madness?.context ?? {};
+		const outcome = context.outcome?.total ?? 0;
+		const passives = context.passives;
+		if (!outcome && !passives.length) return;
+		token.actor.applyDamage(outcome, {
+			...options,
+			passives: context.passives,
+		});
 	}
 }
 

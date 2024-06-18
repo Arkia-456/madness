@@ -69,6 +69,7 @@ class ItemMadness extends Item {
 
 		const contextFlag = {
 			outcome,
+			...options.context,
 		};
 
 		const chatData = {
