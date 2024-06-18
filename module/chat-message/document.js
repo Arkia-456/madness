@@ -80,10 +80,10 @@ class ChatMessageMadness extends ChatMessage {
 		this.applyDamageFromMessage(token, { parry: true });
 	}
 
-	applyDamageFromMessage(token, context) {
+	applyDamageFromMessage(token, options) {
 		const outcome = this.flags.madness?.context?.outcome?.total;
 		if (!outcome) return;
-		token.actor.applyDamage(outcome, context);
+		token.actor.applyDamage(outcome, options);
 	}
 }
 
