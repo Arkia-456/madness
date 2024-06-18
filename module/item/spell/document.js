@@ -8,7 +8,7 @@ class SpellMadness extends ItemMadness {
 	}
 
 	get passives() {
-		return (
+		const magicPassives =
 			Object.entries(this.system.requirements).reduce((arr, magic) => {
 				if (magic[1].id) {
 					const magicId = capitalizeFirstLetter(magic[1].id);
@@ -16,8 +16,25 @@ class SpellMadness extends ItemMadness {
 					if (effects) arr.push(...effects);
 				}
 				return arr;
-			}, []) ?? []
-		);
+			}, []) ?? [];
+		const effectPassives =
+			Object.values(this.system.items ?? []).reduce((arr, effect) => {
+				const effects = CONFIG.Madness.Effect[effect.name]?.Effects;
+				if (effects) {
+					for (const e of effects) {
+						if (effect.system.hasStrength) {
+							e.formula = new Formula(e.formula)
+								.evaluate({
+									mod: effect.system.strength,
+								})
+								.evaluated.toString();
+						}
+					}
+					arr.push(...effects);
+				}
+				return arr;
+			}, []) ?? [];
+		return [...magicPassives, ...effectPassives];
 	}
 
 	get nbMagics() {

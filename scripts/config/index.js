@@ -27,6 +27,17 @@ export const MadnessConfig = {
 		CriticalFailureRate: 5,
 		RollFormula: '1d100',
 	},
+	Effect: {
+		Bouclier: {
+			Effects: [
+				{
+					name: 'addTempHP',
+					type: 'buff',
+					formula: '@{mod}',
+				},
+			],
+		},
+	},
 	Item: {
 		documentClasses: {
 			ethnicity: EthnicityMadness,
