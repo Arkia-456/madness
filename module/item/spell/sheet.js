@@ -10,7 +10,11 @@ class SpellSheetMadness extends ItemSheetMadness {
 	async getData(options) {
 		const sheetData = await super.getData(options);
 		sheetData.config = {
-			attributes: CONFIG.Madness.Attributes,
+			attributes: Object.fromEntries(
+				Object.entries(CONFIG.Madness.Attributes).filter(([key, value]) =>
+					CONFIG.Madness.PrimaryAttributes.includes(key),
+				),
+			),
 			magics: CONFIG.Madness.Magics,
 		};
 		return sheetData;

@@ -138,4 +138,5 @@ export const MadnessConfig = {
 		sith: 'Madness.Magics.Sith',
 		teruuk: 'Madness.Magics.Teruuk',
 	},
+	PrimaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
 };
