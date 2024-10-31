@@ -22,7 +22,7 @@ class SpellMadness extends ItemMadness {
 				const effects = CONFIG.Madness.Effect[effect.name]?.Effects;
 				if (effects) {
 					for (const e of effects) {
-						if (effect.system.hasStrength) {
+						if (effect.system.hasStrength && e.formula) {
 							e.formula = new Formula(e.formula)
 								.evaluate({
 									mod: effect.system.strength,
