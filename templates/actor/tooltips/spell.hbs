@@ -1,31 +1,33 @@
-<div class='tooltip'>
+<div class='tooltip actions'>
 	<div>
 		<div>{{localize 'Madness.Label.Description'}}</div>
 		<div>
 			{{#if system.description}}
 				{{{system.description}}}
 			{{else}}
-				/
+				-
 			{{/if}}
 		</div>
 	</div>
-	<div>
-		<div>{{localize 'Madness.Label.Damage'}}</div>
-		<div>{{damageFormula}}</div>
-	</div>
-	<div>
-		<div>{{localize 'Madness.Label.CriticalFailureScore'}}</div>
-		<div>&lt;= {{criticalFailureScore}}</div>
-	</div>
-	<div>
-		<div>{{localize 'Madness.Label.CriticalSuccessScore'}}</div>
-		<div>&gt; {{criticalSuccessScore}}</div>
-	</div>
-	<div>
+	<table class='stats'>
+		<tr>
+			<td>{{localize 'Madness.Label.Damage'}}</td>
+			<td>{{localize 'Madness.Label.CriticalFailureScore'}}</td>
+			<td>{{localize 'Madness.Label.CriticalSuccessScore'}}</td>
+		</tr>
+		<tr>
+			<td>{{damageFormula}}</td>
+			<td>&lt;= {{criticalFailureScore}}</td>
+			<td>&gt; {{criticalSuccessScore}}</td>
+		</tr>
+	</table>
+	<table class='effects'>
 		{{#each effects}}
-			<div>{{name}}</div>
-			<div>{{{system.description}}}</div>
-			<div>{{system.strength}}</div>
+			<tr>
+				<td>{{name}}</td>
+				<td>{{{system.description}}}</td>
+				<td>{{system.strength}}</td>
+			</tr>
 		{{/each}}
-	</div>
+	</table>
 </div>

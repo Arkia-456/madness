@@ -1,0 +1,41 @@
+.tab.actions {
+	.row {
+		display: grid;
+		grid-template-columns: 1fr 104px 52px 96px 64px 104px;
+		gap: 4px;
+		margin-bottom: 4px;
+
+		div {
+			display: flex;
+			align-items: center;
+			text-align: center;
+			justify-content: center;
+			border: solid 2px white;
+			background-color: @madness-background-color-primary;
+			color: white;
+
+			&.magic-icons {
+				justify-content: flex-start;
+				padding: 4px;
+			}
+
+			&.item-name {
+				background-color: @madness-background-color-secondary;
+			}
+		}
+
+		img {
+			width: calc((96px / 2) - (2 * 4px));
+			border: none;
+		}
+	}
+
+	button.action {
+		background-color: @madness-highlight-color;
+		color: black;
+		border: none;
+		border-radius: 0px;
+		font-size: 1.2em;
+		margin: 2px;
+	}
+}

@@ -1,10 +1,18 @@
 <section class='tab actions' data-tab='actions'>
+	<div class='section-header'>Compétences magiques</div>
 	<section class='item-list spells'>
+		<div class='row'>
+			<div class='item-name'>Nom</div>
+			<div>Magies</div>
+			<div>Coût</div>
+			<div>Dégâts <br /> min-max</div>
+			<div>Portée</div>
+		</div>
 		{{#each spells}}
 			<div class='item spell' data-id='{{id}}'>
 				<div class='row'>
-					<div>{{name}}</div>
-					<div>
+					<div class='item-name'>{{name}}</div>
+					<div class='magic-icons'>
 						{{#each system.requirements}}
 							{{#if id}}
 								<img src='systems/madness/resources/icons/magics/{{id}}.png' />
@@ -14,10 +22,11 @@
 					<div>{{cost}}</div>
 					<div>
 						{{minDamage}}
+						-
 						{{maxDamage}}
 					</div>
 					<div>{{system.range.value}}</div>
-					<button data-action='roll-spell'>
+					<button class='action' data-action='roll-spell'>
 						{{localize 'Madness.Controls.Attack'}}
 					</button>
 				</div>
