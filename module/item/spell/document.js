@@ -19,10 +19,16 @@ class SpellMadness extends ItemMadness {
 			}, []) ?? [];
 		const effectPassives =
 			Object.values(this.system.items ?? []).reduce((arr, effect) => {
-				const effects = CONFIG.Madness.Effect[effect.name]?.Effects;
+				const effects = structuredClone(
+					CONFIG.Madness.Effect[effect.name]?.Effects,
+				);
 				if (effects) {
 					for (const e of effects) {
-						if (effect.system.hasStrength && e.formula) {
+						if (
+							effect.system.hasStrength &&
+							effect.system.strength !== null &&
+							e.formula
+						) {
 							e.formula = new Formula(e.formula)
 								.evaluate({
 									mod: effect.system.strength,
@@ -83,22 +89,32 @@ class SpellMadness extends ItemMadness {
 	}
 
 	getPassiveModifier(modifierName) {
-		const formula =
-			this.passives.reduce((f, mod) => {
-				if (mod.name === modifierName) {
-					const sign = modifierName.startsWith('decrease') ? '-' : '+';
-					const value = `${sign}${mod.formula}`;
-					if (f.length) f += ' + ';
-					f += value;
-				}
-				return f;
-			}, '') ?? '';
-		return (
-			new Formula(formula).evaluate({
-				...this.actor.magicsTotals,
-				...{ nbMagics: this.nbMagics },
-			}).evaluated ?? 0
-		);
+		try {
+			const formula =
+				this.passives.reduce((f, mod) => {
+					if (mod.name === modifierName) {
+						const sign = modifierName.startsWith('decrease') ? '-' : '+';
+						const value = `${sign}${mod.formula}`;
+						if (f.length) f += ' + ';
+						f += value;
+					}
+					return f;
+				}, '') ?? '';
+			return (
+				new Formula(formula).evaluate({
+					...this.actor.magicsTotals,
+					...{ nbMagics: this.nbMagics },
+				}).evaluated ?? 0
+			);
+		} catch (error) {
+			const passiveModifierEvaluationErrorMsg = game.i18n.format(
+				'Madness.Message.Error.PassiveModifierEvaluation',
+				{
+					modifierName: modifierName,
+				},
+			);
+			ui.notifications.error(passiveModifierEvaluationErrorMsg);
+		}
 	}
 
 	async updateItems(items) {

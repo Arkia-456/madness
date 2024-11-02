@@ -83,6 +83,7 @@
 		},
 		"Message": {
 			"Error": {
+				"PassiveModifierEvaluation": "Une erreur est survenue lors de l'évaluation du modificateur de l'effet \"{modifierName}\"",
 				"NotEnoughMP": "Vous ne disposez pas d'assez de MP pour lancer ce sort",
 				"NoTokenSelected": "Aucun token sélectionné pour cette action"
 			},
