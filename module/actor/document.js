@@ -64,7 +64,9 @@ class ActorMadness extends Actor {
 	}
 
 	prepareBaseData() {
-		console.log('Madness system | Actor | Preparing base data...');
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing base data...`,
+		);
 		super.prepareBaseData();
 
 		// Data properties from items
@@ -75,11 +77,15 @@ class ActorMadness extends Actor {
 		Object.entries(attributes).forEach(([key, value]) => {
 			value.ethnicity = 0;
 		});
-		console.log('Madness system | Actor | Base data prepared ✅');
+		console.log(
+			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
+		);
 	}
 
 	prepareDerivedData() {
-		console.log('Madness system | Actor | Preparing derived data...');
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing derived data...`,
+		);
 		super.prepareDerivedData();
 
 		const system = this.system;
@@ -212,7 +218,9 @@ class ActorMadness extends Actor {
 			0,
 		);
 
-		console.log('Madness system | Actor | Derived data prepared ✅');
+		console.log(
+			`Madness system | Actor | ${this.name} | Derived data prepared ✅`,
+		);
 	}
 
 	generateAttributeModifier(key, type) {
@@ -239,18 +247,26 @@ class ActorMadness extends Actor {
 	}
 
 	prepareEmbeddedDocuments() {
-		console.log('Madness system | Actor | Preparing embedded documents...');
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing embedded documents...`,
+		);
 		super.prepareEmbeddedDocuments();
 		this.prepareDataFromItems();
-		console.log('Madness system | Actor | Embedded documents prepared ✅');
+		console.log(
+			`Madness system | Actor | ${this.name} | Embedded documents prepared ✅`,
+		);
 	}
 
 	prepareDataFromItems() {
-		console.log('Madness system | Actor | Preparing data from items...');
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing data from items...`,
+		);
 		for (const item of this.items) {
 			item.prepareActorData?.();
 		}
-		console.log('Madness system | Actor | Data from items prepared ✅');
+		console.log(
+			`Madness system | Actor | ${this.name} | Data from items prepared ✅`,
+		);
 	}
 
 	getAttribute(attr) {
