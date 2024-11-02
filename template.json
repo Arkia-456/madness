@@ -1,6 +1,8 @@
 {
 	"Actor": {
-		"types": ["character"],
+		"types": [
+			"character"
+		],
 		"character": {
 			"hp": {
 				"value": 0,
@@ -57,14 +59,18 @@
 				"description": ""
 			}
 		},
-		"htmlFields": ["description"],
+		"htmlFields": [
+			"description"
+		],
 		"equipment": {
 			"templates": [
 				"common"
 			]
 		},
 		"ethnicity": {
-			"templates": ["common"],
+			"templates": [
+				"common"
+			],
 			"attributes": {
 				"agi": {
 					"value": 0
@@ -84,7 +90,9 @@
 			}
 		},
 		"spell": {
-			"templates": ["common"],
+			"templates": [
+				"common"
+			],
 			"requirements": {
 				"magic0": {},
 				"magic1": {}
@@ -98,7 +106,9 @@
 			}
 		},
 		"effect": {
-			"templates": ["common"],
+			"templates": [
+				"common"
+			],
 			"requirements": {}
 		}
 	}
