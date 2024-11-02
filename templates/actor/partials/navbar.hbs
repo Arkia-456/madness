@@ -1,41 +1,36 @@
-<nav
-	class='sheet-navigation'
-	data-group='primary'
-	data-tooltip-direction='DOWN'
->
-	<a
-		class='item'
-		data-tab='character'
-		data-tooltip='{{localize "Madness.Tab.Character"}}'
-	>
-		<img src='systems/madness/resources/icons/employee-badge.svg' />
-	</a>
-	<a
-		class='item'
-		data-tab='status'
-		data-tooltip='{{localize "Madness.Tab.Status"}}'
-	>
-		<img src='systems/madness/resources/icons/user.svg' />
-	</a>
-	<a
-		class='item'
-		data-tab='actions'
-		data-tooltip='{{localize "Madness.Tab.Actions"}}'
-	>
-		<img src='systems/madness/resources/icons/user-network.svg' />
-	</a>
-	<a
-		class='item'
-		data-tab='inventory'
-		data-tooltip='{{localize "Madness.Tab.Inventory"}}'
-	>
-		<img src='systems/madness/resources/icons/backpack.svg' />
-	</a>
-	<a
-		class='item'
-		data-tab='notes'
-		data-tooltip='{{localize "Madness.Tab.Notes"}}'
-	>
-		<img src='systems/madness/resources/icons/open-book.svg' />
-	</a>
+<nav class='sheet-navigation' data-group='primary'>
+	<div class='row'>
+		<a class='item-icon' data-tab='character'>
+			<img src='systems/madness/resources/icons/employee-badge.svg' />
+		</a>
+		<a class='item-icon' data-tab='status'>
+			<img src='systems/madness/resources/icons/user.svg' />
+		</a>
+		<a class='item-icon' data-tab='actions'>
+			<img src='systems/madness/resources/icons/user-network.svg' />
+		</a>
+		<a class='item-icon' data-tab='inventory'>
+			<img src='systems/madness/resources/icons/backpack.svg' />
+		</a>
+		<a class='item-icon' data-tab='notes'>
+			<img src='systems/madness/resources/icons/open-book.svg' />
+		</a>
+	</div>
+	<div class='row'>
+		<a class='item-label' data-tab='character'>
+			<span>{{localize 'Madness.Tab.Character'}}</span>
+		</a>
+		<a class='item-label' data-tab='status'>
+			<span>{{localize 'Madness.Tab.Status'}}</span>
+		</a>
+		<a class='item-label' data-tab='actions'>
+			<span>{{localize 'Madness.Tab.Actions'}}</span>
+		</a>
+		<a class='item-label' data-tab='inventory'>
+			<span>{{localize 'Madness.Tab.Inventory'}}</span>
+		</a>
+		<a class='item-label' data-tab='notes'>
+			<span>{{localize 'Madness.Tab.Notes'}}</span>
+		</a>
+	</div>
 </nav>

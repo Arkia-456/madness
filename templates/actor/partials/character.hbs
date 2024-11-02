@@ -1,22 +1,48 @@
 <section class='tab character' data-tab='character'>
-	<div class='identity'>
-		<div>
-			<label>{{localize 'Madness.Character.FirstName'}}</label>
-			<input name='name' type='text' value='{{actor.name}}' />
+	<div class='header'>
+		<div class='picture'>
+			<img src='{{actor.img}}' data-edit='img' />
 		</div>
-		<div>
-			<label>{{localize 'Madness.Character.LastName'}}</label>
-			<input name='system.lastName' type='text' value='{{system.lastName}}' />
-		</div>
-		<div>
-			<label>{{localize 'Madness.Character.Age'}}</label>
-			<input name='system.age' type='text' value='{{system.age}}' />
-		</div>
-		<div>
-			<span class='details-label'>{{localize
-					'Madness.Character.Ethnicity'
-				}}</span>
-			<div class='value'>{{ethnicity.name}}
+		<div class='identity'>
+			<div>
+				<label class='details-label'>{{localize
+						'Madness.Character.LastName'
+					}}</label>
+				<input
+					class='value'
+					name='system.lastName'
+					type='text'
+					value='{{system.lastName}}'
+				/>
+			</div>
+			<div>
+				<label class='details-label'>{{localize
+						'Madness.Character.FirstName'
+					}}</label>
+				<input class='value' name='name' type='text' value='{{actor.name}}' />
+			</div>
+			<div>
+				<label class='details-label'>{{localize
+						'Madness.Character.Age'
+					}}</label>
+				<input
+					class='value'
+					name='system.age'
+					type='text'
+					value='{{system.age}}'
+				/>
+			</div>
+			<div>
+				<span class='details-label'>{{localize
+						'Madness.Character.Ethnicity'
+					}}</span>
+				<input
+					class='value'
+					name='ethnicity.name'
+					type='text'
+					value='{{ethnicity.name}}'
+					readonly
+				/>
 				{{#if @root}}
 					{{#if ethnicity}}
 						<span class='detail-item-control' data-item-id='{{ethnicity.id}}'><i
@@ -30,99 +56,378 @@
 					{{/if}}
 				{{/if}}
 			</div>
-		</div>
-		<div>
-			<label>{{localize 'Madness.Character.Job'}}</label>
-			<input name='system.job' type='text' value='{{system.job}}' />
-		</div>
-		<div>
-			<label>{{localize 'Madness.Character.Faction'}}</label>
-			<input name='system.faction' type='text' value='{{system.faction}}' />
-		</div>
-	</div>
-	<div>
-		<div class='container hp'>
-			<label>{{localize 'Madness.Label.HitPoints'}}</label>
-			<input
-				name='system.hp.value'
-				type='number'
-				value='{{system.hp.value}}'
-				placeholder='0'
-			/>
-			<span>{{system.hp.max}}</span>
-		</div>
-		<div class='container temp-hp'>
-			<label>{{localize 'Madness.Label.ShieldPoints'}}</label>
-			<input
-				name='system.hp.temp'
-				type='number'
-				value='{{system.hp.temp}}'
-				placeholder='0'
-			/>
-		</div>
-		<div class='container mp'>
-			<label>{{localize 'Madness.Label.ManaPoints'}}</label>
-			<input
-				name='system.mp.value'
-				type='number'
-				value='{{system.mp.value}}'
-				placeholder='0'
-			/>
-			<span>{{system.mp.max}}</span>
-		</div>
-		<div class='container ap'>
-			<label>{{localize 'Madness.Label.ArmorPoints'}}</label>
-			<span>0</span>
+			<div>
+				<label class='details-label'>{{localize
+						'Madness.Character.Job'
+					}}</label>
+				<input
+					class='value'
+					name='system.job'
+					type='text'
+					value='{{system.job}}'
+				/>
+			</div>
+			<div>
+				<label class='details-label'>{{localize
+						'Madness.Character.Faction'
+					}}</label>
+				<input
+					class='value'
+					name='system.faction'
+					type='text'
+					value='{{system.faction}}'
+				/>
+			</div>
 		</div>
 	</div>
-	<div class='attributes'>
-		<button data-action='edit-attributes'>
-			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
-		</button>
-		<ul>
-			{{#each system.attributes as |attribute id|}}
-				<li class='attribute' data-id='{{id}}'>
-					<a class='roll-icon' data-action='roll-check' data-attribute='{{id}}'>
-						<i class='fa-solid fa-fw fa-dice-d20'></i>
-					</a>
-					<div>{{id}}</div>
-					<div>{{attribute.total}}</div>
-				</li>
-			{{/each}}
-		</ul>
-		<ul>
-			{{#each system.secondaryAttributes as |attribute id|}}
-				<li class='attribute' data-id='{{id}}'>
-					{{#if attribute.rollable}}
-						<a
-							class='roll-icon'
-							data-action='roll-check'
-							data-secondary-attribute='{{id}}'
-						>
-							<i class='fa-solid fa-fw fa-dice-d20'></i>
-						</a>
-					{{/if}}
-					<div>{{id}}</div>
-					<div>{{attribute.total}}</div>
-				</li>
-			{{/each}}
-		</ul>
-		<button data-action='edit-magics'>
-			<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
-		</button>
-		<ul>
-			{{#each system.magics as |magic id|}}
-				<li class='attribute magic' data-id='{{id}}'>
-					<div>{{id}}</div>
-					<div>{{magic.total}}</div>
-				</li>
-			{{/each}}
-			{{#each system.secondaryMagics as |magic id|}}
-				<li class='attribute magic' data-id='{{id}}'>
-					<div>{{id}}</div>
-					<div>{{magic.total}}</div>
-				</li>
-			{{/each}}
-		</ul>
+	<div class='content'>
+		<div class='state'>
+			<div class='container hp'>
+				<label>{{localize 'Madness.Label.HitPoints'}}</label>
+				<div class='points-value'>
+					<input
+						name='system.hp.value'
+						type='number'
+						value='{{system.hp.value}}'
+						placeholder='0'
+					/><span>/</span><span>{{system.hp.max}}</span>
+				</div>
+			</div>
+			<div class='container temp-hp'>
+				<label>{{localize 'Madness.Label.ShieldPoints'}}</label>
+				<div class='points-value'>
+					<input
+						name='system.hp.temp'
+						type='number'
+						value='{{system.hp.temp}}'
+						placeholder='0'
+					/>
+				</div>
+			</div>
+			<div class='container mp'>
+				<label>{{localize 'Madness.Label.ManaPoints'}}</label>
+				<div class='points-value'>
+					<input
+						name='system.mp.value'
+						type='number'
+						value='{{system.mp.value}}'
+						placeholder='0'
+					/><span>/</span><span>{{system.mp.max}}</span>
+				</div>
+			</div>
+			<div class='container ap'>
+				<label>{{localize 'Madness.Label.ArmorPoints'}}</label>
+				<div class='points-value'>
+					<span>0</span>
+				</div>
+			</div>
+		</div>
+		<div class='stats'>
+			<button data-action='edit-attributes'>
+				<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+			</button>
+			<div class='stats-tables'>
+				<table class='attributes'>
+					<tr>
+						<td class='attribute-header' rowspan='3'>
+							<a
+								class='roll-icon'
+								data-action='roll-check'
+								data-attribute='{{system.attributes.agi.id}}'
+							>
+								<i class='fa-solid fa-fw fa-dice-d20'></i>
+							</a>
+						</td>
+						<td
+							class='attribute-header primary-attribute'
+							rowspan='3'
+						>{{system.attributes.agi.label}}</td>
+						<td
+							rowspan='3'
+							class='attribute-total primary-attribute'
+							data-id='{{system.attributes.agi.id}}'
+						>{{system.attributes.agi.total}}</td>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.initiative.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.initiative.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.initiative.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.initiative.id}}'
+						>{{system.secondaryAttributes.initiative.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.dodgeRate.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.dodgeRate.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.dodgeRate.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.dodgeRate.id}}'
+						>{{system.secondaryAttributes.dodgeRate.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.maxMoveDistance.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.maxMoveDistance.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.maxMoveDistance.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.maxMoveDistance.id}}'
+						>{{system.secondaryAttributes.maxMoveDistance.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							<a
+								class='roll-icon'
+								data-action='roll-check'
+								data-attribute='{{system.attributes.con.id}}'
+							>
+								<i class='fa-solid fa-fw fa-dice-d20'></i>
+							</a>
+						</td>
+						<td
+							class='attribute-header primary-attribute'
+						>{{system.attributes.con.label}}</td>
+						<td
+							class='attribute-total primary-attribute'
+							data-id='{{system.attributes.con.id}}'
+						>{{system.attributes.con.total}}</td>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.parryDamageReduction.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.parryDamageReduction.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.parryDamageReduction.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.parryDamageReduction.id}}'
+						>{{system.secondaryAttributes.parryDamageReduction.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							<a
+								class='roll-icon'
+								data-action='roll-check'
+								data-attribute='{{system.attributes.dex.id}}'
+							>
+								<i class='fa-solid fa-fw fa-dice-d20'></i>
+							</a>
+						</td>
+						<td
+							class='attribute-header primary-attribute'
+						>{{system.attributes.dex.label}}</td>
+						<td
+							class='attribute-total primary-attribute'
+							data-id='{{system.attributes.dex.id}}'
+						>{{system.attributes.dex.total}}</td>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.critRate.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.critRate.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.critRate.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.critRate.id}}'
+						>{{system.secondaryAttributes.critRate.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							<a
+								class='roll-icon'
+								data-action='roll-check'
+								data-attribute='{{system.attributes.int.id}}'
+							>
+								<i class='fa-solid fa-fw fa-dice-d20'></i>
+							</a>
+						</td>
+						<td
+							class='attribute-header primary-attribute'
+						>{{system.attributes.int.label}}</td>
+						<td
+							class='attribute-total primary-attribute'
+							data-id='{{system.attributes.int.id}}'
+						>{{system.attributes.int.total}}</td>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.manaRegen.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.manaRegen.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.manaRegen.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.manaRegen.id}}'
+						>{{system.secondaryAttributes.manaRegen.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header' rowspan='3'>
+							<a
+								class='roll-icon'
+								data-action='roll-check'
+								data-attribute='{{system.attributes.str.id}}'
+							>
+								<i class='fa-solid fa-fw fa-dice-d20'></i>
+							</a>
+						</td>
+						<td
+							class='attribute-header primary-attribute'
+							rowspan='3'
+						>{{system.attributes.str.label}}</td>
+						<td
+							rowspan='3'
+							class='attribute-total primary-attribute'
+							data-id='{{system.attributes.str.id}}'
+						>{{system.attributes.str.total}}</td>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.maxEquipmentWeight.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.maxEquipmentWeight.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.maxEquipmentWeight.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.maxEquipmentWeight.id}}'
+						>{{system.secondaryAttributes.maxEquipmentWeight.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.maxWeight.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.maxWeight.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.maxWeight.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.maxWeight.id}}'
+						>{{system.secondaryAttributes.maxWeight.total}}</td>
+					</tr>
+					<tr>
+						<td class='attribute-header'>
+							{{#if system.secondaryAttributes.inventoryMaxSlots.rollable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-secondary-attribute='{{system.secondaryAttributes.inventoryMaxSlots.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
+						</td>
+						<td
+							class='attribute-header'
+						>{{system.secondaryAttributes.inventoryMaxSlots.label}}</td>
+						<td
+							class='attribute-total'
+							data-id='{{system.secondaryAttributes.inventoryMaxSlots.id}}'
+						>{{system.secondaryAttributes.inventoryMaxSlots.total}}</td>
+					</tr>
+				</table>
+				<table class='magics'>
+					{{#each system.magics as |magic id|}}
+						<tr class='attribute magic' data-id='{{id}}'>
+							<td class='attribute-header'>{{magic.label}}</td>
+							<td class='attribute-total'>{{magic.total}}</td>
+						</tr>
+					{{/each}}
+					{{#each system.secondaryMagics as |magic id|}}
+						<tr class='attribute magic' data-id='{{id}}'>
+							<td class='attribute-header'>{{magic.label}}</td>
+							<td class='attribute-total'>{{magic.total}}</td>
+						</tr>
+					{{/each}}
+				</table>
+			</div>
+			<button data-action='edit-magics'>
+				<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
+			</button>
+			<table class='weapons'>
+				<tr>
+					<td class='weapon-header'>Arme 1</td>
+					<td class='weapon-header'>Munitions</td>
+					<td>5/10</td>
+				</tr>
+				<tr>
+					<td class='weapon-header'>Arme 2</td>
+					<td class='weapon-header'>Munitions</td>
+					<td>5/5</td>
+				</tr>
+				<tr>
+					<td class='weapon-header'>Arme 3</td>
+					<td class='weapon-header'>Munitions</td>
+					<td>2/2</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 </section>

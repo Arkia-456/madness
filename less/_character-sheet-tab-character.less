@@ -1,0 +1,235 @@
+.tab.character {
+	.header {
+		display: flex;
+		margin-bottom: 12px;
+
+		.picture {
+			flex: 0 0 21%;
+			padding: 8px;
+			background-color: @madness-background-color-secondary;
+
+			img {
+				border: none;
+				max-height: 100%;
+			}
+		}
+
+		.identity {
+			display: flex;
+			flex-wrap: wrap;
+			flex: 1 1 70%;
+			color: white;
+
+			div {
+				flex: 1 1 45%;
+				background-color: @madness-background-color-secondary;
+				padding: 4px 8px;
+
+				.details-label {
+					display: inline-block;
+					padding: 0px 3px;
+					font-size: 0.65em;
+					text-transform: uppercase;
+				}
+
+				.value {
+					background: #29323f;
+					text-transform: uppercase;
+
+					&[name='ethnicity.name'] {
+						width: calc(100% - 2px - 20px);
+					}
+				}
+
+				.detail-item-control {
+					cursor: pointer;
+				}
+			}
+		}
+	}
+
+	.content {
+		display: flex;
+
+		.state {
+			display: inline-flex;
+			flex-direction: column;
+			width: @aside-width;
+			color: white;
+			padding-right: 12px;
+
+			.container {
+				background-color: #333f50;
+				display: flex;
+				flex-direction: column;
+				margin-bottom: 12px;
+
+				> * {
+					text-align: center;
+					font-size: 1.2em;
+				}
+
+				label {
+					margin: 12px 0px;
+				}
+
+				.points-value {
+					width: 100%;
+					display: flex;
+					justify-content: center;
+					margin-bottom: 12px;
+
+					> * {
+						flex: 1 1;
+						max-width: 45px;
+						vertical-align: baseline;
+					}
+
+					span:nth-child(2) {
+						max-width: 12px;
+					}
+
+					input {
+						position: relative;
+						top: 1px;
+					}
+				}
+			}
+		}
+
+		.stats {
+			display: inline-block;
+			padding: 8px;
+			width: calc(100% - @aside-width);
+
+			button {
+				display: none;
+			}
+
+			table {
+				margin: 0px;
+
+				tr {
+					border: solid 1px white;
+
+					td {
+						padding: 8px;
+					}
+				}
+			}
+
+			.stats-tables {
+				display: flex;
+				flex-wrap: nowrap;
+				align-items: flex-start;
+
+				td {
+					&.attribute-header {
+						background-color: @madness-background-color-primary;
+						color: white;
+					}
+
+					&.attribute-total {
+						background-color: @madness-background-color-tertiary;
+						text-align: center;
+					}
+				}
+			}
+
+			.attributes {
+				flex: 3;
+
+				td {
+					&.attribute-header {
+						text-align: right;
+						font-size: 0.8em;
+
+						&.primary-attribute {
+							text-transform: uppercase;
+						}
+
+						.roll-icon i {
+							font-size: 1.3em;
+						}
+					}
+
+					&.attribute-total.primary-attribute {
+						font-size: 1.2em;
+					}
+				}
+			}
+
+			.magics {
+				flex: 1;
+				margin-left: 12px;
+
+				tr {
+					&[data-id='erah'] {
+						td.attribute-header {
+							background-color: #7030a0;
+						}
+					}
+					&[data-id='ome'] {
+						td.attribute-header {
+							background-color: #0070c0;
+						}
+					}
+					&[data-id='sith'] {
+						td.attribute-header {
+							background-color: #ff0000;
+						}
+					}
+					&[data-id='shor'] {
+						td.attribute-header {
+							background-color: #ffc000;
+						}
+					}
+					&[data-id='teruuk'] {
+						td.attribute-header {
+							background-color: #92d050;
+						}
+					}
+					&[data-id='doka'] {
+						td.attribute-header {
+							background-color: #00b0f0;
+						}
+					}
+					&[data-id='natah'] {
+						td.attribute-header {
+							background-color: #a6a6a6;
+						}
+					}
+				}
+			}
+
+			.weapons {
+				margin-top: 8px;
+				table-layout: auto;
+				width: fit-content;
+
+				td {
+					background-color: @madness-background-color-tertiary;
+
+					&.weapon-header {
+						background-color: @madness-background-color-primary;
+						text-align: center;
+						color: white;
+					}
+				}
+			}
+		}
+	}
+
+	input {
+		height: var(--form-field-height);
+		padding: 0px 3px;
+		border: none;
+		border-radius: 0px;
+		color: white;
+		height: 20px;
+	}
+
+	input:focus {
+		box-shadow: 0 0 5px @madness-highlight-color;
+	}
+}

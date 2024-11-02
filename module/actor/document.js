@@ -162,7 +162,11 @@ class ActorMadness extends Actor {
 				}
 			});
 			const stat = foundry.utils.mergeObject(
-				new Attribute(this, { label: key, modifiers: modifiers }),
+				new Attribute(this, {
+					type: 'Magics',
+					label: key,
+					modifiers: modifiers,
+				}),
 				value,
 				{ overwrite: false },
 			);
@@ -179,7 +183,11 @@ class ActorMadness extends Actor {
 		Object.entries(CONFIG.Madness.Formulas.Magics).forEach(([key, value]) => {
 			const modifiers = [];
 			const stat = foundry.utils.mergeObject(
-				new Attribute(this, { label: key, modifiers: modifiers }),
+				new Attribute(this, {
+					type: 'Magics',
+					label: key,
+					modifiers: modifiers,
+				}),
 				{ value: new Formula(value).evaluate(magicTotals)?.evaluated },
 				{ overwrite: false },
 			);

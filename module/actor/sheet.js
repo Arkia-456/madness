@@ -5,7 +5,7 @@ import { EditMagicsPopup } from './popups/edit-magics-popup.js';
 class ActorSheetMadness extends ActorSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
-		options.classes = ['madness', 'sheet'];
+		options.classes = ['madness', 'sheet', 'character'];
 		options.width = 750;
 		options.height = 750;
 		options.tabs = [
@@ -178,7 +178,7 @@ class ActorSheetMadness extends ActorSheet {
 	_generateAttributesTooltip(html, attributes) {
 		Object.entries(attributes).forEach(([key, value]) => {
 			const tooltip = this._generateAttributeTooltip(value).join('<br />');
-			this._addTooltip(html, `.attribute[data-id=${key}]`, tooltip);
+			this._addTooltip(html, `.attribute-total[data-id=${key}]`, tooltip);
 		});
 	}
 

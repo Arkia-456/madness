@@ -1,0 +1,36 @@
+nav.sheet-navigation {
+	display: inline-block;
+	width: calc(100% - @aside-width);
+	margin-left: @aside-width;
+
+	.row {
+		display: grid;
+		grid-template-columns: repeat(5, 50px);
+		gap: 32px;
+		justify-content: center;
+		padding-right: 8px;
+		justify-items: center;
+
+		&:nth-child(2) {
+			background-color: @madness-background-color-secondary;
+		}
+
+		.item-icon {
+			height: 50px;
+			width: 50px;
+
+			img {
+				border: none;
+			}
+		}
+
+		.item-label {
+			color: white;
+			font-size: 1.2em;
+
+			&.active {
+				color: @madness-highlight-color;
+			}
+		}
+	}
+}
