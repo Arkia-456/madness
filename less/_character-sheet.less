@@ -25,14 +25,10 @@
 	}
 }
 
-.sheet.character .window-content::before {
+.sheet.character .window-content:has(.tab.character.active)::before {
 	content: '';
 	position: absolute;
 	width: 100%;
-	height: 32px;
-	background-color: @madness-background-color-primary;
-}
-
-.sheet.character .window-content:has(.tab.character.active)::before {
 	height: 176px;
+	background-color: @madness-background-color-primary;
 }
