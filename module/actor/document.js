@@ -45,6 +45,10 @@ class ActorMadness extends Actor {
 		return this.system.hp;
 	}
 
+	get equipments() {
+		return this.items.filter((i) => i.type === 'equipment');
+	}
+
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,
@@ -194,6 +198,13 @@ class ActorMadness extends Actor {
 			stat.total = stat.totalModifier + stat.value;
 			system.secondaryMagics[key] = stat;
 		});
+
+		// Weight
+		const equipments = this.items.filter((i) => i.type === 'equipment');
+		system.currentEquipmentWeight = equipments.reduce(
+			(weight, e) => (weight += Number(e.system.weight)),
+			0,
+		);
 
 		console.log('Madness system | Actor | Derived data prepared ✅');
 	}
@@ -355,6 +366,18 @@ class ActorMadness extends Actor {
 		if (!hitPoints) return;
 		if (hitPoints.temp >= value) return;
 		this.update({ 'system.hp.temp': value });
+	}
+
+	checkWeight(item) {
+		const equipmentSlot = item.system.slot;
+		const newWeight = this.equipments.reduce((weight, e) => {
+			return e.system.slot !== equipmentSlot
+				? (weight += Number(e.system.weight))
+				: weight;
+		}, Number(item.system.weight));
+		return (
+			newWeight <= this.system.secondaryAttributes.maxEquipmentWeight.total
+		);
 	}
 }
 

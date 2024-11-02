@@ -56,6 +56,15 @@ class ActorSheetMadness extends ActorSheet {
 			(itemSource.type === 'spell' && tab === 'actions') ||
 			(itemSource.type === 'equipment' && tab === 'inventory');
 		if (allowDrop) {
+			if (itemSource.type === 'equipment') {
+				const weightOk = this.actor.checkWeight(itemSource);
+				if (!weightOk) {
+					const equipmentOverweightWarning = game.i18n.localize(
+						'Madness.Message.Warning.EquipmentOverweight',
+					);
+					ui.notifications.warn(equipmentOverweightWarning);
+				}
+			}
 			return this._onDropItemCreate(
 				new Item.implementation(itemSource).clone().toObject(),
 			);

@@ -100,6 +100,7 @@
 				"NoTokenSelected": "Aucun token sélectionné pour cette action"
 			},
 			"Warning": {
+				"EquipmentOverweight": "Vous êtes en surcharge d'équipement",
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\""
 			}
 		},
