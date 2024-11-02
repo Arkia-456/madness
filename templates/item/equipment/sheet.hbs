@@ -1,0 +1,50 @@
+<form class='{{cssClass}}' autocomplete='off'>
+	<header class='sheet-header'>
+		<img src='{{item._source.img}}' data-edit='img' />
+		<input
+			name='name'
+			type='text'
+			value='{{item._source.name}}'
+			placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+			spellcheck='false'
+		/>
+	</header>
+	<section class='sheet-content'>
+		<div class='description'>
+			{{editor
+				enrichedContent.description
+				target='system.description'
+				button=true
+				editable=editable
+				engine='prosemirror'
+			}}
+		</div>
+		<div class='details'>
+			<div>
+				<label>{{localize 'Madness.Equipment.Slot'}}</label>
+				<select name='system.slot'>
+					<option value=''></option>
+					{{selectOptions config.slots selected=system.slot localize=true}}
+				</select>
+			</div>
+			<div>
+				<label>{{localize 'Madness.Label.Armor'}}</label>
+				<input
+					type='number'
+					name='system.armor'
+					value='{{system.armor}}'
+					data-dtype='number'
+				/>
+			</div>
+			<div>
+				<label>{{localize 'Madness.Label.Weight'}}</label>
+				<input
+					type='number'
+					name='system.weight'
+					value='{{system.weight}}'
+					data-dtype='number'
+				/>
+			</div>
+		</div>
+	</section>
+</form>

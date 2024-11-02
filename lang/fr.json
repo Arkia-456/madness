@@ -40,8 +40,17 @@
 			"Edit": "Modifier",
 			"Parry": "Parer"
 		},
+		"Equipment": {
+			"Slot": "Emplacement",
+			"Slots": {
+				"Head": "Tête",
+				"Body": "Corps",
+				"Legs": "Jambes"
+			}
+		},
 		"Ethnicity": "Ethnie",
 		"Label": {
+			"Armor": "Armure",
 			"Character": "Personnage",
 			"Critical": "Critique",
 			"CriticalFailureScore": "Score d'échec critique",
@@ -56,7 +65,8 @@
 			"ManaPoints": "Points de mana",
 			"Name": "Nom",
 			"Power": "Puissance",
-			"ShieldPoints": "Points de bouclier"
+			"ShieldPoints": "Points de bouclier",
+			"Weight": "Poids"
 		},
 		"Magics": {
 			"Doka": "Dokah",

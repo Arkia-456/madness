@@ -46,13 +46,23 @@
 		}
 	},
 	"Item": {
-		"types": ["effect", "ethnicity", "spell"],
+		"types": [
+			"effect",
+			"equipment",
+			"ethnicity",
+			"spell"
+		],
 		"templates": {
 			"common": {
 				"description": ""
 			}
 		},
 		"htmlFields": ["description"],
+		"equipment": {
+			"templates": [
+				"common"
+			]
+		},
 		"ethnicity": {
 			"templates": ["common"],
 			"attributes": {

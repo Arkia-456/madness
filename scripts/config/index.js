@@ -1,5 +1,6 @@
 import {
 	EffectMadness,
+	EquipmentMadness,
 	EthnicityMadness,
 	SpellMadness,
 } from '../../module/item/index.js';
@@ -27,6 +28,13 @@ export const MadnessConfig = {
 		CriticalFailureRate: 5,
 		RollFormula: '1d100',
 	},
+	Equipment: {
+		Slots: {
+			head: 'Madness.Equipment.Slots.Head',
+			body: 'Madness.Equipment.Slots.Body',
+			legs: 'Madness.Equipment.Slots.Legs',
+		},
+	},
 	Effect: {
 		Bouclier: {
 			Effects: [
@@ -51,6 +59,7 @@ export const MadnessConfig = {
 	},
 	Item: {
 		documentClasses: {
+			equipment: EquipmentMadness,
 			ethnicity: EthnicityMadness,
 			effect: EffectMadness,
 			spell: SpellMadness,
