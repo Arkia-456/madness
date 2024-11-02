@@ -199,6 +199,12 @@ class ActorMadness extends Actor {
 			system.secondaryMagics[key] = stat;
 		});
 
+		// Armor
+		system.armor = this.equipments.reduce(
+			(armor, e) => (armor += Number(e.system.armor)),
+			0,
+		);
+
 		// Weight
 		const equipments = this.items.filter((i) => i.type === 'equipment');
 		system.currentEquipmentWeight = equipments.reduce(
@@ -316,15 +322,16 @@ class ActorMadness extends Actor {
 	}
 
 	applyDamage(damage = 0, context) {
-		console.log(context);
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
-		const outcome = context?.parry
+		const outcomeAfterParry = context?.parry
 			? this._applyParryDamageReduction(damage)
 			: damage;
+		const outcomeAfterArmor =
+			this._applyArmorDamageReduction(outcomeAfterParry);
 		const damageResult = this._calculateHealthDelta(
 			hitPoints,
-			outcome,
+			outcomeAfterArmor,
 			context,
 		);
 		if (damageResult.totalApplied !== 0) {
@@ -358,6 +365,10 @@ class ActorMadness extends Actor {
 	_applyParryDamageReduction(damage) {
 		const parryDamageReduction = this.parryDamageReduction.total ?? 0;
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
+	}
+
+	_applyArmorDamageReduction(damage) {
+		return Math.max(1, damage - this.system.armor);
 	}
 
 	addTempHP(value) {
