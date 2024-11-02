@@ -44,7 +44,7 @@ class Formula {
 			const attrString = withDecoration ? '@{' + attr + '}' : ' ' + attr;
 			return (f +=
 				attr === 'flat'
-					? value + modifier
+					? Number(value) + Number(modifier)
 					: `${value}${calculable ? '*' : 'd'}${attrString}`);
 		}, '');
 	}
