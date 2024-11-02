@@ -1,0 +1,47 @@
+<section class='tab inventory' data-tab='inventory'>
+	<div class='section-header'>{{localize 'Madness.Label.Equipment'}}</div>
+	<table>
+		<tr class='head'>
+			<td>{{localize 'Madness.Equipment.Slots.Head'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+		<tr>
+			<td>{{equipments.head.name}}</td>
+			<td class='value'>{{equipments.head.system.armor}}</td>
+			<td class='value'>{{equipments.head.system.weight}}</td>
+		</tr>
+	</table>
+	<table>
+		<tr class='head'>
+			<td>{{localize 'Madness.Equipment.Slots.Body'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+		<tr>
+			<td>{{equipments.body.name}}</td>
+			<td class='value'>{{equipments.body.system.armor}}</td>
+			<td class='value'>{{equipments.body.system.weight}}</td>
+		</tr>
+	</table>
+	<table>
+		<tr class='head'>
+			<td>{{localize 'Madness.Equipment.Slots.Legs'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+		<tr>
+			<td>{{equipments.legs.name}}</td>
+			<td class='value'>{{equipments.legs.system.armor}}</td>
+			<td class='value'>{{equipments.legs.system.weight}}</td>
+		</tr>
+	</table>
+	<table class='equipment-weight-summary'>
+		<tr>
+			<td class='head'>{{localize 'Madness.Equipment.EquipmentWeight'}}</td>
+			<td class='value'>0</td>
+			<td class='value'>/
+				{{system.secondaryAttributes.maxEquipmentWeight.total}}</td>
+		</tr>
+	</table>
+</section>

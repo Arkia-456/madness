@@ -33,6 +33,11 @@ class ActorSheetMadness extends ActorSheet {
 			spell.maxDamage = spell.getMaxDamage(actor.system.attributes);
 		});
 		sheetData.spells = spells;
+		const equipments = {};
+		actor.items.forEach((i) => {
+			equipments[i.system.slot] = i;
+		});
+		sheetData.equipments = equipments;
 		return sheetData;
 	}
 
@@ -48,7 +53,8 @@ class ActorSheetMadness extends ActorSheet {
 		const tab = event.target.closest('.tab')?.dataset?.tab;
 		const allowDrop =
 			(itemSource.type === 'ethnicity' && tab === 'character') ||
-			(itemSource.type === 'spell' && tab === 'actions');
+			(itemSource.type === 'spell' && tab === 'actions') ||
+			(itemSource.type === 'equipment' && tab === 'inventory');
 		if (allowDrop) {
 			return this._onDropItemCreate(
 				new Item.implementation(itemSource).clone().toObject(),

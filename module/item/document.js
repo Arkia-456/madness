@@ -37,6 +37,9 @@ class ItemMadness extends Item {
 	static async preCreateDelete(sources, actor) {
 		const idsToDelete = [];
 		idsToDelete.push(...ItemMadness.getSingularTypesToDelete(sources, actor));
+		idsToDelete.push(
+			...ItemMadness.getSingularItemPerTypeToDelete(sources, actor),
+		);
 		if (idsToDelete.length) {
 			await actor.deleteEmbeddedDocuments('Item', idsToDelete, {
 				render: false,
@@ -55,6 +58,19 @@ class ItemMadness extends Item {
 		return itemsToDelete.map((item) => item.id);
 	}
 
+	static getSingularItemPerTypeToDelete(sources, actor) {
+		const types = ['equipment'];
+		const typesToManage = types.filter((type) =>
+			sources.some((s) => s.type === type),
+		);
+		const items = typesToManage.flatMap((type) => actor.itemTypes[type]);
+		const sourcesSlots = sources.map((s) => s.system.slot);
+		const itemsToDelete = items.filter((i) =>
+			sourcesSlots.includes(i.system.slot),
+		);
+		return itemsToDelete.map((i) => i.id);
+	}
+
 	async toMessage(options) {
 		const template = `systems/madness/templates/chat/${this.type}-card.hbs`;
 		const actor = this.actor;
@@ -63,6 +79,7 @@ class ItemMadness extends Item {
 			actor,
 			item: this,
 			roll: options.roll,
+			// In card add magics icons
 		};
 
 		const outcome = options.roll.outcome;

@@ -1,0 +1,38 @@
+.tab.inventory {
+	table {
+		width: calc(100% - @aside-width - 24px);
+		margin-left: calc(@aside-width + 12px);
+		margin-right: 12px;
+
+		tr {
+			background-color: @madness-background-color-tertiary;
+
+			&.head {
+				background-color: @madness-background-color-secondary;
+				color: white;
+			}
+
+			td {
+				border: solid 1px white;
+				padding: 6px;
+
+				&.value {
+					width: 56px;
+					text-align: center;
+				}
+			}
+		}
+
+		&.equipment-weight-summary {
+			width: auto;
+			margin-left: auto;
+
+			.head {
+				background-color: @madness-background-color-primary;
+				color: white;
+				text-align: right;
+				font-size: 0.9em;
+			}
+		}
+	}
+}
