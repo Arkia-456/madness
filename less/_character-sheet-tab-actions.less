@@ -1,7 +1,7 @@
 .tab.actions {
 	.row {
 		display: grid;
-		grid-template-columns: 1fr 104px 52px 96px 64px 104px;
+		grid-template-columns: 1fr 104px 52px 96px 64px 104px 28px;
 		gap: 4px;
 		margin-bottom: 4px;
 
@@ -22,20 +22,26 @@
 			&.item-name {
 				background-color: @madness-background-color-secondary;
 			}
+
+			&.delete {
+				width: 28px;
+				background-color: white;
+				color: black;
+			}
 		}
 
 		img {
 			width: calc((96px / 2) - (2 * 4px));
 			border: none;
 		}
-	}
 
-	button.action {
-		background-color: @madness-highlight-color;
-		color: black;
-		border: none;
-		border-radius: 0px;
-		font-size: 1.2em;
-		margin: 2px;
+		button.action {
+			background-color: @madness-highlight-color;
+			color: black;
+			border: none;
+			border-radius: 0px;
+			font-size: 1.2em;
+			margin: 2px;
+		}
 	}
 }
