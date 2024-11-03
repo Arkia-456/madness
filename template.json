@@ -52,7 +52,8 @@
 			"effect",
 			"equipment",
 			"ethnicity",
-			"spell"
+			"spell",
+			"weapon"
 		],
 		"templates": {
 			"common": {
@@ -110,6 +111,11 @@
 				"common"
 			],
 			"requirements": {}
+		},
+		"weapon": {
+			"templates": [
+				"common"
+			]
 		}
 	}
 }

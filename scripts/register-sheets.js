@@ -4,6 +4,7 @@ import {
 	EquipmentSheetMadness,
 	EthnicitySheetMadness,
 	SpellSheetMadness,
+	WeaponSheetMadness,
 } from '../module/item/index.js';
 
 export function registerSheets() {
@@ -28,6 +29,10 @@ export function registerSheets() {
 	});
 	Items.registerSheet('madness', SpellSheetMadness, {
 		types: ['spell'],
+		makeDefault: true,
+	});
+	Items.registerSheet('madness', WeaponSheetMadness, {
+		types: ['weapon'],
 		makeDefault: true,
 	});
 }

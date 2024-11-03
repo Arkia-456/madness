@@ -3,6 +3,7 @@ import {
 	EquipmentMadness,
 	EthnicityMadness,
 	SpellMadness,
+	WeaponMadness,
 } from '../../module/item/index.js';
 
 export const MadnessConfig = {
@@ -63,6 +64,7 @@ export const MadnessConfig = {
 			ethnicity: EthnicityMadness,
 			effect: EffectMadness,
 			spell: SpellMadness,
+			weapon: WeaponMadness,
 		},
 	},
 	Formulas: {
