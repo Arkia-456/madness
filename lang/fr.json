@@ -68,6 +68,8 @@
 			"Name": "Nom",
 			"Power": "Puissance",
 			"ShieldPoints": "Points de bouclier",
+			"Weapon": "Arme",
+			"Weapons": "Armes",
 			"Weight": "Poids"
 		},
 		"Magics": {
@@ -101,7 +103,8 @@
 			},
 			"Warning": {
 				"EquipmentOverweight": "Vous êtes en surcharge d'équipement",
-				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\""
+				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\"",
+				"NoAvailableWeaponSlot": "Aucun emplacement d'arme disponible"
 			}
 		},
 		"Tab": {

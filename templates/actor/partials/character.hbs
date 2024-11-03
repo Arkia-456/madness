@@ -412,21 +412,13 @@
 				<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
 			</button>
 			<table class='weapons'>
-				<tr>
-					<td class='weapon-header'>Arme 1</td>
-					<td class='weapon-header'>Munitions</td>
-					<td>5/10</td>
-				</tr>
-				<tr>
-					<td class='weapon-header'>Arme 2</td>
-					<td class='weapon-header'>Munitions</td>
-					<td>5/5</td>
-				</tr>
-				<tr>
-					<td class='weapon-header'>Arme 3</td>
-					<td class='weapon-header'>Munitions</td>
-					<td>2/2</td>
-				</tr>
+				{{#each weapons as |weapon id|}}
+					<tr>
+						<td class='weapon-header'>{{name}}</td>
+						<td class='weapon-header'>Munitions</td>
+						<td>5/10</td>
+					</tr>
+				{{/each}}
 			</table>
 		</div>
 	</div>

@@ -38,6 +38,8 @@ class ActorSheetMadness extends ActorSheet {
 			equipments[i.system.slot] = i;
 		});
 		sheetData.equipments = equipments;
+		const weapons = actor.items.filter((i) => i.type === 'weapon');
+		sheetData.weapons = weapons;
 		return sheetData;
 	}
 
@@ -51,18 +53,38 @@ class ActorSheetMadness extends ActorSheet {
 	async _handleDroppedItem(event, item) {
 		const itemSource = item.toObject();
 		const tab = event.target.closest('.tab')?.dataset?.tab;
-		const allowDrop =
-			(itemSource.type === 'ethnicity' && tab === 'character') ||
-			(itemSource.type === 'spell' && tab === 'actions') ||
-			(itemSource.type === 'equipment' && tab === 'inventory');
+		let allowDrop = false;
+		switch (itemSource.type) {
+			case 'ethnicity':
+				allowDrop = tab === 'character';
+				break;
+			case 'spell':
+				allowDrop = tab === 'actions';
+				break;
+			case 'equipment':
+			case 'weapon':
+				allowDrop = tab === 'inventory';
+				break;
+			default:
+				break;
+		}
 		if (allowDrop) {
-			if (itemSource.type === 'equipment') {
+			if (itemSource.type === 'equipment' || itemSource.type === 'weapon') {
 				const weightOk = this.actor.checkWeight(itemSource);
 				if (!weightOk) {
 					const equipmentOverweightWarning = game.i18n.localize(
 						'Madness.Message.Warning.EquipmentOverweight',
 					);
 					ui.notifications.warn(equipmentOverweightWarning);
+				}
+			}
+			if (itemSource.type === 'weapon') {
+				const weaponSlotsOk = this.actor.checkWeaponSlots();
+				if (!weaponSlotsOk) {
+					const noAvailableSlotWarning = game.i18n.localize(
+						'Madness.Message.Warning.NoAvailableWeaponSlot',
+					);
+					ui.notifications.warn(noAvailableSlotWarning);
 				}
 			}
 			return this._onDropItemCreate(

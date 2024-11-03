@@ -4,13 +4,13 @@
 		margin-left: calc(@aside-width + 12px);
 		margin-right: 12px;
 
+		.head {
+			background-color: @madness-background-color-secondary;
+			color: white;
+		}
+
 		tr {
 			background-color: @madness-background-color-tertiary;
-
-			&.head {
-				background-color: @madness-background-color-secondary;
-				color: white;
-			}
 
 			td {
 				border: solid 1px white;
@@ -20,6 +20,16 @@
 					width: 56px;
 					text-align: center;
 				}
+			}
+		}
+
+		&.weapons {
+			tr.placeholder {
+				height: 30px;
+			}
+
+			td.head {
+				width: 80px;
 			}
 		}
 

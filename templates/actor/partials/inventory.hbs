@@ -36,6 +36,29 @@
 			<td class='value'>{{equipments.legs.system.weight}}</td>
 		</tr>
 	</table>
+	<table class='weapons'>
+		<tr class='head'>
+			<td colspan='2'>{{localize 'Madness.Label.Weapons'}}</td>
+			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+		{{#each weapons as |weapon id|}}
+			<tr>
+				<td class='head'>{{localize 'Madness.Label.Weapon'}}
+					{{add @index 1}}</td>
+				<td>{{name}}</td>
+				<td>{{system.weight}}</td>
+			</tr>
+		{{/each}}
+		{{#times
+			(minus system.secondaryAttributes.inventoryMaxSlots.total weapons.length)
+		}}
+			<tr class='placeholder'>
+				<td class='head'></td>
+				<td></td>
+				<td></td>
+			</tr>
+		{{/times}}
+	</table>
 	<table class='equipment-weight-summary'>
 		<tr>
 			<td class='head'>{{localize 'Madness.Equipment.EquipmentWeight'}}</td>

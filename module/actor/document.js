@@ -49,6 +49,10 @@ class ActorMadness extends Actor {
 		return this.items.filter((i) => i.type === 'equipment');
 	}
 
+	get weapons() {
+		return this.items.filter((i) => i.type === 'weapon');
+	}
+
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,
@@ -212,7 +216,9 @@ class ActorMadness extends Actor {
 		);
 
 		// Weight
-		const equipments = this.items.filter((i) => i.type === 'equipment');
+		const equipments = this.items.filter(
+			(i) => i.type === 'equipment' || i.type === 'weapon',
+		);
 		system.currentEquipmentWeight = equipments.reduce(
 			(weight, e) => (weight += Number(e.system.weight)),
 			0,
@@ -396,14 +402,24 @@ class ActorMadness extends Actor {
 	}
 
 	checkWeight(item) {
-		const equipmentSlot = item.system.slot;
-		const newWeight = this.equipments.reduce((weight, e) => {
-			return e.system.slot !== equipmentSlot
-				? (weight += Number(e.system.weight))
-				: weight;
-		}, Number(item.system.weight));
+		let newWeight = this.weapons.reduce(
+			(weight, w) => (weight += Number(w.system.weight)),
+			Number(item.system.weight),
+		);
+		newWeight += this.equipments.reduce((weight, e) => {
+			return item.type === 'equipment' && e.system.slot === item.system.slot
+				? weight
+				: (weight += Number(e.system.weight));
+		}, 0);
 		return (
 			newWeight <= this.system.secondaryAttributes.maxEquipmentWeight.total
+		);
+	}
+
+	checkWeaponSlots() {
+		return (
+			this.system.secondaryAttributes.inventoryMaxSlots.total >
+			this.weapons.length
 		);
 	}
 }
