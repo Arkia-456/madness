@@ -33,4 +33,36 @@
 			</div>
 		{{/each}}
 	</section>
+	<section class='weapons'>
+		<div class='section-header'>{{localize 'Madness.Label.Weapons'}}</div>
+		<div class='row'>
+			<div class='item-name'>{{localize 'Madness.Label.Name'}}</div>
+			<div></div>
+			<div>{{localize 'Madness.Item.Weapon.Ammo'}}</div>
+			<div>{{localize 'Madness.Label.Damage'}} <br /> min-max</div>
+			<div>{{localize 'Madness.Item.Range'}}</div>
+		</div>
+		{{#each weapons}}
+			<div class='item weapon' data-id='{{id}}'>
+				<div class='row'>
+					<div class='item-name'>{{name}}</div>
+					<div>
+						<button class='action'>
+							{{localize 'Madness.Controls.Reload'}}
+						</button>
+					</div>
+					<div>{{system.ammo.max}}</div>
+					<div>
+						{{minDamage}}
+						-
+						{{maxDamage}}
+					</div>
+					<div>{{system.range.value}}</div>
+					<button class='action'>
+						{{localize 'Madness.Controls.Attack'}}
+					</button>
+				</div>
+			</div>
+		{{/each}}
+	</section>
 </section>

@@ -1,4 +1,5 @@
 import { ChatMessageMadness } from '../chat-message/index.js';
+import { Formula } from '../../utils/index.js';
 
 class ItemMadness extends Item {
 	createItem(data, operation = {}) {
@@ -45,6 +46,27 @@ class ItemMadness extends Item {
 				render: false,
 			});
 		}
+	}
+
+	getMinDamage(attributes) {
+		return this.getMinMaxDamage('min', attributes);
+	}
+
+	getMaxDamage(attributes) {
+		return this.getMinMaxDamage('max', attributes);
+	}
+
+	getMinMaxDamage(minMax, attributes) {
+		const damageFormula =
+			Formula.generateCalculableFormulaFromDice(
+				this.system.damage,
+				this.damageMod,
+			) || '0';
+		const values = {};
+		Object.entries(attributes).forEach(
+			([attr, value]) => (values[attr] = minMax === 'max' ? value.total : 1),
+		);
+		return new Formula(damageFormula).evaluate(values).evaluated;
 	}
 
 	static getSingularTypesToDelete(sources, actor) {

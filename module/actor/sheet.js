@@ -39,6 +39,10 @@ class ActorSheetMadness extends ActorSheet {
 		});
 		sheetData.equipments = equipments;
 		const weapons = actor.items.filter((i) => i.type === 'weapon');
+		weapons.forEach((weapon) => {
+			weapon.minDamage = weapon.getMinDamage(actor.system.attributes);
+			weapon.maxDamage = weapon.getMaxDamage(actor.system.attributes);
+		});
 		sheetData.weapons = weapons;
 		return sheetData;
 	}

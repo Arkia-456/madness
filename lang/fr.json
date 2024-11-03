@@ -38,7 +38,8 @@
 			"Delete": "Supprimer",
 			"Dodge": "Esquiver",
 			"Edit": "Modifier",
-			"Parry": "Parer"
+			"Parry": "Parer",
+			"Reload": "Recharger"
 		},
 		"Equipment": {
 			"EquipmentWeight": "Charge d'équipement",
