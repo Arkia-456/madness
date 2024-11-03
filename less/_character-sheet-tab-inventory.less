@@ -1,8 +1,7 @@
 .tab.inventory {
 	table {
-		width: calc(100% - @aside-width - 24px);
+		width: calc(100% - @aside-width - 12px);
 		margin-left: calc(@aside-width + 12px);
-		margin-right: 12px;
 
 		.head {
 			background-color: @madness-background-color-secondary;
@@ -11,6 +10,7 @@
 
 		tr {
 			background-color: @madness-background-color-tertiary;
+			height: 30px;
 
 			td {
 				border: solid 1px white;
@@ -19,6 +19,11 @@
 				&.value {
 					width: 56px;
 					text-align: center;
+				}
+
+				&.actions {
+					width: 28px;
+					background-color: white;
 				}
 			}
 		}

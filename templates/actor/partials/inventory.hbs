@@ -5,11 +5,19 @@
 			<td>{{localize 'Madness.Equipment.Slots.Head'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+			<td class='actions'></td>
 		</tr>
-		<tr>
+		<tr data-id='{{equipments.head.id}}'>
 			<td>{{equipments.head.name}}</td>
 			<td class='value'>{{equipments.head.system.armor}}</td>
 			<td class='value'>{{equipments.head.system.weight}}</td>
+			<td class='actions'>
+				{{#if equipments.head}}
+					<a data-action='delete'>
+						<i class='fa fa-trash'></i>
+					</a>
+				{{/if}}
+			</td>
 		</tr>
 	</table>
 	<table>
@@ -17,11 +25,19 @@
 			<td>{{localize 'Madness.Equipment.Slots.Body'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+			<td class='actions'></td>
 		</tr>
-		<tr>
+		<tr data-id='{{equipments.body.id}}'>
 			<td>{{equipments.body.name}}</td>
 			<td class='value'>{{equipments.body.system.armor}}</td>
 			<td class='value'>{{equipments.body.system.weight}}</td>
+			<td class='actions'>
+				{{#if equipments.body}}
+					<a data-action='delete'>
+						<i class='fa fa-trash'></i>
+					</a>
+				{{/if}}
+			</td>
 		</tr>
 	</table>
 	<table>
@@ -29,24 +45,38 @@
 			<td>{{localize 'Madness.Equipment.Slots.Legs'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Armor'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+			<td class='actions'></td>
 		</tr>
-		<tr>
+		<tr data-id='{{equipments.legs.id}}'>
 			<td>{{equipments.legs.name}}</td>
 			<td class='value'>{{equipments.legs.system.armor}}</td>
 			<td class='value'>{{equipments.legs.system.weight}}</td>
+			<td class='actions'>
+				{{#if equipments.legs}}
+					<a data-action='delete'>
+						<i class='fa fa-trash'></i>
+					</a>
+				{{/if}}
+			</td>
 		</tr>
 	</table>
 	<table class='weapons'>
 		<tr class='head'>
 			<td colspan='2'>{{localize 'Madness.Label.Weapons'}}</td>
 			<td class='value'>{{localize 'Madness.Label.Weight'}}</td>
+			<td class='actions'></td>
 		</tr>
-		{{#each weapons as |weapon id|}}
-			<tr>
+		{{#each weapons}}
+			<tr data-id='{{id}}'>
 				<td class='head'>{{localize 'Madness.Label.Weapon'}}
 					{{add @index 1}}</td>
 				<td>{{name}}</td>
 				<td>{{system.weight}}</td>
+				<td class='actions'>
+					<a data-action='delete'>
+						<i class='fa fa-trash'></i>
+					</a>
+				</td>
 			</tr>
 		{{/each}}
 		{{#times
@@ -56,6 +86,7 @@
 				<td class='head'></td>
 				<td></td>
 				<td></td>
+				<td class='actions'></td>
 			</tr>
 		{{/times}}
 	</table>
@@ -65,6 +96,7 @@
 			<td class='value'>{{system.currentEquipmentWeight}}</td>
 			<td class='value'>/
 				{{system.secondaryAttributes.maxEquipmentWeight.total}}</td>
+			<td class='actions'></td>
 		</tr>
 	</table>
 </section>

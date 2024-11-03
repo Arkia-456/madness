@@ -159,6 +159,12 @@ class ActorSheetMadness extends ActorSheet {
 			return new EditMagicsPopup(this.actor).render(true);
 		};
 
+		handlers['delete'] = (event, anchor) => {
+			const id = anchor.closest('[data-id]')?.dataset.id;
+			const item = this.actor.items.get(id);
+			item.delete();
+		};
+
 		handlers['open-compendium'] = (_, actionTarget) => {
 			return game.packs
 				.get(actionTarget.dataset.compendium ?? '')
