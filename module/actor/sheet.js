@@ -175,6 +175,14 @@ class ActorSheetMadness extends ActorSheet {
 				?.render(true);
 		};
 
+		handlers['reload-weapon'] = (event, anchor) => {
+			const weaponId = anchor.closest('.weapon[data-id]')?.dataset.id;
+			if (weaponId) {
+				const weapon = this.actor.items.get(weaponId);
+				return weapon.reload();
+			}
+		};
+
 		handlers['roll-check'] = (event, anchor) => {
 			let attrId = anchor.closest('[data-attribute]')?.dataset.attribute;
 			if (attrId) {

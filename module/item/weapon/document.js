@@ -9,6 +9,10 @@ class WeaponMadness extends ItemMadness {
 		}
 	}
 
+	reload() {
+		this.update({ 'system.ammo.value': this.system.ammo.max });
+	}
+
 	async roll() {
 		const context = {
 			actor: this.actor,
