@@ -4,8 +4,8 @@ class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes.push('madness', 'item');
-		options.width = 695;
-		options.height = 460;
+		options.width = 464;
+		options.height = 520;
 		options.template = 'systems/madness/templates/item/sheet.hbs';
 		options.dragDrop = [{ dropSelector: '.item-list' }];
 		return options;
@@ -62,6 +62,8 @@ class ItemSheetMadness extends ItemSheet {
 	activateListeners($html) {
 		super.activateListeners($html);
 
+		const html = $html[0];
+
 		const item = this.item;
 		const system = this.item.system;
 
@@ -96,6 +98,51 @@ class ItemSheetMadness extends ItemSheet {
 				},
 			});
 		}
+
+		this.activateClickListeners(html);
+	}
+
+	activateClickListeners(html) {
+		const handlers = {};
+
+		handlers['delete'] = async (event, anchor) => {
+			const itemId = anchor.closest('[data-item-id]')?.dataset.itemId;
+			const i = this.item.system.items[itemId];
+			if (i) {
+				delete this.item.system.items[itemId];
+				const items = foundry.utils.deepClone(this.item.system.items);
+				if (Object.keys(this.item.system.items).length) {
+					await this.item.update({ system: { items: null } });
+					await this.item.update({ 'system.items': items });
+				} else {
+					this.item.update({ system: { items: null } });
+				}
+			}
+		};
+
+		const sheetHandler = async (event) => {
+			const element = event.target;
+			const actionTarget = element.closest(
+				'a[data-action], button[data-action]',
+			);
+			const handler = handlers[actionTarget?.dataset.action ?? ''];
+			if (handler && actionTarget) {
+				event.stopImmediatePropagation();
+				// Temporarily remove the listener to ignore unintentional double clicks
+				html.removeEventListener('click', sheetHandler);
+				try {
+					await handler(event, actionTarget);
+				} catch (error) {
+					console.error(error);
+				} finally {
+					html.addEventListener('click', sheetHandler);
+				}
+			}
+		};
+
+		html.addEventListener('click', sheetHandler);
+
+		return handlers;
 	}
 }
 

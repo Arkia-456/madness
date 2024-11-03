@@ -1,26 +1,26 @@
-<li class='detail-item-control'>
-	<div>
-		<div>{{localize 'Madness.Label.Name'}}</div>
-		<div>{{name}}</div>
-	</div>
-	<div>
-		<div>{{localize 'Madness.Label.Description'}}</div>
+<div class='effect-line'>
+	<div class='header'>{{name}}</div>
+	<div class='line'>
 		<div>{{{system.description}}}</div>
+		<div>
+			{{#with (lookup @root.system.items _id)}}
+				{{#if system.hasStrength}}
+					<input
+						type='number'
+						name='system.items.{{_id}}.system.strength'
+						value='{{system.strength}}'
+						data-dtype='number'
+					/>
+				{{/if}}
+			{{/with}}
+		</div>
+		<div class='detail-item-control' data-item-id='{{_id}}'>
+			{{#if @root.editable}}
+				<a data-action='delete'>
+					<i class='fa fa-trash'></i>
+				</a>
+			{{/if}}
+		</div>
 	</div>
-	{{#with (lookup @root.system.items _id)}}
-		{{#if system.hasStrength}}
-			<div>
-				<div>{{localize 'Madness.Item.Effect.Strength'}}</div>
-				<input
-					type='number'
-					name='system.items.{{_id}}.system.strength'
-					value='{{system.strength}}'
-					data-dtype='number'
-				/>
-			</div>
-		{{/if}}
-	{{/with}}
-	<span class='detail-item-control' data-item-id='{{_id}}'><i
-			class='fa-solid fa-fw fa-ellipsis-v'
-		></i></span>
-</li>
+
+</div>

@@ -1,16 +1,20 @@
 <form class='{{cssClass}}' autocomplete='off'>
 	<header class='sheet-header'>
-		<img src='{{item._source.img}}' data-edit='img' />
-		<input
-			name='name'
-			type='text'
-			value='{{item._source.name}}'
-			placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
-			spellcheck='false'
-		/>
+		{{#if editable}}
+			<input
+				name='name'
+				type='text'
+				value='{{item._source.name}}'
+				placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+				spellcheck='false'
+			/>
+		{{else}}
+			<span>{{item._source.name}}</span>
+		{{/if}}
 	</header>
 	<section class='sheet-content'>
 		<div class='description'>
+			<p>{{localize 'Madness.Label.Description'}}</p>
 			{{editor
 				enrichedContent.description
 				target='system.description'
@@ -21,41 +25,23 @@
 		</div>
 		<div class='details'>
 			<div>
-				{{localize 'Madness.Item.Requirements'}}
-				<ul>
-					<li>
-						<select name='system.requirements.magic0.id'>
-							<option value=''></option>
-							{{selectOptions
-								config.magics
-								selected=system.requirements.magic0.id
-								localize=true
-							}}
-						</select>
-						<label>{{localize 'Madness.Item.Level'}}</label>
-						<input
-							type='number'
-							name='system.requirements.magic0.value'
-							value='{{system.requirements.magic0.value}}'
-							data-dtype='number'
-						/>
-						<select name='system.requirements.magic1.id'>
-							<option value=''></option>
-							{{selectOptions
-								config.magics
-								selected=system.requirements.magic1.id
-								localize=true
-							}}
-						</select>
-						<label>{{localize 'Madness.Item.Level'}}</label>
-						<input
-							type='number'
-							name='system.requirements.magic1.value'
-							value='{{system.requirements.magic1.value}}'
-							data-dtype='number'
-						/>
-					</li>
-				</ul>
+				<p>{{localize 'Madness.Label.Magics'}}</p>
+				<select name='system.requirements.magic0.id'>
+					<option value=''></option>
+					{{selectOptions
+						config.magics
+						selected=system.requirements.magic0.id
+						localize=true
+					}}
+				</select>
+				<select name='system.requirements.magic1.id'>
+					<option value=''></option>
+					{{selectOptions
+						config.magics
+						selected=system.requirements.magic1.id
+						localize=true
+					}}
+				</select>
 			</div>
 			<div>
 				<label>{{localize 'Madness.Item.Range'}}</label>
@@ -65,31 +51,37 @@
 					value='{{system.range.value}}'
 					data-dtype='number'
 				/>
+				m
 			</div>
 			<div>
-				{{localize 'Madness.Item.Damage'}}
-				<ul>
+				<p>{{localize 'Madness.Item.Damage'}}</p>
+				<div class='damage-grid'>
 					{{#each config.attributes as |attr i|}}
-						<li>
-							<label>{{localize attr}}</label>
+						<div class='attribute-damage'>
+							<div class='attribute-name'>{{localize attr}}</div>
+							<div>
+								<input
+									type='number'
+									name='system.damage.{{i}}'
+									value='{{lookup @root.system.damage i}}'
+									data-dtype='number'
+								/>
+								d
+							</div>
+						</div>
+					{{/each}}
+					<div class='attribute-damage'>
+						<div class='attribute-name'>{{localize 'Madness.Item.Flat'}}</div>
+						<div>
 							<input
 								type='number'
-								name='system.damage.{{i}}'
-								value='{{lookup @root.system.damage i}}'
+								name='system.damage.flat'
+								value='{{system.damage.flat}}'
 								data-dtype='number'
 							/>
-						</li>
-					{{/each}}
-					<li>
-						<label>{{localize 'Madness.Item.Flat'}}</label>
-						<input
-							type='number'
-							name='system.damage.flat'
-							value='{{system.damage.flat}}'
-							data-dtype='number'
-						/>
-					</li>
-				</ul>
+						</div>
+					</div>
+				</div>
 				<div>
 					<label>{{localize 'Madness.Item.Spell.Cost'}}</label>
 					<input
@@ -98,16 +90,17 @@
 						value='{{system.cost.value}}'
 						data-dtype='number'
 					/>
+					{{localize 'Madness.Label.MP'}}
 				</div>
 			</div>
 		</div>
-		<div class="item-list" data-drop-type="effect">
-			{{localize 'Madness.Label.Effects'}}
-			<ul>
+		<div class='item-list' data-drop-type='effect'>
+			<p>{{localize 'Madness.Label.Effects'}}</p>
+			<div>
 				{{#each system.items as |effect i|}}
 					{{> "madness.item.effect-line" this=effect}}
 				{{/each}}
-			</ul>
+			</div>
 		</div>
 	</section>
 </form>
