@@ -349,8 +349,10 @@ class ActorMadness extends Actor {
 		const outcomeAfterParry = context?.parry
 			? this._applyParryDamageReduction(damage)
 			: damage;
-		const outcomeAfterArmor =
-			this._applyArmorDamageReduction(outcomeAfterParry);
+		const outcomeAfterArmor = this._applyArmorDamageReduction(
+			outcomeAfterParry,
+			context.passives,
+		);
 		const damageResult = this._calculateHealthDelta(
 			hitPoints,
 			outcomeAfterArmor,
@@ -388,7 +390,10 @@ class ActorMadness extends Actor {
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 
-	_applyArmorDamageReduction(damage) {
+	_applyArmorDamageReduction(damage, passives) {
+		if (passives.some((p) => p.name === 'ignoreArmor')) {
+			return damage;
+		}
 		return damage > 0 ? Math.max(1, damage - this.system.armor) : damage;
 	}
 

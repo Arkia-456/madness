@@ -37,6 +37,13 @@ export const MadnessConfig = {
 		},
 	},
 	Effect: {
+		Transperçant: {
+			Effects: [
+				{
+					name: 'ignoreArmor',
+				},
+			],
+		},
 		Bouclier: {
 			Effects: [
 				{
