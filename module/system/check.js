@@ -10,7 +10,7 @@ class CheckMadness {
 		};
 		options.critFailureRate = context.modifiers?.critFailureRate ?? 0;
 		roll.critOutcome = await CheckMadness._rollCrit(options);
-		if (context.rollType === 'spell') {
+		if (context.rollType === 'spell' || context.rollType === 'weapon') {
 			const additionalDamageModifier = context.modifiers?.damage;
 			roll.outcome = await CheckMadness._rollDamage(
 				context.item.system.damage,

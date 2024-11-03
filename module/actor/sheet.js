@@ -197,6 +197,14 @@ class ActorSheetMadness extends ActorSheet {
 			}
 		};
 
+		handlers['roll-weapon'] = (event, anchor) => {
+			const weaponId = anchor.closest('.weapon[data-id]')?.dataset.id;
+			if (weaponId) {
+				const weapon = this.actor.items.get(weaponId);
+				return weapon.roll();
+			}
+		};
+
 		const sheetHandler = async (event) => {
 			const element = event.target;
 			const actionTarget = element.closest(

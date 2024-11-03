@@ -365,9 +365,8 @@ class ActorMadness extends Actor {
 		const updates = {};
 		if (hp.max === 0) return { updates, totalApplied: 0 };
 
-		const removeTempHPPassive = context.passives.filter(
-			(p) => p.name === 'removeTempHP',
-		);
+		const removeTempHPPassive =
+			context.passives?.filter((p) => p.name === 'removeTempHP') ?? [];
 		const appliedToTemp =
 			removeTempHPPassive.length || !hp.temp || delta <= 0
 				? 0
