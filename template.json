@@ -115,7 +115,8 @@
 		"weapon": {
 			"templates": [
 				"common"
-			]
+			],
+			"ammo": {}
 		}
 	}
 }

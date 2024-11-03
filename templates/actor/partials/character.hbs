@@ -415,8 +415,10 @@
 				{{#each weapons as |weapon id|}}
 					<tr>
 						<td class='weapon-header'>{{name}}</td>
-						<td class='weapon-header'>Munitions</td>
-						<td>5/10</td>
+						<td class='weapon-header'>
+							{{localize 'Madness.Item.Weapon.Ammo'}}
+						</td>
+						<td>5/{{weapon.system.ammo.max}}</td>
 					</tr>
 				{{/each}}
 			</table>

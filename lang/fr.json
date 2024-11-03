@@ -93,6 +93,9 @@
 			"Spell": {
 				"Cost": "Coût",
 				"Level": "Niveau"
+			},
+			"Weapon": {
+				"Ammo": "Munitions",
 			}
 		},
 		"Message": {
@@ -113,6 +116,9 @@
 			"Inventory": "Inventaire",
 			"Notes": "Notes",
 			"Status": "Statut"
+		},
+		"Weapon": {
+			"Ammo": "Munitions"
 		}
 	}
 }
