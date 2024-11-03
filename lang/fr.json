@@ -126,9 +126,6 @@
 			"Inventory": "Inventaire",
 			"Notes": "Notes",
 			"Status": "Statut"
-		},
-		"Weapon": {
-			"Ammo": "Munitions"
 		}
 	}
 }
