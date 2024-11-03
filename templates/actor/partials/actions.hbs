@@ -1,12 +1,12 @@
 <section class='tab actions' data-tab='actions'>
-	<div class='section-header'>Compétences magiques</div>
+	<div class='section-header'>{{localize 'Madness.Label.MagicSkills'}}</div>
 	<section class='item-list spells'>
 		<div class='row'>
-			<div class='item-name'>Nom</div>
-			<div>Magies</div>
-			<div>Coût</div>
-			<div>Dégâts <br /> min-max</div>
-			<div>Portée</div>
+			<div class='item-name'>{{localize 'Madness.Label.Name'}}</div>
+			<div>{{localize 'Madness.Label.Magics'}}</div>
+			<div>{{localize 'Madness.Item.Spell.Cost'}}</div>
+			<div>{{localize 'Madness.Item.Damage'}} <br /> min-max</div>
+			<div>{{localize 'Madness.Item.Range'}}</div>
 		</div>
 		{{#each spells}}
 			<div class='item spell' data-id='{{id}}'>
