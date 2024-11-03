@@ -81,6 +81,15 @@
 			"Sith": "Sith",
 			"Teruuk": "Teruuk"
 		},
+		"Modules": {
+			"Accurate": "Précis",
+			"Ammo": "Munition",
+			"Crystaltech": "Crystaltech",
+			"Heavy": "Lourd",
+			"Melee": "Mêlée",
+			"Overload": "Surcharge",
+			"Shield": "Bouclier"
+		},
 		"Item": {
 			"Effect": {
 				"HasStrength": "A une puissance",
@@ -96,6 +105,7 @@
 			},
 			"Weapon": {
 				"Ammo": "Munitions",
+				"Modules": "Modules"
 			}
 		},
 		"Message": {

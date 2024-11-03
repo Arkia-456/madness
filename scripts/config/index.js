@@ -149,5 +149,14 @@ export const MadnessConfig = {
 		sith: 'Madness.Magics.Sith',
 		teruuk: 'Madness.Magics.Teruuk',
 	},
+	Modules: {
+		heavy: 'Madness.Modules.Heavy',
+		accurate: 'Madness.Modules.Accurate',
+		overload: 'Madness.Modules.Overload',
+		ammo: 'Madness.Modules.Ammo',
+		crystaltech: 'Madness.Modules.Crystaltech',
+		melee: 'Madness.Modules.Melee',
+		shield: 'Madness.Modules.Shield',
+	},
 	PrimaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
 };
