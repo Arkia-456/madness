@@ -389,7 +389,7 @@ class ActorMadness extends Actor {
 	}
 
 	_applyArmorDamageReduction(damage) {
-		return Math.max(1, damage - this.system.armor);
+		return damage > 0 ? Math.max(1, damage - this.system.armor) : damage;
 	}
 
 	addTempHP(value) {
