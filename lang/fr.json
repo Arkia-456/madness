@@ -88,11 +88,11 @@
 			},
 			"Damage": "Dégâts",
 			"Flat": "Plats",
+			"Level": "Niveau",
 			"Range": "Portée",
 			"Requirements": "Pré-requis",
 			"Spell": {
-				"Cost": "Coût",
-				"Level": "Niveau"
+				"Cost": "Coût"
 			},
 			"Weapon": {
 				"Ammo": "Munitions",
