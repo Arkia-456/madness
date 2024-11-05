@@ -426,6 +426,32 @@ class ActorMadness extends Actor {
 			this.weapons.length
 		);
 	}
+
+	decreaseStatusEffect(statusId) {
+		const existing = this.effects.find((e) => e.system.slug === statusId);
+		if (!existing) return;
+
+		const stacks = existing.system.stacks ?? 1;
+		if (stacks > 1) {
+			const newValue = stacks - 1;
+			return existing.update({ 'system.stacks': newValue });
+		} else {
+			return this.toggleStatusEffect(statusId);
+		}
+	}
+
+	increaseStatusEffect(statusId) {
+		const existing = this.effects.find((e) => e.system.slug === statusId);
+		if (!existing) {
+			return this.toggleStatusEffect(statusId);
+		}
+
+		if (!existing.system.stackable) return;
+
+		const currentValue = existing.system.stacks ?? 1;
+		const newValue = currentValue + 1;
+		return existing.update({ 'system.stacks': newValue });
+	}
 }
 
 export { ActorMadness };

@@ -14,4 +14,8 @@ function fontAwesomeIcon(iconName) {
 	return `<i class="${styleClass} ${fixedWidth} ${iconClass}"></i>`;
 }
 
-export { createHTMLElement, fontAwesomeIcon };
+function htmlQueryAll(parent, selectors) {
+	return Array.from(parent.querySelectorAll(selectors));
+}
+
+export { createHTMLElement, fontAwesomeIcon, htmlQueryAll };

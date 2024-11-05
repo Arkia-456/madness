@@ -124,6 +124,17 @@
 				"NoAvailableWeaponSlot": "Aucun emplacement d'arme disponible"
 			}
 		},
+		"StatusEffect": {
+			"Bleed": "Saignement",
+			"Burn": "Brûlure",
+			"Confusion": "Confusion",
+			"Down": "Mise au sol",
+			"Freeze": "Gel",
+			"Poison": "Empoisonnement",
+			"Shock": "Choc",
+			"Stun": "Etourdissement",
+			"Void": "Néant"
+		},
 		"Tab": {
 			"Actions": "Actions",
 			"Character": "Personnage",

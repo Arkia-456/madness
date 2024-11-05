@@ -166,4 +166,18 @@ export const MadnessConfig = {
 		shield: 'Madness.Modules.Shield',
 	},
 	PrimaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
+	StatusEffects: {
+		StackableEffects: ['bleed', 'burn', 'freeze', 'poison'],
+		List: {
+			bleed: 'Madness.StatusEffect.Bleed',
+			burn: 'Madness.StatusEffect.Burn',
+			confusion: 'Madness.StatusEffect.Confusion',
+			down: 'Madness.StatusEffect.Down',
+			freeze: 'Madness.StatusEffect.Freeze',
+			poison: 'Madness.StatusEffect.Poison',
+			shock: 'Madness.StatusEffect.Shock',
+			stun: 'Madness.StatusEffect.Stun',
+			void: 'Madness.StatusEffect.Void',
+		},
+	},
 };

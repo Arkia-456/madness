@@ -1,0 +1,30 @@
+#token-hud {
+	.status-effects {
+		grid-template-columns: repeat(4, 1fr);
+
+		.effect-control {
+			height: 36px;
+			width: 36px;
+
+			img {
+				height: 36px;
+				width: 36px;
+			}
+
+			.badge {
+				display: block;
+				position: relative;
+				top: -42px;
+				right: -24px;
+				height: 16px;
+				width: 16px;
+				border-radius: 50%;
+				border: solid 1px @madness-background-color-secondary;
+				background-color: white;
+				z-index: 1;
+				font-style: normal;
+				line-height: 1em;
+			}
+		}
+	}
+}
