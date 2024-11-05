@@ -1,4 +1,4 @@
-import { htmlQueryAll } from '../../utils/index.js';
+import { capitalizeFirstLetter, htmlQueryAll } from '../../utils/index.js';
 
 export class StatusEffects {
 	static initialize() {
@@ -8,6 +8,7 @@ export class StatusEffects {
 			id,
 			name,
 			img: `systems/madness/resources/icons/status-effects/${id}.png`,
+			effects: CONFIG.Madness.StatusEffects[capitalizeFirstLetter(id)]?.Effects,
 			slug: id,
 			stackable: CONFIG.Madness.StatusEffects.StackableEffects.includes(id),
 		}));

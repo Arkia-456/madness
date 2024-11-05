@@ -179,5 +179,8 @@ export const MadnessConfig = {
 			stun: 'Madness.StatusEffect.Stun',
 			void: 'Madness.StatusEffect.Void',
 		},
+		Down: {
+			Effects: ['preventDodge'],
+		},
 	},
 };

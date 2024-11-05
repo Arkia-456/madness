@@ -39,7 +39,19 @@
 			"Dodge": "Esquiver",
 			"Edit": "Modifier",
 			"Parry": "Parer",
-			"Reload": "Recharger"
+			"Reload": "Recharger",
+			"TakeDamage": "Appliquer les dégâts"
+		},
+		"Dialog": {
+			"Confirm": "Confirmation",
+			"CantDodge": "Vous ne pouvez pas esquiver",
+			"CantParry": "Vous ne pouvez pas parer",
+			"AskContinue": "Voulez-vous continuer ?",
+			"Reason": {
+				"Because": "Car",
+				"Effect": "Vous êtes sous l'effet : {effects}",
+				"Effects": "Vous êtes sous les effets : {effects}"
+			}
 		},
 		"Equipment": {
 			"EquipmentWeight": "Charge d'équipement",

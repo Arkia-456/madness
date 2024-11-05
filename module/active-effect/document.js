@@ -3,6 +3,7 @@ export class ActiveEffectMadness extends ActiveEffect {
 		effectData.system = {
 			stackable: effectData.stackable,
 			slug: effectData.slug,
+			effects: effectData.effects,
 		};
 		return super._fromStatusEffect(statusId, effectData, options);
 	}

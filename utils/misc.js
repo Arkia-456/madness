@@ -7,4 +7,8 @@ function elide(strToElide, str) {
 	return regex.test(str) ? strToElide.replace(/.$/, "'") : `${strToElide} `;
 }
 
-export { capitalizeFirstLetter, elide };
+function uncapitalizeFirstLetter(string) {
+	return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+export { capitalizeFirstLetter, elide, uncapitalizeFirstLetter };

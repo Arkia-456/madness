@@ -1,3 +1,5 @@
+import { uncapitalizeFirstLetter } from '../../utils/index.js';
+
 class ChatMessageMadness extends ChatMessage {
 	get actor() {
 		return ChatMessageMadness.getSpeakerActor(this.speaker);
@@ -20,6 +22,10 @@ class ChatMessageMadness extends ChatMessage {
 
 	activateClickListener(html) {
 		const handlers = {};
+
+		handlers['take-damage'] = () => {
+			this.takeDamageFromMessage();
+		};
 
 		handlers['dodge'] = () => {
 			this.dodgeFromMessage();
@@ -61,6 +67,36 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
+		const cantDodgeEffects = token.actor.effects.filter((e) =>
+			e.system.effects?.includes('preventDodge'),
+		);
+		if (cantDodgeEffects.length) {
+			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
+			const cantDodgeTranslation = game.i18n.localize(
+				'Madness.Dialog.CantDodge',
+			);
+			const becauseTranslation = uncapitalizeFirstLetter(
+				game.i18n.localize('Madness.Dialog.Reason.Because'),
+			);
+			const reasonTranslation = uncapitalizeFirstLetter(
+				game.i18n.format(
+					cantDodgeEffects.length > 1
+						? 'Madness.Dialog.Reason.Effects'
+						: 'Madness.Dialog.Reason.Effect',
+					{
+						effects: cantDodgeEffects.map((e) => e.name).join(', '),
+					},
+				),
+			);
+			const askContinueTranslation = game.i18n.localize(
+				'Madness.Dialog.AskContinue',
+			);
+			const confirmDodge = await Dialog.confirm({
+				title: confirmDialogTitle,
+				content: `${cantDodgeTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`,
+			});
+			if (!confirmDodge) return;
+		}
 		const roll = await token.actor.dodge(token);
 		if (roll.isCritical || roll.result === 'success') return;
 		this.applyDamageFromMessage(token);
@@ -78,6 +114,19 @@ class ChatMessageMadness extends ChatMessage {
 		const roll = await token.actor.parry(token);
 		if (roll.isCritical) return;
 		this.applyDamageFromMessage(token, { parry: true });
+	}
+
+	async takeDamageFromMessage() {
+		const tokens = game.user.getActiveTokens();
+		if (!tokens.length) {
+			const errorMessage = game.i18n.localize(
+				'Madness.Message.Error.NoTokenSelected',
+			);
+			return ui.notifications.error(errorMessage);
+		}
+		const token = tokens[0];
+		this.applyDamageFromMessage(token);
+		await this._removeBuffsAndDebuffs(token.actor);
 	}
 
 	applyDamageFromMessage(token, options) {
