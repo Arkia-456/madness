@@ -9,6 +9,8 @@ export class StatusEffects {
 			name,
 			img: `systems/madness/resources/icons/status-effects/${id}.png`,
 			effects: CONFIG.Madness.StatusEffects[capitalizeFirstLetter(id)]?.Effects,
+			durations:
+				CONFIG.Madness.StatusEffects[capitalizeFirstLetter(id)]?.Durations,
 			slug: id,
 			stackable: CONFIG.Madness.StatusEffects.StackableEffects.includes(id),
 		}));

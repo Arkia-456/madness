@@ -182,5 +182,20 @@ export const MadnessConfig = {
 		Down: {
 			Effects: ['preventDodge'],
 		},
+		Stun: {
+			Durations: [
+				{
+					type: 'action',
+					actionOrigin: 'other',
+					value: 1,
+				},
+				{
+					type: 'turn',
+					value: 1,
+					applicationTime: 'start',
+				},
+			],
+			Effects: ['preventDodge', 'preventParry'],
+		},
 	},
 };

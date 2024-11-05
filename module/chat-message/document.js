@@ -100,6 +100,7 @@ class ChatMessageMadness extends ChatMessage {
 		const roll = await token.actor.dodge(token);
 		if (roll.isCritical || roll.result === 'success') return;
 		this.applyDamageFromMessage(token);
+		await this._removeBuffsAndDebuffs(token.actor);
 	}
 
 	async parryFromMessage() {
@@ -111,9 +112,40 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
+		const cantParryEffects = token.actor.effects.filter((e) =>
+			e.system.effects?.includes('preventParry'),
+		);
+		if (cantParryEffects.length) {
+			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
+			const cantParryTranslation = game.i18n.localize(
+				'Madness.Dialog.CantParry',
+			);
+			const becauseTranslation = uncapitalizeFirstLetter(
+				game.i18n.localize('Madness.Dialog.Reason.Because'),
+			);
+			const reasonTranslation = uncapitalizeFirstLetter(
+				game.i18n.format(
+					cantParryEffects.length > 1
+						? 'Madness.Dialog.Reason.Effects'
+						: 'Madness.Dialog.Reason.Effect',
+					{
+						effects: cantParryEffects.map((e) => e.name).join(', '),
+					},
+				),
+			);
+			const askContinueTranslation = game.i18n.localize(
+				'Madness.Dialog.AskContinue',
+			);
+			const confirmParry = await Dialog.confirm({
+				title: confirmDialogTitle,
+				content: `${cantParryTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`,
+			});
+			if (!confirmParry) return;
+		}
 		const roll = await token.actor.parry(token);
 		if (roll.isCritical) return;
 		this.applyDamageFromMessage(token, { parry: true });
+		await this._removeBuffsAndDebuffs(token.actor);
 	}
 
 	async takeDamageFromMessage() {
@@ -138,6 +170,39 @@ class ChatMessageMadness extends ChatMessage {
 			...options,
 			passives: context.passives,
 		});
+	}
+
+	async _removeBuffsAndDebuffs(actor) {
+		const durationFilter = (d) =>
+			d.type === 'action' && d.actionOrigin === 'other';
+		const effectsToRemove = actor.effects.filter((e) =>
+			e.system.durations?.some(durationFilter),
+		);
+		if (!effectsToRemove) return;
+
+		const [toRemove, toDecrease] = effectsToRemove.reduce(
+			(arr, e) => {
+				const duration = e.system.durations.find(durationFilter);
+				if (duration.value > 1) {
+					arr[1].push(e);
+				} else {
+					arr[0].push(e);
+				}
+				return arr;
+			},
+			[[], []],
+		);
+
+		if (toRemove.length) {
+			await actor.toggleStatusEffects(toRemove.map((e) => e.system.slug));
+		}
+
+		if (toDecrease.length) {
+			await actor.decreaseStatusEffectsDuration(
+				toDecrease.map((e) => e.system.slug),
+				durationFilter,
+			);
+		}
 	}
 }
 

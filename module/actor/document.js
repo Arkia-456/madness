@@ -452,6 +452,40 @@ class ActorMadness extends Actor {
 		const newValue = currentValue + 1;
 		return existing.update({ 'system.stacks': newValue });
 	}
+
+	toggleStatusEffects(statusIds) {
+		const promises = [];
+		statusIds.forEach((statusId) =>
+			promises.push(this.toggleStatusEffect(statusId)),
+		);
+		return Promise.all(promises);
+	}
+
+	decreaseStatusEffectsDuration(statusIds, durationFilterCallback) {
+		const promises = [];
+		statusIds.forEach((statusId) =>
+			promises.push(
+				this.decreaseStatusEffectDuration(statusId, durationFilterCallback),
+			),
+		);
+		return Promise.all(promises);
+	}
+
+	decreaseStatusEffectDuration(statusId, durationFilterCallback) {
+		const existing = this.effects.find((e) => e.system.slug === statusId);
+		if (!existing) return;
+
+		const durations = foundry.utils.deepClone(existing.system.durations);
+		const duration = durations.find(durationFilterCallback);
+		const durationIndex = existing.system.durations.findIndex(
+			durationFilterCallback,
+		);
+		const newValue = duration.value - 1;
+		durations[durationIndex].value = newValue;
+		return existing.update({
+			['system.durations']: durations,
+		});
+	}
 }
 
 export { ActorMadness };

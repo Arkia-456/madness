@@ -4,6 +4,7 @@ export class ActiveEffectMadness extends ActiveEffect {
 			stackable: effectData.stackable,
 			slug: effectData.slug,
 			effects: effectData.effects,
+			durations: effectData.durations,
 		};
 		return super._fromStatusEffect(statusId, effectData, options);
 	}
