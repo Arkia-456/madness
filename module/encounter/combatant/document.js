@@ -1,6 +1,7 @@
 class CombatantMadness extends Combatant {
 	endTurn() {
 		this._applyDoT(this.actor, 'end');
+		this._removeBuffsAndDebuffs(this.actor, 'end');
 	}
 
 	startTurn() {

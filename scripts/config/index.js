@@ -197,6 +197,20 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Shock: {
+			Effects: [
+				{
+					name: 'cantUseMagic',
+				},
+			],
+			Durations: [
+				{
+					type: 'turn',
+					value: 1,
+					applicationTime: 'end',
+				},
+			],
+		},
 		Stun: {
 			Durations: [
 				{

@@ -1,4 +1,8 @@
-import { Formula, fontAwesomeIcon } from '../../utils/index.js';
+import {
+	Formula,
+	fontAwesomeIcon,
+	uncapitalizeFirstLetter,
+} from '../../utils/index.js';
 import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
 import { EditMagicsPopup } from './popups/edit-magics-popup.js';
 
@@ -197,7 +201,37 @@ class ActorSheetMadness extends ActorSheet {
 			}
 		};
 
-		handlers['roll-spell'] = (event, anchor) => {
+		handlers['roll-spell'] = async (event, anchor) => {
+			const cantUseMagicEffects = this.actor.effects.filter((actorEffect) =>
+				actorEffect.system.effects?.some((e) => e.name === 'cantUseMagic'),
+			);
+			if (cantUseMagicEffects.length) {
+				const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
+				const cantUseMagicTranslation = game.i18n.localize(
+					'Madness.Dialog.CantUseMagic',
+				);
+				const becauseTranslation = uncapitalizeFirstLetter(
+					game.i18n.localize('Madness.Dialog.Reason.Because'),
+				);
+				const reasonTranslation = uncapitalizeFirstLetter(
+					game.i18n.format(
+						cantUseMagicEffects.length > 1
+							? 'Madness.Dialog.Reason.Effects'
+							: 'Madness.Dialog.Reason.Effect',
+						{
+							effects: cantUseMagicEffects.map((e) => e.name).join(', '),
+						},
+					),
+				);
+				const askContinueTranslation = game.i18n.localize(
+					'Madness.Dialog.AskContinue',
+				);
+				const confirmUse = await Dialog.confirm({
+					title: confirmDialogTitle,
+					content: `${cantUseMagicTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`,
+				});
+				if (!confirmUse) return;
+			}
 			const spellId = anchor.closest('.spell[data-id]')?.dataset.id;
 			if (spellId) {
 				const spell = this.actor.items.get(spellId);

@@ -46,6 +46,7 @@
 			"Confirm": "Confirmation",
 			"CantDodge": "Vous ne pouvez pas esquiver",
 			"CantParry": "Vous ne pouvez pas parer",
+			"CantUseMagic": "Vous ne pouvez pas utiliser de sort",
 			"AskContinue": "Voulez-vous continuer ?",
 			"Reason": {
 				"Because": "Car",
