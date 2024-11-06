@@ -305,13 +305,15 @@ class ActorSheetMadness extends ActorSheet {
 				spell.system.damage,
 				spell.damageMod,
 			) || '0';
+		const critFailureMod =
+			spell.criFailureRateMod + this.actor.criticalFailureRateMod;
 		const spellData = {
 			damageFormula,
 			system: spell.system,
 			effects: spell.system.items,
 			criticalFailureScore: new Formula(
 				CONFIG.Madness.Formulas.Scores.criticalFailure,
-			).evaluate({ mod: spell.criFailureRateMod }).evaluated,
+			).evaluate({ mod: critFailureMod }).evaluated,
 			criticalSuccessScore: new Formula(
 				CONFIG.Madness.Formulas.Scores.critical,
 			).evaluate({

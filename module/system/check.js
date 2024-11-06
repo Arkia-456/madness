@@ -8,7 +8,9 @@ class CheckMadness {
 			actorCritRate: context.actor.critRate.total,
 			mod: context.modifiers?.critRate ?? 0,
 		};
-		options.critFailureRate = context.modifiers?.critFailureRate ?? 0;
+		options.critFailureRate =
+			context.actor.criticalFailureRateMod +
+			(context.modifiers?.critFailureRate ?? 0);
 		roll.critOutcome = await CheckMadness._rollCrit(options);
 		if (context.rollType === 'spell' || context.rollType === 'weapon') {
 			const additionalDamageModifier = context.modifiers?.damage;

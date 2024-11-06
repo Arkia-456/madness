@@ -53,6 +53,22 @@ class ActorMadness extends Actor {
 		return this.items.filter((i) => i.type === 'weapon');
 	}
 
+	get criticalFailureRateMod() {
+		return Math.max(0, this._getCriticalFailureModEffects());
+	}
+
+	_getCriticalFailureModEffects() {
+		return this.effects.reduce((rate, effect) => {
+			return (
+				rate +
+				effect.system.effects?.reduce((r, e) => {
+					console.log(e);
+					return e.name === 'increaseCriticalFailureRate' ? r + e.value : r;
+				}, 0)
+			);
+		}, 0);
+	}
+
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,

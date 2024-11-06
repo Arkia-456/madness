@@ -190,6 +190,21 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Confusion: {
+			Effects: [
+				{
+					name: 'increaseCriticalFailureRate',
+					value: 20,
+				},
+			],
+			Durations: [
+				{
+					type: 'turn',
+					value: 1,
+					applicationTime: 'end',
+				},
+			],
+		},
 		Down: {
 			Effects: [
 				{
