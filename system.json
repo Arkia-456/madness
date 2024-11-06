@@ -18,6 +18,7 @@
 			"path": "lang/fr.json"
 		}
 	],
+	"initiative": "1d10 + @secondaryAttributes.initiative.total",
 	"gridDistance": 2,
 	"gridUnits": "m"
 }
