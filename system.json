@@ -8,8 +8,12 @@
 		"minimum": "12",
 		"verified": "12"
 	},
-	"esmodules": ["madness.js"],
-	"styles": ["madness.css"],
+	"esmodules": [
+		"madness.js"
+	],
+	"styles": [
+		"madness.css"
+	],
 	"packs": [],
 	"languages": [
 		{
