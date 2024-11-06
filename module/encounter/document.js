@@ -14,6 +14,11 @@ class EncounterMadness extends Combat {
 
 		if (!isTurnChange && !isRoundChange) return;
 
+		const previousCombatant = this.combatants.get(previous.combatantId);
+		if (previousCombatant) {
+			previousCombatant.endTurn();
+		}
+
 		combatant.startTurn();
 	}
 }

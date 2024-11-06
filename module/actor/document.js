@@ -343,7 +343,7 @@ class ActorMadness extends Actor {
 		return roll;
 	}
 
-	applyDamage(damage = 0, context) {
+	applyDamage(damage = 0, context = {}) {
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
 		const outcomeAfterParry = context?.parry
@@ -369,8 +369,13 @@ class ActorMadness extends Actor {
 
 		const removeTempHPPassive =
 			context.passives?.filter((p) => p.name === 'removeTempHP') ?? [];
+		const bypassTempHPPassive =
+			context.passives?.filter((p) => p.name === 'bypassTempHP') ?? [];
 		const appliedToTemp =
-			removeTempHPPassive.length || !hp.temp || delta <= 0
+			removeTempHPPassive.length ||
+			bypassTempHPPassive.length ||
+			!hp.temp ||
+			delta <= 0
 				? 0
 				: Math.min(hp.temp, delta);
 		updates['system.hp.temp'] = removeTempHPPassive.length
@@ -390,7 +395,7 @@ class ActorMadness extends Actor {
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 
-	_applyArmorDamageReduction(damage, passives) {
+	_applyArmorDamageReduction(damage, passives = []) {
 		if (passives.some((p) => p.name === 'ignoreArmor')) {
 			return damage;
 		}

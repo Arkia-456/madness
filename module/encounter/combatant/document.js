@@ -1,4 +1,8 @@
 class CombatantMadness extends Combatant {
+	endTurn() {
+		this._applyDoT(this.actor, 'end');
+	}
+
 	startTurn() {
 		this._removeBuffsAndDebuffs(this.actor, 'start');
 	}
@@ -34,6 +38,40 @@ class CombatantMadness extends Combatant {
 				durationFilter,
 			);
 		}
+	}
+
+	_applyDoT(actor, applicationTime) {
+		const filter = (e) =>
+			e.name === 'dot' &&
+			e.applicationType === 'turn' &&
+			e.applicationTime === applicationTime;
+		const dotEffects = actor.effects.reduce((arr, actorEffect) => {
+			const effect = foundry.utils.deepClone(actorEffect);
+			const effects = effect.system.effects?.filter(filter);
+			if (!effects) return arr;
+			effects.forEach((e) => {
+				if (effect.system.stacks) {
+					e.value *= effect.system.stacks;
+				}
+			});
+			arr.push(...effects);
+			return arr;
+		}, []);
+		const [bypassTempHPDamage, damage] = dotEffects.reduce(
+			(arr, e) => {
+				if (e.bypassTempHP) {
+					arr[0] += e.value;
+				} else {
+					arr[1] += e.value;
+				}
+				return arr;
+			},
+			[[], []],
+		);
+		actor.applyDamage(damage);
+		actor.applyDamage(bypassTempHPDamage, {
+			passives: [{ name: 'bypassTempHP' }],
+		});
 	}
 }
 

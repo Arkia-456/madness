@@ -179,6 +179,17 @@ export const MadnessConfig = {
 			stun: 'Madness.StatusEffect.Stun',
 			void: 'Madness.StatusEffect.Void',
 		},
+		Bleed: {
+			Effects: [
+				{
+					name: 'dot',
+					applicationTime: 'end',
+					applicationType: 'turn',
+					bypassTempHP: true,
+					value: 2,
+				},
+			],
+		},
 		Down: {
 			Effects: [
 				{
