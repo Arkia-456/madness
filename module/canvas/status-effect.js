@@ -14,6 +14,11 @@ export class StatusEffects {
 			slug: id,
 			stackable: CONFIG.Madness.StatusEffects.StackableEffects.includes(id),
 		}));
+		CONFIG.statusEffects.push({
+			id: 'dead',
+			name: 'EFFECT.StatusDead',
+			img: 'icons/svg/skull.svg',
+		});
 	}
 
 	static onRenderTokenHUD(html, tokenData) {
