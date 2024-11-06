@@ -70,6 +70,7 @@ class CombatantMadness extends Combatant {
 			[[], []],
 		);
 		const context = {
+			source: 'activeEffect',
 			passives: [{ name: 'ignoreArmor' }],
 		};
 		actor.applyDamage(damage, context);

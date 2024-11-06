@@ -411,8 +411,25 @@ class ActorMadness extends Actor {
 			? 0
 			: Math.max(hp.temp - appliedToTemp, 0);
 
+		let additionalDamage = 0;
 		const appliedToHP = delta - appliedToTemp;
-		updates['system.hp.value'] = Math.clamp(hp.value - appliedToHP, 0, hp.max);
+		if (!(context?.source === 'activeEffect') && appliedToHP > 0) {
+			additionalDamage = this.effects.reduce((damage, effect) => {
+				return (
+					damage +
+						effect.system.effects?.reduce((total, e) => {
+							const stacks = effect.system.stacks ?? 1;
+							const value = e.value * stacks;
+							return e.name === 'increaseDamageToHealth'
+								? total + value
+								: value;
+						}, 0) ?? 0
+				);
+			}, 0);
+		}
+
+		const toApply = appliedToHP + additionalDamage;
+		updates['system.hp.value'] = Math.clamp(hp.value - toApply, 0, hp.max);
 
 		const totalApplied = appliedToTemp + appliedToHP;
 

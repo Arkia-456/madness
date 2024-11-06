@@ -190,6 +190,14 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Burn: {
+			Effects: [
+				{
+					name: 'increaseDamageToHealth',
+					value: 2,
+				},
+			],
+		},
 		Confusion: {
 			Effects: [
 				{
