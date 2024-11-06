@@ -69,10 +69,12 @@ class CombatantMadness extends Combatant {
 			},
 			[[], []],
 		);
-		actor.applyDamage(damage);
-		actor.applyDamage(bypassTempHPDamage, {
-			passives: [{ name: 'bypassTempHP' }],
-		});
+		const context = {
+			passives: [{ name: 'ignoreArmor' }],
+		};
+		actor.applyDamage(damage, context);
+		context.passives.push({ name: 'bypassTempHP' });
+		actor.applyDamage(bypassTempHPDamage, context);
 	}
 }
 
