@@ -98,7 +98,7 @@ class ActorMadness extends Actor {
 
 		Object.entries(system.attributes).forEach(([key, value]) => {
 			const modifiers = [];
-			const modifierTypes = ['ethnicity'];
+			const modifierTypes = ['ethnicity', 'effects'];
 			modifierTypes.forEach((type) => {
 				if (value[type]) {
 					modifiers.push(this.generateAttributeModifier(key, type));
@@ -109,7 +109,7 @@ class ActorMadness extends Actor {
 				value,
 				{ overwrite: false },
 			);
-			stat.total = stat.totalModifier + stat.value;
+			stat.total = Math.max(0, stat.totalModifier + stat.value);
 			system.attributes[key] = stat;
 		});
 
@@ -258,6 +258,7 @@ class ActorMadness extends Actor {
 		);
 		super.prepareEmbeddedDocuments();
 		this.prepareDataFromItems();
+		this.prepareDataFromEffects();
 		console.log(
 			`Madness system | Actor | ${this.name} | Embedded documents prepared ✅`,
 		);
@@ -272,6 +273,18 @@ class ActorMadness extends Actor {
 		}
 		console.log(
 			`Madness system | Actor | ${this.name} | Data from items prepared ✅`,
+		);
+	}
+
+	prepareDataFromEffects() {
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing data from effects...`,
+		);
+		for (const effect of this.effects) {
+			effect.prepareActorData?.();
+		}
+		console.log(
+			`Madness system | Actor | ${this.name} | Data from items effects ✅`,
 		);
 	}
 

@@ -197,6 +197,14 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Poison: {
+			Effects: [
+				{
+					name: 'increasePrimaryAttribute',
+					value: -1,
+				},
+			],
+		},
 		Shock: {
 			Effects: [
 				{
