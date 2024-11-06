@@ -19,7 +19,6 @@ export class ActiveEffectMadness extends ActiveEffect {
 			?.filter((e) => e.name === 'increasePrimaryAttribute')
 			?.forEach((e) => {
 				const primaryAttributes = Object.keys(actor.system.attributes);
-				console.log(primaryAttributes);
 				if (!e.attributes) {
 					primaryAttributes.forEach(
 						(attribute) =>
