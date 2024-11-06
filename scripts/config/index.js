@@ -180,7 +180,11 @@ export const MadnessConfig = {
 			void: 'Madness.StatusEffect.Void',
 		},
 		Down: {
-			Effects: ['preventDodge'],
+			Effects: [
+				{
+					name: 'preventDodge',
+				},
+			],
 		},
 		Stun: {
 			Durations: [
@@ -195,7 +199,14 @@ export const MadnessConfig = {
 					applicationTime: 'start',
 				},
 			],
-			Effects: ['preventDodge', 'preventParry'],
+			Effects: [
+				{
+					name: 'preventDodge',
+				},
+				{
+					name: 'preventParry',
+				},
+			],
 		},
 	},
 };

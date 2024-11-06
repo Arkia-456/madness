@@ -67,8 +67,8 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
-		const cantDodgeEffects = token.actor.effects.filter((e) =>
-			e.system.effects?.includes('preventDodge'),
+		const cantDodgeEffects = token.actor.effects.filter((actorEffect) =>
+			actorEffect.system.effects?.some((e) => e.name === 'preventDodge'),
 		);
 		if (cantDodgeEffects.length) {
 			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
@@ -112,8 +112,8 @@ class ChatMessageMadness extends ChatMessage {
 			return ui.notifications.error(errorMessage);
 		}
 		const token = tokens[0];
-		const cantParryEffects = token.actor.effects.filter((e) =>
-			e.system.effects?.includes('preventParry'),
+		const cantParryEffects = token.actor.effects.filter((actorEffect) =>
+			actorEffect.system.effects?.some((e) => e.name === 'preventParry'),
 		);
 		if (cantParryEffects.length) {
 			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
