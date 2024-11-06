@@ -64,6 +64,13 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		Récupération: {
+			Effects: [
+				{
+					name: 'removeStatusEffects',
+				},
+			],
+		},
 	},
 	Item: {
 		documentClasses: {

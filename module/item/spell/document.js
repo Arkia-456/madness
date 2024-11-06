@@ -123,6 +123,7 @@ class SpellMadness extends ItemMadness {
 		const roll = await CheckMadness.roll(context);
 		if (roll.critOutcome.result === 'success') {
 			this.actor.removeMP(this.cost);
+			await this.applyEffects();
 			await this.applyBuffs();
 		}
 		this.toMessage({ context, roll });
@@ -130,6 +131,17 @@ class SpellMadness extends ItemMadness {
 
 	checkMP(actor = this.actor) {
 		return actor.currentMP >= this.cost;
+	}
+
+	applyEffects(actor = this.actor) {
+		if (this.passives.some((p) => p.name === 'removeStatusEffects')) {
+			const actorStatusEffects = actor.effects;
+			if (actorStatusEffects) {
+				return actor.toggleStatusEffects(
+					actorStatusEffects.map((e) => e.system.slug),
+				);
+			}
+		}
 	}
 
 	async applyBuffs(actor = this.actor) {
