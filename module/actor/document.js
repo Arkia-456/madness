@@ -421,7 +421,7 @@ class ActorMadness extends Actor {
 							const value = e.value * stacks;
 							return e.name === 'increaseDamageToHealth'
 								? total + value
-								: value;
+								: total;
 						}, 0) ?? 0
 				);
 			}, 0);
