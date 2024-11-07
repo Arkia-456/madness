@@ -381,6 +381,11 @@ class ActorMadness extends Actor {
 			outcomeAfterParry,
 			context.passives,
 		);
+		context.passives.forEach((p) => {
+			if (p.slug && CONFIG.statusEffects.some((e) => e.id === p.slug)) {
+				this.increaseStatusEffect(p.slug);
+			}
+		});
 		const damageResult = this._calculateHealthDelta(
 			hitPoints,
 			outcomeAfterArmor,
