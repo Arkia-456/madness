@@ -7,7 +7,7 @@ class ItemSheetMadness extends ItemSheet {
 		options.width = 464;
 		options.height = 520;
 		options.template = 'systems/madness/templates/item/sheet.hbs';
-		options.dragDrop = [{ dropSelector: '.item-list' }];
+		options.dragDrop = [{ dropSelector: '.sheet-content' }];
 		return options;
 	}
 
@@ -43,7 +43,8 @@ class ItemSheetMadness extends ItemSheet {
 	_handleDroppedItem(event, item) {}
 
 	_isValidDrop(event, data, displayWarning) {
-		const validType = event.target.dataset.dropType;
+		const validType = event.target.closest('form[data-drop-type]').dataset
+			.dropType;
 		const dropType = data.type;
 		const isValid = dropType === validType;
 		if (!isValid && displayWarning) {
