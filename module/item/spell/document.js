@@ -145,8 +145,6 @@ class SpellMadness extends ItemMadness {
 	}
 
 	async applyBuffs(actor = this.actor) {
-		const buffsModifiers = this.passives.filter((m) => m.type === 'buff');
-		if (!buffsModifiers.length) return;
 		const buffs = {};
 		buffs.addTempHP = this.tempHPMod;
 		for (const [key, value] of Object.entries(buffs)) {
