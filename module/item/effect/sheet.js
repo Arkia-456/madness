@@ -11,6 +11,7 @@ class EffectSheetMadness extends ItemSheetMadness {
 		const sheetData = await super.getData(options);
 		sheetData.config = {
 			magics: CONFIG.Madness.Magics,
+			statusEffects: CONFIG.Madness.StatusEffects.List,
 		};
 		return sheetData;
 	}

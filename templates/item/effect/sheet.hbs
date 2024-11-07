@@ -45,5 +45,15 @@
 				</ul>
 			</div>
 		</div>
+		<div>
+			<select name='system.statusEffect'>
+				<option value=''></option>
+				{{selectOptions
+					config.statusEffects
+					selected=system.statusEffect
+					localize=true
+				}}
+			</select>
+		</div>
 	</section>
 </form>
