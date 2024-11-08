@@ -52,9 +52,11 @@
 				<div class='row'>
 					<div class='item-name'>{{name}}</div>
 					<div>
-						<button class='action' data-action='reload-weapon'>
-							{{localize 'Madness.Controls.Reload'}}
-						</button>
+						{{#if reloadable}}
+							<button class='action' data-action='reload-weapon'>
+								{{localize 'Madness.Controls.Reload'}}
+							</button>
+						{{/if}}
 					</div>
 					<div>{{system.ammo.max}}</div>
 					<div>

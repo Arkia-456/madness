@@ -6,6 +6,10 @@ class WeaponMadness extends SkillMadness {
 		return Object.values(this.system.modules).filter((el) => el.id).length;
 	}
 
+	get reloadable() {
+		return !this.passives.some((p) => p.name === 'nonReloadable');
+	}
+
 	get passives() {
 		const effectPassives = super.passives;
 		const modulePassives =

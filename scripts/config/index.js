@@ -185,6 +185,13 @@ export const MadnessConfig = {
 		ammo: {
 			label: 'Madness.Modules.Ammo',
 			effects: [
+				{
+					name: 'nonReloadable',
+				},
+				{
+					name: 'increaseDamage',
+					formula: '(@{ammo}*8)/@{nbModules}',
+				},
 			],
 		},
 		crystaltech: {
