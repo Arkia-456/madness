@@ -1,3 +1,31 @@
 <form class='{{cssClass}}' autocomplete='off'>
-	{{item._source.name}}
+	<header class='sheet-header'>
+		<img src='{{item._source.img}}' data-edit='img' />
+		{{#if editable}}
+			<input
+				name='name'
+				type='text'
+				value='{{item._source.name}}'
+				placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+				spellcheck='false'
+			/>
+		{{else}}
+			<span>{{item._source.name}}</span>
+		{{/if}}
+	</header>
+	<section class='sheet-content'>
+		<div class='description'>
+			<p>{{localize 'Madness.Label.Description'}}</p>
+			{{editor
+				enrichedContent.description
+				target='system.description'
+				button=true
+				editable=editable
+				engine='prosemirror'
+			}}
+		</div>
+		<div class='details'>
+			{{> (lookup . 'detailsTemplate')}}
+		</div>
+	</section>
 </form>

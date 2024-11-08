@@ -1,0 +1,13 @@
+<ul>
+	{{#each system.attributes as |attribute id|}}
+		<li data-attribute='{{id}}'>
+			<span id='{{id}}'>{{id}}</span>
+			<input
+				type='text'
+				name='system.attributes.{{id}}.value'
+				value='{{attribute.value}}'
+				data-dtype='Number'
+			/>
+		</li>
+	{{/each}}
+</ul>

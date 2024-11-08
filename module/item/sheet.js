@@ -1,5 +1,3 @@
-import { fontAwesomeIcon } from '../../utils/index.js';
-
 class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
@@ -13,18 +11,20 @@ class ItemSheetMadness extends ItemSheet {
 
 	async getData(options) {
 		const sheetData = super.getData(options);
-		const item = this.item;
-		const system = item.system;
-		sheetData.system = system;
+		const { item } = this;
 
 		// Enriched content
 		const enrichedContent = {};
 		enrichedContent.description = await TextEditor.enrichHTML(
 			item._source.system.description,
 		);
-		sheetData.enrichedContent = enrichedContent;
 
-		return sheetData;
+		return {
+			...sheetData,
+			system: item.system,
+			enrichedContent,
+			detailsTemplate: `madness.item.${item.type}.details`,
+		};
 	}
 
 	async _onDrop(event) {
@@ -40,19 +40,30 @@ class ItemSheetMadness extends ItemSheet {
 		return this._handleDroppedItem(event, item);
 	}
 
-	_handleDroppedItem(event, item) {}
+	_handleDroppedItem(event, item) {
+		const itemSource = item.toObject();
+		if (!this._isValidDrop(item, true)) {
+			return;
+		}
+		this._onDropItemCreate(
+			new Item.implementation(itemSource).clone().toObject(),
+		);
+	}
 
-	_isValidDrop(event, data, displayWarning) {
-		const validType = event.target.closest('form[data-drop-type]').dataset
-			.dropType;
+	_onDropItemCreate(itemData) {
+		this.item.createItem(itemData);
+	}
+
+	_isValidDrop(data, displayWarning = false) {
+		const validTypes = this._droppables ?? [];
 		const dropType = data.type;
-		const isValid = dropType === validType;
-		if (!isValid && displayWarning) {
+		const isValid = validTypes.includes(dropType);
+		if (validTypes.length && !isValid && displayWarning) {
 			const warningMsg = game.i18n.format(
 				'Madness.Message.Warning.InvalidDropType',
 				{
 					badType: dropType,
-					goodType: validType,
+					goodType: validTypes.join(', '),
 				},
 			);
 			ui.notifications.warn(warningMsg);
@@ -62,68 +73,29 @@ class ItemSheetMadness extends ItemSheet {
 
 	activateListeners($html) {
 		super.activateListeners($html);
-
 		const html = $html[0];
-
-		const item = this.item;
-		const system = this.item.system;
-
-		if (this.isEditable) {
-			const contextMenuEntryDelete = {
-				name: 'Madness.Controls.Delete',
-				icon: fontAwesomeIcon('trash'),
-				callback: async ($target) => {
-					const itemId = $target[0].closest('[data-item-id]')?.dataset.itemId;
-					const i = item.system.items[itemId];
-					if (i) {
-						delete system.items[itemId];
-						const items = foundry.utils.deepClone(system.items);
-						if (Object.keys(system.items).length) {
-							await item.update({ system: { items: null } });
-							await item.update({ 'system.items': items });
-						} else {
-							item.update({ system: { items: null } });
-						}
-					}
-				},
-			};
-
-			new ContextMenu($html, '.detail-item-control', [contextMenuEntryDelete], {
-				eventName: 'click',
-				onOpen: () => {
-					const menu = document.getElementById('context-menu');
-					if (menu) {
-						const leftPlacement = 1 * Math.floor(0.95 * menu.clientWidth);
-						menu.style.right = `${leftPlacement}px`;
-					}
-				},
-			});
-		}
-
 		this.activateClickListeners(html);
+	}
+
+	async _deleteItem(id) {
+		const items = this.item.system.items;
+		const item = items[id];
+		if (!item) return;
+		delete items[id];
+		await this.item.updateItems(null);
+		await this.item.updateItems(items);
 	}
 
 	activateClickListeners(html) {
 		const handlers = {};
 
-		handlers['delete'] = async (event, anchor) => {
+		handlers['delete'] = (event, anchor) => {
 			const itemId = anchor.closest('[data-item-id]')?.dataset.itemId;
-			const i = this.item.system.items[itemId];
-			if (i) {
-				delete this.item.system.items[itemId];
-				const items = foundry.utils.deepClone(this.item.system.items);
-				if (Object.keys(this.item.system.items).length) {
-					await this.item.update({ system: { items: null } });
-					await this.item.update({ 'system.items': items });
-				} else {
-					this.item.update({ system: { items: null } });
-				}
-			}
+			this._deleteItem(itemId);
 		};
 
 		const sheetHandler = async (event) => {
-			const element = event.target;
-			const actionTarget = element.closest(
+			const actionTarget = event.target.closest(
 				'a[data-action], button[data-action]',
 			);
 			const handler = handlers[actionTarget?.dataset.action ?? ''];

@@ -1,0 +1,28 @@
+<div>
+	<label>{{localize 'Madness.Item.Effect.HasStrength'}}</label>
+	<input
+		type='checkbox'
+		name='system.hasStrength'
+		{{checked system.hasStrength}}
+	/>
+</div>
+<div>
+	{{localize 'Madness.Item.Requirements'}}
+	<ul>
+		{{#each magics as |magic id|}}
+			<li>
+				<label>{{localize magic}}</label>
+				<input
+					type='number'
+					name='system.requirements.{{id}}'
+					value='{{lookup @root.system.requirements id}}'
+					data-dtype='number'
+				/>
+			</li>
+		{{/each}}
+	</ul>
+</div>
+<select name='system.statusEffect'>
+	<option value=''></option>
+	{{selectOptions statusEffects selected=system.statusEffect localize=true}}
+</select>

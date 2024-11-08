@@ -1,0 +1,48 @@
+<div>
+	<label>{{localize 'Madness.Item.Range'}}</label>
+	<input
+		type='number'
+		name='system.range.value'
+		value='{{system.range.value}}'
+		data-dtype='number'
+	/>
+	m
+</div>
+<div>
+	<p>{{localize 'Madness.Item.Damage'}}</p>
+	<div class='damage-grid'>
+		{{#each attributes as |attr i|}}
+			<div class='attribute-damage'>
+				<div class='attribute-name'>{{localize attr}}</div>
+				<div>
+					<input
+						type='number'
+						name='system.damage.{{i}}'
+						value='{{lookup @root.system.damage i}}'
+						data-dtype='number'
+					/>
+					d
+				</div>
+			</div>
+		{{/each}}
+		<div class='attribute-damage'>
+			<div class='attribute-name'>{{localize 'Madness.Item.Flat'}}</div>
+			<div>
+				<input
+					type='number'
+					name='system.damage.flat'
+					value='{{system.damage.flat}}'
+					data-dtype='number'
+				/>
+			</div>
+		</div>
+	</div>
+</div>
+<div class='item-list'>
+	<p>{{localize 'Madness.Label.Effects'}}</p>
+	<div>
+		{{#each system.items as |effect i|}}
+			{{> "madness.item.effect-line" this=effect}}
+		{{/each}}
+	</div>
+</div>

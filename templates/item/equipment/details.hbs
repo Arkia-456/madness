@@ -1,0 +1,25 @@
+<div>
+	<label>{{localize 'Madness.Equipment.Slot'}}</label>
+	<select name='system.slot'>
+		<option value=''></option>
+		{{selectOptions slots selected=system.slot localize=true}}
+	</select>
+</div>
+<div>
+	<label>{{localize 'Madness.Label.Armor'}}</label>
+	<input
+		type='number'
+		name='system.armor'
+		value='{{system.armor}}'
+		data-dtype='number'
+	/>
+</div>
+<div>
+	<label>{{localize 'Madness.Label.Weight'}}</label>
+	<input
+		type='number'
+		name='system.weight'
+		value='{{system.weight}}'
+		data-dtype='number'
+	/>
+</div>

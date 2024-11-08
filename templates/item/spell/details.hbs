@@ -1,0 +1,30 @@
+<div>
+	<p>{{localize 'Madness.Label.Magics'}}</p>
+	<select name='system.requirements.magic0.id'>
+		<option value=''></option>
+		{{selectOptions
+			magics
+			selected=system.requirements.magic0.id
+			localize=true
+		}}
+	</select>
+	<select name='system.requirements.magic1.id'>
+		<option value=''></option>
+		{{selectOptions
+			magics
+			selected=system.requirements.magic1.id
+			localize=true
+		}}
+	</select>
+</div>
+<div>
+	<label>{{localize 'Madness.Item.Spell.Cost'}}</label>
+	<input
+		type='number'
+		name='system.cost.value'
+		value='{{system.cost.value}}'
+		data-dtype='number'
+	/>
+	{{localize 'Madness.Label.MP'}}
+</div>
+{{> 'madness.item.skill.details'}}

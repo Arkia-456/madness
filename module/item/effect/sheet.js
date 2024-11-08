@@ -1,19 +1,13 @@
 import { ItemSheetMadness } from '../index.js';
 
 class EffectSheetMadness extends ItemSheetMadness {
-	static get defaultOptions() {
-		const options = super.defaultOptions;
-		options.template = 'systems/madness/templates/item/effect/sheet.hbs';
-		return options;
-	}
-
 	async getData(options) {
 		const sheetData = await super.getData(options);
-		sheetData.config = {
+		return {
+			...sheetData,
 			magics: CONFIG.Madness.Magics,
 			statusEffects: CONFIG.Madness.StatusEffects.List,
 		};
-		return sheetData;
 	}
 }
 

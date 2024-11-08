@@ -17,5 +17,20 @@ const getPartials = () => {
 				`${templatesPath}/${category}/partials/${partial}.hbs`;
 		});
 	});
+
+	const detailsTypes = [
+		'effect',
+		'equipment',
+		'ethnicity',
+		'skill',
+		'spell',
+		'weapon',
+	];
+	detailsTypes.forEach(
+		(type) =>
+			(paths[`madness.item.${type}.details`] =
+				`${templatesPath}/item/${type}/details.hbs`),
+	);
+
 	return paths;
 };

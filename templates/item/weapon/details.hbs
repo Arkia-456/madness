@@ -1,0 +1,56 @@
+<div>
+	{{localize 'Madness.Item.Weapon.Modules'}}
+	<ul>
+		<li>
+			<select name='system.modules.module0.id'>
+				<option value=''></option>
+				{{selectOptions
+					modules
+					selected=system.modules.module0.id
+					localize=true
+				}}
+			</select>
+			<label>{{localize 'Madness.Item.Level'}}</label>
+			<input
+				type='number'
+				name='system.modules.module0.value'
+				value='{{system.modules.module0.value}}'
+				data-dtype='number'
+			/>
+			<select name='system.modules.module1.id'>
+				<option value=''></option>
+				{{selectOptions
+					modules
+					selected=system.modules.module1.id
+					localize=true
+				}}
+			</select>
+			<label>{{localize 'Madness.Item.Level'}}</label>
+			<input
+				type='number'
+				name='system.modules.module1.value'
+				value='{{system.modules.module1.value}}'
+				data-dtype='number'
+			/>
+		</li>
+	</ul>
+</div>
+<div>
+	<label>{{localize 'Madness.Item.Weapon.Ammo'}}</label>
+	<input
+		type='number'
+		name='system.ammo.max'
+		value='{{system.ammo.max}}'
+		data-dtype='number'
+	/>
+</div>
+<div>
+	<label>{{localize 'Madness.Label.Weight'}}</label>
+	<input
+		type='number'
+		name='system.weight'
+		value='{{system.weight}}'
+		data-dtype='number'
+	/>
+</div>
+{{> 'madness.item.skill.details'}}
