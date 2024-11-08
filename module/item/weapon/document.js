@@ -2,6 +2,10 @@ import { displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
+	get nbModules() {
+		return Object.values(this.system.modules).filter((el) => el.id).length;
+	}
+
 	get passives() {
 		const effectPassives = super.passives;
 		const modulePassives =
@@ -14,6 +18,20 @@ class WeaponMadness extends SkillMadness {
 				return arr;
 			}, []) ?? [];
 		return [...modulePassives, ...effectPassives];
+	}
+
+	getPassiveModifier(modifierName, options = {}) {
+		const modulesValues =
+			Object.values(this.system.modules)?.reduce((values, module) => {
+				values[module.id] = module.value;
+				return values;
+			}, {}) ?? {};
+		const opt = {
+			...options,
+			...modulesValues,
+			nbModules: this.nbModules,
+		};
+		return super.getPassiveModifier(modifierName, opt);
 	}
 
 	reload() {

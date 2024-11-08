@@ -160,13 +160,40 @@ export const MadnessConfig = {
 		teruuk: 'Madness.Magics.Teruuk',
 	},
 	modules: {
-		heavy: 'Madness.Modules.Heavy',
-		accurate: 'Madness.Modules.Accurate',
-		overload: 'Madness.Modules.Overload',
-		ammo: 'Madness.Modules.Ammo',
-		crystaltech: 'Madness.Modules.Crystaltech',
-		melee: 'Madness.Modules.Melee',
-		shield: 'Madness.Modules.Shield',
+		heavy: {
+			label: 'Madness.Modules.Heavy',
+			effects: [
+			],
+		},
+		accurate: {
+			label: 'Madness.Modules.Accurate',
+			effects: [
+			],
+		},
+		overload: {
+			label: 'Madness.Modules.Overload',
+			effects: [],
+		},
+		ammo: {
+			label: 'Madness.Modules.Ammo',
+			effects: [
+			],
+		},
+		crystaltech: {
+			label: 'Madness.Modules.Crystaltech',
+			effects: [
+			],
+		},
+		melee: {
+			label: 'Madness.Modules.Melee',
+			effects: [
+			],
+		},
+		shield: {
+			label: 'Madness.Modules.Shield',
+			effects: [
+			],
+		},
 	},
 	primaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
 	statusEffects: {
