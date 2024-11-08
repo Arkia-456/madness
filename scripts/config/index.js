@@ -149,6 +149,14 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		teruuk: {
+			effects: [
+				{
+					name: 'increaseRange',
+					formula: '(Math.ceil(@{teruuk}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
 	},
 	magics: {
 		doka: 'Madness.Magics.Doka',
