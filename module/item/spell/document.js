@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from '../../../utils/index.js';
+import { capitalizeFirstLetter, displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class SpellMadness extends SkillMadness {
@@ -48,10 +48,7 @@ class SpellMadness extends SkillMadness {
 
 	checkBeforeRoll() {
 		if (this.checkMP()) return true;
-		const notEnoughMPErrorMsg = game.i18n.localize(
-			'Madness.Message.Error.NotEnoughMP',
-		);
-		ui.notifications.error(notEnoughMPErrorMsg);
+		displayError('Madness.Message.Error.NotEnoughMP');
 		return false;
 	}
 

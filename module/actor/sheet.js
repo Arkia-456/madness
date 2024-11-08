@@ -1,5 +1,6 @@
 import {
 	Formula,
+	displayWarning,
 	fontAwesomeIcon,
 	uncapitalizeFirstLetter,
 } from '../../utils/index.js';
@@ -80,19 +81,13 @@ class ActorSheetMadness extends ActorSheet {
 			if (itemSource.type === 'equipment' || itemSource.type === 'weapon') {
 				const weightOk = this.actor.checkWeight(itemSource);
 				if (!weightOk) {
-					const equipmentOverweightWarning = game.i18n.localize(
-						'Madness.Message.Warning.EquipmentOverweight',
-					);
-					ui.notifications.warn(equipmentOverweightWarning);
+					displayWarning('Madness.Message.Warning.EquipmentOverweight');
 				}
 			}
 			if (itemSource.type === 'weapon') {
 				const weaponSlotsOk = this.actor.checkWeaponSlots();
 				if (!weaponSlotsOk) {
-					const noAvailableSlotWarning = game.i18n.localize(
-						'Madness.Message.Warning.NoAvailableWeaponSlot',
-					);
-					ui.notifications.warn(noAvailableSlotWarning);
+					displayWarning('Madness.Message.Warning.NoAvailableWeaponSlot');
 				}
 			}
 			return this._onDropItemCreate(

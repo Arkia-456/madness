@@ -7,8 +7,15 @@ function elide(strToElide, str) {
 	return regex.test(str) ? strToElide.replace(/.$/, "'") : `${strToElide} `;
 }
 
+function isEmptyObject(obj) {
+	for (const prop in obj) {
+		return false;
+	}
+	return true;
+}
+
 function uncapitalizeFirstLetter(string) {
 	return string.charAt(0).toLowerCase() + string.slice(1);
 }
 
-export { capitalizeFirstLetter, elide, uncapitalizeFirstLetter };
+export { capitalizeFirstLetter, elide, isEmptyObject, uncapitalizeFirstLetter };

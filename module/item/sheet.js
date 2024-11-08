@@ -1,3 +1,5 @@
+import { displayWarning } from '../../utils/index.js';
+
 class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
@@ -54,19 +56,15 @@ class ItemSheetMadness extends ItemSheet {
 		this.item.createItem(itemData);
 	}
 
-	_isValidDrop(data, displayWarning = false) {
+	_isValidDrop(data, displayMessage = false) {
 		const validTypes = this._droppables ?? [];
 		const dropType = data.type;
 		const isValid = validTypes.includes(dropType);
-		if (validTypes.length && !isValid && displayWarning) {
-			const warningMsg = game.i18n.format(
-				'Madness.Message.Warning.InvalidDropType',
-				{
-					badType: dropType,
-					goodType: validTypes.join(', '),
-				},
-			);
-			ui.notifications.warn(warningMsg);
+		if (validTypes.length && !isValid && displayMessage) {
+			displayWarning('Madness.Message.Warning.InvalidDropType', {
+				badType: dropType,
+				goodType: validTypes.join(', '),
+			});
 		}
 		return isValid;
 	}

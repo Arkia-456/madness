@@ -1,4 +1,4 @@
-import { Formula } from '../../../utils/index.js';
+import { displayError, Formula } from '../../../utils/index.js';
 import { CheckMadness } from '../../system/check.js';
 import { ItemMadness } from '../index.js';
 
@@ -60,13 +60,9 @@ class SkillMadness extends ItemMadness {
 				}, '') ?? '';
 			return new Formula(formula).evaluate(options).evaluated ?? 0;
 		} catch (error) {
-			const passiveModifierEvaluationErrorMsg = game.i18n.format(
-				'Madness.Message.Error.PassiveModifierEvaluation',
-				{
-					modifierName: modifierName,
-				},
-			);
-			ui.notifications.error(passiveModifierEvaluationErrorMsg);
+			displayError('Madness.Message.Error.PassiveModifierEvaluation', {
+				modifierName: modifierName,
+			});
 		}
 	}
 

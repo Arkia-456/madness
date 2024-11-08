@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter } from '../../../utils/index.js';
+import { capitalizeFirstLetter, displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
@@ -37,10 +37,7 @@ class WeaponMadness extends SkillMadness {
 
 	checkBeforeRoll() {
 		if (this.checkAmmo()) return true;
-		const notEnoughAmmoErrorMsg = game.i18n.localize(
-			'Madness.Message.Error.NotEnoughAmmo',
-		);
-		ui.notifications.error(notEnoughAmmoErrorMsg);
+		displayError('Madness.Message.Error.NotEnoughAmmo');
 		return false;
 	}
 

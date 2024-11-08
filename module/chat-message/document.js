@@ -1,4 +1,4 @@
-import { uncapitalizeFirstLetter } from '../../utils/index.js';
+import { displayError, uncapitalizeFirstLetter } from '../../utils/index.js';
 
 class ChatMessageMadness extends ChatMessage {
 	get actor() {
@@ -61,10 +61,8 @@ class ChatMessageMadness extends ChatMessage {
 	async dodgeFromMessage() {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
-			const errorMessage = game.i18n.localize(
-				'Madness.Message.Error.NoTokenSelected',
-			);
-			return ui.notifications.error(errorMessage);
+			displayError('Madness.Message.Error.NoTokenSelected');
+			return;
 		}
 		const token = tokens[0];
 		const cantDodgeEffects = token.actor.effects.filter((actorEffect) =>
@@ -106,10 +104,8 @@ class ChatMessageMadness extends ChatMessage {
 	async parryFromMessage() {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
-			const errorMessage = game.i18n.localize(
-				'Madness.Message.Error.NoTokenSelected',
-			);
-			return ui.notifications.error(errorMessage);
+			displayError('Madness.Message.Error.NoTokenSelected');
+			return;
 		}
 		const token = tokens[0];
 		const cantParryEffects = token.actor.effects.filter((actorEffect) =>
@@ -151,10 +147,8 @@ class ChatMessageMadness extends ChatMessage {
 	async takeDamageFromMessage() {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
-			const errorMessage = game.i18n.localize(
-				'Madness.Message.Error.NoTokenSelected',
-			);
-			return ui.notifications.error(errorMessage);
+			displayError('Madness.Message.Error.NoTokenSelected');
+			return;
 		}
 		const token = tokens[0];
 		this.applyDamageFromMessage(token);
