@@ -44,9 +44,9 @@ class Formula {
 			const attrString = withDecoration ? '@{' + attr + '}' : ' ' + attr;
 			return (f +=
 				attr === 'flat'
-					? Number(value) + Number(modifier)
+					? Number(value)
 					: `${value}${calculable ? '*' : 'd'}${attrString}`);
-		}, '');
+		}, `${modifier}`);
 	}
 
 	static generateCalculableFormulaFromDice(attributeDice, modifier = 0) {
