@@ -172,6 +172,10 @@ export const MadnessConfig = {
 		accurate: {
 			label: 'Madness.Modules.Accurate',
 			effects: [
+				{
+					name: 'increaseCritRate',
+					formula: '(@{accurate}*5)/@{nbModules}',
+				},
 			],
 		},
 		overload: {
