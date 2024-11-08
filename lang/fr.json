@@ -85,6 +85,7 @@
 			"Name": "Nom",
 			"Power": "Puissance",
 			"ShieldPoints": "Points de bouclier",
+			"Slug": "Identifiant",
 			"Weapon": "Arme",
 			"Weapons": "Armes",
 			"Weight": "Poids"

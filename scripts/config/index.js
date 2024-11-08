@@ -37,14 +37,14 @@ export const MadnessConfig = {
 		},
 	},
 	Effect: {
-		Transperçant: {
+		piercing: {
 			Effects: [
 				{
 					name: 'ignoreArmor',
 				},
 			],
 		},
-		Bouclier: {
+		barrier: {
 			Effects: [
 				{
 					name: 'addTempHP',
@@ -53,7 +53,7 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Destruction: {
+		destruction: {
 			Effects: [
 				{
 					name: 'removeTempHP',
@@ -64,7 +64,7 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Récupération: {
+		recover: {
 			Effects: [
 				{
 					name: 'removeStatusEffects',
