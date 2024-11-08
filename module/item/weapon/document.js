@@ -10,6 +10,10 @@ class WeaponMadness extends SkillMadness {
 		return !this.passives.some((p) => p.name === 'nonReloadable');
 	}
 
+	get useAmmo() {
+		return !this.passives.some((p) => p.name === 'noAmmo');
+	}
+
 	get passives() {
 		const effectPassives = super.passives;
 		const modulePassives =
@@ -51,13 +55,13 @@ class WeaponMadness extends SkillMadness {
 	}
 
 	checkBeforeRoll() {
-		if (this.checkAmmo()) return true;
+		if (!this.useAmmo || this.checkAmmo()) return true;
 		displayError('Madness.Message.Error.NotEnoughAmmo');
 		return false;
 	}
 
 	removeResources() {
-		this.removeAmmo();
+		if (this.useAmmo) this.removeAmmo();
 	}
 
 	checkAmmo() {

@@ -202,6 +202,12 @@ export const MadnessConfig = {
 		melee: {
 			label: 'Madness.Modules.Melee',
 			effects: [
+				{
+					name: 'nonReloadable',
+				},
+				{
+					name: 'noAmmo',
+				},
 			],
 		},
 		shield: {

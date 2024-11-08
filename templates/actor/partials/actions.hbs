@@ -58,7 +58,13 @@
 							</button>
 						{{/if}}
 					</div>
-					<div>{{system.ammo.max}}</div>
+					<div>
+						{{#if useAmmo}}
+							{{system.ammo.max}}
+						{{else}}
+							-
+						{{/if}}
+					</div>
 					<div>
 						{{minDamage}}
 						-

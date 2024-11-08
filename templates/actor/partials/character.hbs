@@ -418,7 +418,13 @@
 						<td class='weapon-header'>
 							{{localize 'Madness.Item.Weapon.Ammo'}}
 						</td>
-						<td>{{weapon.system.ammo.value}}/{{weapon.system.ammo.max}}</td>
+						<td>
+							{{#if weapon.useAmmo}}
+								{{weapon.system.ammo.value}}/{{weapon.system.ammo.max}}
+							{{else}}
+								-
+							{{/if}}
+						</td>
 					</tr>
 				{{/each}}
 			</table>
