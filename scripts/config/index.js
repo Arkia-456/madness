@@ -163,6 +163,10 @@ export const MadnessConfig = {
 		heavy: {
 			label: 'Madness.Modules.Heavy',
 			effects: [
+				{
+					name: 'increaseDamage',
+					formula: '(@{heavy}*4)/@{nbModules}',
+				},
 			],
 		},
 		accurate: {
