@@ -84,7 +84,7 @@
 			"MP": "PM",
 			"Name": "Nom",
 			"Power": "Puissance",
-			"ShieldPoints": "Points de bouclier",
+			"BarrierPoints": "Points de bouclier",
 			"Slug": "Identifiant",
 			"Weapon": "Arme",
 			"Weapons": "Armes",
