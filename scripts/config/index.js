@@ -197,6 +197,10 @@ export const MadnessConfig = {
 		crystaltech: {
 			label: 'Madness.Modules.Crystaltech',
 			effects: [
+				{
+					name: 'increaseRange',
+					formula: '(@{crystaltech}*4)/@{nbModules}',
+				},
 			],
 		},
 		melee: {

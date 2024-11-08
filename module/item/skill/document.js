@@ -19,6 +19,14 @@ class SkillMadness extends ItemMadness {
 		return this.getPassiveModifier('addTempHP');
 	}
 
+	get range() {
+		return Math.max(0, Number(this.system.range.value) + this.rangeMod);
+	}
+
+	get rangeMod() {
+		return this.getPassiveModifier('increaseRange');
+	}
+
 	get passives() {
 		return (
 			Object.values(this.system.items ?? []).reduce((arr, effect) => {
