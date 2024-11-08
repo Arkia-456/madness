@@ -225,10 +225,15 @@ class ActorMadness extends Actor {
 		});
 
 		// Armor
-		system.armor = this.equipments.reduce(
-			(armor, e) => (armor += Number(e.system.armor)),
-			0,
-		);
+		system.armor =
+			this.equipments.reduce(
+				(armor, e) => (armor += Number(e.system.armor)),
+				0,
+			) +
+			this.weapons.reduce(
+				(armor, w) => (armor += Number(w.getPassiveModifier('increaseArmor'))),
+				0,
+			);
 
 		// Weight
 		const equipments = this.items.filter(

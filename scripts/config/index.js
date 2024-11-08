@@ -200,6 +200,10 @@ export const MadnessConfig = {
 		shield: {
 			label: 'Madness.Modules.Shield',
 			effects: [
+				{
+					name: 'increaseArmor',
+					formula: '(@{shield}*2)/@{nbModules}',
+				},
 			],
 		},
 	},
