@@ -188,7 +188,13 @@ export const MadnessConfig = {
 		},
 		overload: {
 			label: 'Madness.Modules.Overload',
-			effects: [],
+			effects: [
+				{
+					name: 'increaseDamageWithMPCost',
+					formula: '(@{overload}*6)/@{nbModules}',
+					cost: 2,
+				},
+			],
 		},
 		ammo: {
 			label: 'Madness.Modules.Ammo',

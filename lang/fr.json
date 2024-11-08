@@ -48,6 +48,7 @@
 			"CantParry": "Vous ne pouvez pas parer",
 			"CantUseMagic": "Vous ne pouvez pas utiliser de sort",
 			"AskContinue": "Voulez-vous continuer ?",
+			"OverloadEffectMessage": "Voulez-vous dépenser 2 PM supplémentaires pour augmenter les dégâts de {value} ?",
 			"Reason": {
 				"Because": "Car",
 				"Effect": "Vous êtes sous l'effet : {effects}",

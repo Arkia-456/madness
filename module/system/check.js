@@ -1,7 +1,33 @@
 import { Formula } from '../../utils/index.js';
 
 class CheckMadness {
+	static async _beforeRoll(context = {}) {
+		const increaseDamageWithMPCostPassive = context?.passives?.find(
+			(p) => p.name === 'increaseDamageWithMPCost',
+		);
+		if (
+			context.item &&
+			increaseDamageWithMPCostPassive &&
+			context.actor?.checkMP(increaseDamageWithMPCostPassive.cost)
+		) {
+			const increaseDamageWithMPCostModifier = context.item.getPassiveModifier(
+				'increaseDamageWithMPCost',
+			);
+			const confirm = await Dialog.confirm({
+				title: 'test',
+				content: game.i18n.format('Madness.Dialog.OverloadEffectMessage', {
+					value: increaseDamageWithMPCostModifier,
+				}),
+			});
+			if (!confirm) return;
+
+			context.modifiers.damage += increaseDamageWithMPCostModifier;
+			context.actor.removeMP(increaseDamageWithMPCostPassive.cost);
+		}
+	}
+
 	static async roll(context) {
+		await CheckMadness._beforeRoll(context);
 		const options = {};
 		const roll = {};
 		options.critRate = {

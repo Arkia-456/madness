@@ -546,6 +546,11 @@ class ActorMadness extends Actor {
 			['system.durations']: durations,
 		});
 	}
+
+	checkMP(value) {
+		if (isNaN(value)) throw new Error('Invalid value');
+		return this.currentMP >= value;
+	}
 }
 
 export { ActorMadness };
