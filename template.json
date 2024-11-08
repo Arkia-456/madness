@@ -116,7 +116,11 @@
 			"templates": [
 				"common"
 			],
-			"ammo": {}
+			"ammo": {},
+			"modules": {
+				"module0": {},
+				"module1": {}
+			}
 		}
 	}
 }
