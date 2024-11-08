@@ -3,7 +3,7 @@ import { SkillMadness } from '../skill/index.js';
 
 class SpellMadness extends SkillMadness {
 	get cost() {
-		return Number(this.system.cost.value) + this.costMod;
+		return Math.max(0, Number(this.system.cost.value) + this.costMod);
 	}
 
 	get passives() {
