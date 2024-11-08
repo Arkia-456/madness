@@ -2,13 +2,6 @@ import { displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
-	prepareBaseData() {
-		super.prepareBaseData();
-		if (this.system.ammo.value === undefined) {
-			this.update({ 'system.ammo.value': this.system.ammo.max });
-		}
-	}
-
 	get passives() {
 		const effectPassives = super.passives;
 		const modulePassives =
