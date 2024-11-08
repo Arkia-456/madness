@@ -1,42 +1,19 @@
-import { Formula, capitalizeFirstLetter } from '../../../utils/index.js';
-import { CheckMadness } from '../../system/check.js';
-import { ItemMadness } from '../index.js';
+import { capitalizeFirstLetter } from '../../../utils/index.js';
+import { SkillMadness } from '../skill/index.js';
 
-class SpellMadness extends ItemMadness {
+class SpellMadness extends SkillMadness {
 	get cost() {
 		return Number(this.system.cost.value) + this.costMod;
 	}
 
 	get passives() {
+		const effectPassives = super.passives;
 		const magicPassives =
 			Object.entries(this.system.requirements).reduce((arr, magic) => {
 				if (magic[1].id) {
 					const magicId = capitalizeFirstLetter(magic[1].id);
 					const effects = CONFIG.Madness.Magic[magicId]?.Effects;
 					if (effects) arr.push(...effects);
-				}
-				return arr;
-			}, []) ?? [];
-		const effectPassives =
-			Object.values(this.system.items ?? []).reduce((arr, effect) => {
-				const effects = structuredClone(
-					CONFIG.Madness.Effect[effect.name]?.Effects,
-				);
-				if (effects) {
-					for (const e of effects) {
-						if (
-							effect.system.hasStrength &&
-							effect.system.strength !== null &&
-							e.formula
-						) {
-							e.formula = new Formula(e.formula)
-								.evaluate({
-									mod: effect.system.strength,
-								})
-								.evaluated.toString();
-						}
-					}
-					arr.push(...effects);
 				}
 				return arr;
 			}, []) ?? [];
@@ -51,105 +28,39 @@ class SpellMadness extends ItemMadness {
 		return this.getPassiveModifier('decreaseMPCost');
 	}
 
-	get critRateMod() {
-		return this.getPassiveModifier('increaseCritRate');
+	getPassiveModifier(modifierName, options = {}) {
+		const opt = {
+			...options,
+			...this.actor.magicsTotals,
+			...{ nbMagics: this.nbMagics },
+		};
+		return super.getPassiveModifier(modifierName, opt);
 	}
 
-	get criFailureRateMod() {
-		return this.getPassiveModifier('increaseCritFailureRate');
-	}
-
-	get damageMod() {
-		return this.getPassiveModifier('increaseDamage');
-	}
-
-	get tempHPMod() {
-		return this.getPassiveModifier('addTempHP');
-	}
-
-	getPassiveModifier(modifierName) {
-		try {
-			const formula =
-				this.passives.reduce((f, mod) => {
-					if (mod.name === modifierName) {
-						const sign = modifierName.startsWith('decrease') ? '-' : '+';
-						const value = `${sign}${mod.formula}`;
-						if (f.length) f += ' + ';
-						f += value;
-					}
-					return f;
-				}, '') ?? '';
-			return (
-				new Formula(formula).evaluate({
-					...this.actor.magicsTotals,
-					...{ nbMagics: this.nbMagics },
-				}).evaluated ?? 0
-			);
-		} catch (error) {
-			const passiveModifierEvaluationErrorMsg = game.i18n.format(
-				'Madness.Message.Error.PassiveModifierEvaluation',
-				{
-					modifierName: modifierName,
-				},
-			);
-			ui.notifications.error(passiveModifierEvaluationErrorMsg);
-		}
-	}
-
-	async updateItems(items) {
-		await this.update({ 'system.items': items });
-	}
-
-	async roll() {
-		const context = {
-			actor: this.actor,
-			item: this,
+	async roll(options = {}) {
+		return super.roll({
+			...options,
 			rollType: 'spell',
-		};
-		context.nbMagics = this.nbMagics;
-		context.modifiers = {
-			critRate: this.critRateMod,
-			critFailureRate: this.criFailureRateMod,
-			damage: this.damageMod,
-		};
-		context.passives = this.passives;
-		this.context = context;
-		if (!this.checkMP()) {
-			const notEnoughMPErrorMsg = game.i18n.localize(
-				'Madness.Message.Error.NotEnoughMP',
-			);
-			return ui.notifications.error(notEnoughMPErrorMsg);
-		}
-		const roll = await CheckMadness.roll(context);
-		if (roll.critOutcome.result === 'success') {
-			this.actor.removeMP(this.cost);
-			await this.applyEffects();
-			await this.applyBuffs();
-		}
-		this.toMessage({ context, roll });
+			nbMagics: this.nbMagics,
+			removeResources: true,
+		});
+	}
+
+	checkBeforeRoll() {
+		if (this.checkMP()) return true;
+		const notEnoughMPErrorMsg = game.i18n.localize(
+			'Madness.Message.Error.NotEnoughMP',
+		);
+		ui.notifications.error(notEnoughMPErrorMsg);
+		return false;
+	}
+
+	removeResources() {
+		this.actor.removeMP(this.cost);
 	}
 
 	checkMP(actor = this.actor) {
 		return actor.currentMP >= this.cost;
-	}
-
-	applyEffects(actor = this.actor) {
-		if (this.passives.some((p) => p.name === 'removeStatusEffects')) {
-			const actorStatusEffects = actor.effects;
-			if (actorStatusEffects) {
-				return actor.toggleStatusEffects(
-					actorStatusEffects.map((e) => e.system.slug),
-				);
-			}
-		}
-	}
-
-	async applyBuffs(actor = this.actor) {
-		const buffs = {};
-		buffs.addTempHP = this.tempHPMod;
-		for (const [key, value] of Object.entries(buffs)) {
-			await actor[key]?.(value);
-		}
 	}
 }
 

@@ -15,7 +15,9 @@ class ItemMadness extends Item {
 		this.updateItems(items);
 	}
 
-	updateItems(data) {}
+	updateItems(data) {
+		throw new Error('Method not implemented.');
+	}
 
 	async delete(operation) {
 		if (this.actor) {
