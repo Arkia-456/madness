@@ -61,9 +61,9 @@ class ActorMadness extends Actor {
 		return this.effects.reduce((rate, effect) => {
 			return (
 				rate +
-				effect.system.effects?.reduce((r, e) => {
+				(effect.system.effects?.reduce((r, e) => {
 					return e.name === 'increaseCriticalFailureRate' ? r + e.value : r;
-				}, 0)
+				}, 0) ?? 0)
 			);
 		}, 0);
 	}
