@@ -116,7 +116,9 @@
 			"templates": [
 				"common"
 			],
-			"ammo": {},
+			"ammo": {
+				"value": 0
+			},
 			"modules": {
 				"module0": {},
 				"module1": {}
