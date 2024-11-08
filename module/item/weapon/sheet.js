@@ -5,7 +5,7 @@ class WeaponSheetMadness extends SkillSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			modules: CONFIG.Madness.Modules,
+			modules: CONFIG.Madness.modules,
 		};
 	}
 }

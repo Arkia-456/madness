@@ -5,8 +5,8 @@ class EffectSheetMadness extends ItemSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			magics: CONFIG.Madness.Magics,
-			statusEffects: CONFIG.Madness.StatusEffects.List,
+			magics: CONFIG.Madness.magics,
+			statusEffects: CONFIG.Madness.statusEffects.list,
 		};
 	}
 }

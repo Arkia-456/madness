@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter, displayError } from '../../../utils/index.js';
+import { displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class SpellMadness extends SkillMadness {
@@ -11,8 +11,8 @@ class SpellMadness extends SkillMadness {
 		const magicPassives =
 			Object.entries(this.system.requirements).reduce((arr, magic) => {
 				if (magic[1].id) {
-					const magicId = capitalizeFirstLetter(magic[1].id);
-					const effects = CONFIG.Madness.Magic[magicId]?.Effects;
+					const magicId = magic[1].id;
+					const effects = CONFIG.Madness.magic[magicId]?.effects;
 					if (effects) arr.push(...effects);
 				}
 				return arr;

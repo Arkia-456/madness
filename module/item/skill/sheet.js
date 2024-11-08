@@ -7,9 +7,9 @@ class SkillSheetMadness extends ItemSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			attributes: CONFIG.Madness.PrimaryAttributes.reduce(
+			attributes: CONFIG.Madness.primaryAttributes.reduce(
 				(attributes, slug) => {
-					const attribute = CONFIG.Madness.Attributes[slug];
+					const attribute = CONFIG.Madness.attributes[slug];
 					if (attribute) attributes[slug] = attribute;
 					return attributes;
 				},

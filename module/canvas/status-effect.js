@@ -1,18 +1,17 @@
-import { capitalizeFirstLetter, htmlQueryAll } from '../../utils/index.js';
+import { htmlQueryAll } from '../../utils/index.js';
 
 export class StatusEffects {
 	static initialize() {
 		CONFIG.statusEffects = Object.entries(
-			CONFIG.Madness.StatusEffects.List,
+			CONFIG.Madness.statusEffects.list,
 		).map(([id, name]) => ({
 			id,
 			name,
 			img: `systems/madness/resources/icons/status-effects/${id}.png`,
-			effects: CONFIG.Madness.StatusEffects[capitalizeFirstLetter(id)]?.Effects,
-			durations:
-				CONFIG.Madness.StatusEffects[capitalizeFirstLetter(id)]?.Durations,
+			effects: CONFIG.Madness.statusEffects[id]?.effects,
+			durations: CONFIG.Madness.statusEffects[id]?.durations,
 			slug: id,
-			stackable: CONFIG.Madness.StatusEffects.StackableEffects.includes(id),
+			stackable: CONFIG.Madness.statusEffects.stackableEffects.includes(id),
 		}));
 		CONFIG.statusEffects.push({
 			id: 'dead',

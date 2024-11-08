@@ -5,7 +5,7 @@ class EquipmentSheetMadness extends ItemSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			slots: CONFIG.Madness.Equipment.Slots,
+			slots: CONFIG.Madness.equipment.slots,
 		};
 	}
 }

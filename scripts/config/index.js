@@ -7,7 +7,7 @@ import {
 } from '../../module/item/index.js';
 
 export const MadnessConfig = {
-	Attributes: {
+	attributes: {
 		agi: 'Madness.Attributes.Agility',
 		con: 'Madness.Attributes.Constitution',
 		dex: 'Madness.Attributes.Dexterity',
@@ -25,27 +25,27 @@ export const MadnessConfig = {
 		maxWeight: 'Madness.Attributes.MaxWeight',
 		parryDamageReduction: 'Madness.Attributes.ParryDamageReduction',
 	},
-	Default: {
-		CriticalFailureRate: 5,
-		RollFormula: '1d100',
+	default: {
+		criticalFailureRate: 5,
+		rollFormula: '1d100',
 	},
-	Equipment: {
-		Slots: {
+	equipment: {
+		slots: {
 			head: 'Madness.Equipment.Slots.Head',
 			body: 'Madness.Equipment.Slots.Body',
 			legs: 'Madness.Equipment.Slots.Legs',
 		},
 	},
-	Effect: {
+	effect: {
 		piercing: {
-			Effects: [
+			effects: [
 				{
 					name: 'ignoreArmor',
 				},
 			],
 		},
 		barrier: {
-			Effects: [
+			effects: [
 				{
 					name: 'addTempHP',
 					type: 'buff',
@@ -54,7 +54,7 @@ export const MadnessConfig = {
 			],
 		},
 		destruction: {
-			Effects: [
+			effects: [
 				{
 					name: 'removeTempHP',
 				},
@@ -65,14 +65,14 @@ export const MadnessConfig = {
 			],
 		},
 		recover: {
-			Effects: [
+			effects: [
 				{
 					name: 'removeStatusEffects',
 				},
 			],
 		},
 	},
-	Item: {
+	item: {
 		documentClasses: {
 			equipment: EquipmentMadness,
 			ethnicity: EthnicityMadness,
@@ -81,8 +81,8 @@ export const MadnessConfig = {
 			weapon: WeaponMadness,
 		},
 	},
-	Formulas: {
-		Attributes: {
+	formulas: {
+		attributes: {
 			critRate: '5 + @{dex}',
 			dodgeRate: '50 + 2 * @{agi}',
 			initiative: '@{agi}',
@@ -93,28 +93,27 @@ export const MadnessConfig = {
 			maxWeight: '20 * @{str}',
 			parryDamageReduction: '50 + 2 * @{con}',
 		},
-		HP: '30 + 6 * @{con}',
-		Magics: {
+		hp: '30 + 6 * @{con}',
+		magics: {
 			doka: 'Math.min(@{ome}, @{teruuk})',
 			natah: 'Math.min(@{erah}, @{shor}, @{sith}, @{ome}, @{teruuk})',
 		},
-		MP: '15 + 3 * @{int}',
-		Rolls: {
+		mp: '15 + 3 * @{int}',
+		rolls: {
 			critRate: '1d100',
 			dodgeRate: '1d100',
 			initiative: '1d10 + @value',
 		},
-		Scores: {
+		scores: {
 			get criticalFailure() {
-				return `${MadnessConfig.Default.CriticalFailureRate} + @{mod}`;
+				return `${MadnessConfig.default.criticalFailureRate} + @{mod}`;
 			},
 			critical: '100 - (@{actorCritRate} + @{mod})',
 		},
 	},
-	Magic: {
-		Erah: {
-			Label: 'Madness.Magics.Erah',
-			Effects: [
+	magic: {
+		erah: {
+			effects: [
 				{
 					name: 'increaseCritFailureRate',
 					formula: '(Math.ceil(@{erah}/2)*2)/@{nbMagics}',
@@ -125,18 +124,16 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Ome: {
-			Label: 'Madness.Magics.Ome',
-			Effects: [
+		ome: {
+			effects: [
 				{
 					name: 'decreaseMPCost',
 					formula: '(Math.ceil(@{ome}/2)*2)/@{nbMagics}',
 				},
 			],
 		},
-		Shor: {
-			Label: 'Madness.Magics.Shor',
-			Effects: [
+		shor: {
+			effects: [
 				{
 					name: 'addTempHP',
 					type: 'buff',
@@ -144,9 +141,8 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Sith: {
-			Label: 'Madness.Magics.Sith',
-			Effects: [
+		sith: {
+			effects: [
 				{
 					name: 'increaseCritRate',
 					formula: '(Math.ceil(@{sith}/2)*4)/@{nbMagics}',
@@ -154,7 +150,7 @@ export const MadnessConfig = {
 			],
 		},
 	},
-	Magics: {
+	magics: {
 		doka: 'Madness.Magics.Doka',
 		erah: 'Madness.Magics.Erah',
 		natah: 'Madness.Magics.Natah',
@@ -163,7 +159,7 @@ export const MadnessConfig = {
 		sith: 'Madness.Magics.Sith',
 		teruuk: 'Madness.Magics.Teruuk',
 	},
-	Modules: {
+	modules: {
 		heavy: 'Madness.Modules.Heavy',
 		accurate: 'Madness.Modules.Accurate',
 		overload: 'Madness.Modules.Overload',
@@ -172,10 +168,10 @@ export const MadnessConfig = {
 		melee: 'Madness.Modules.Melee',
 		shield: 'Madness.Modules.Shield',
 	},
-	PrimaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
-	StatusEffects: {
-		StackableEffects: ['bleed', 'burn', 'freeze', 'poison'],
-		List: {
+	primaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
+	statusEffects: {
+		stackableEffects: ['bleed', 'burn', 'freeze', 'poison'],
+		list: {
 			bleed: 'Madness.StatusEffect.Bleed',
 			burn: 'Madness.StatusEffect.Burn',
 			confusion: 'Madness.StatusEffect.Confusion',
@@ -186,8 +182,8 @@ export const MadnessConfig = {
 			stun: 'Madness.StatusEffect.Stun',
 			void: 'Madness.StatusEffect.Void',
 		},
-		Bleed: {
-			Effects: [
+		bleed: {
+			effects: [
 				{
 					name: 'dot',
 					applicationTime: 'end',
@@ -197,22 +193,22 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Burn: {
-			Effects: [
+		burn: {
+			effects: [
 				{
 					name: 'increaseDamageToHealth',
 					value: 2,
 				},
 			],
 		},
-		Confusion: {
-			Effects: [
+		confusion: {
+			effects: [
 				{
 					name: 'increaseCriticalFailureRate',
 					value: 20,
 				},
 			],
-			Durations: [
+			durations: [
 				{
 					type: 'turn',
 					value: 1,
@@ -220,28 +216,28 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Down: {
-			Effects: [
+		down: {
+			effects: [
 				{
 					name: 'preventDodge',
 				},
 			],
 		},
-		Poison: {
-			Effects: [
+		poison: {
+			effects: [
 				{
 					name: 'increasePrimaryAttribute',
 					value: -1,
 				},
 			],
 		},
-		Shock: {
-			Effects: [
+		shock: {
+			effects: [
 				{
 					name: 'cantUseMagic',
 				},
 			],
-			Durations: [
+			durations: [
 				{
 					type: 'turn',
 					value: 1,
@@ -249,8 +245,8 @@ export const MadnessConfig = {
 				},
 			],
 		},
-		Stun: {
-			Durations: [
+		stun: {
+			durations: [
 				{
 					type: 'action',
 					actionOrigin: 'other',
@@ -262,7 +258,7 @@ export const MadnessConfig = {
 					applicationTime: 'start',
 				},
 			],
-			Effects: [
+			effects: [
 				{
 					name: 'preventDodge',
 				},

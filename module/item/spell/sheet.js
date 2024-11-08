@@ -5,7 +5,7 @@ class SpellSheetMadness extends SkillSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			magics: CONFIG.Madness.Magics,
+			magics: CONFIG.Madness.magics,
 		};
 	}
 }

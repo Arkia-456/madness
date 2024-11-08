@@ -24,13 +24,13 @@ class CheckMadness {
 	}
 
 	static async _rollCrit(options = {}) {
-		const formula = CONFIG.Madness.Default.RollFormula;
+		const formula = CONFIG.Madness.default.rollFormula;
 		const roll = await new Roll(formula).roll();
 		const critFailureScore = new Formula(
-			CONFIG.Madness.Formulas.Scores.criticalFailure,
+			CONFIG.Madness.formulas.scores.criticalFailure,
 		).evaluate({ mod: options?.critFailureRate }).evaluated;
 		const critSuccessScore = new Formula(
-			CONFIG.Madness.Formulas.Scores.critical,
+			CONFIG.Madness.formulas.scores.critical,
 		).evaluate(options.critRate).evaluated;
 		const result = CheckMadness._getCritResult(
 			roll.total,

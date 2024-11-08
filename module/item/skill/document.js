@@ -23,7 +23,7 @@ class SkillMadness extends ItemMadness {
 		return (
 			Object.values(this.system.items ?? []).reduce((arr, effect) => {
 				const effects = structuredClone(
-					CONFIG.Madness.Effect[effect.system.slug]?.Effects,
+					CONFIG.Madness.effect[effect.system.slug]?.effects,
 				);
 				if (effects) {
 					for (const e of effects) {

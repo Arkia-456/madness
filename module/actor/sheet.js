@@ -191,7 +191,7 @@ class ActorSheetMadness extends ActorSheet {
 				attrId = anchor.closest('[data-secondary-attribute]')?.dataset
 					.secondaryAttribute;
 				const attr = this.actor.getSecondaryAttribute(attrId);
-				const rollFormula = CONFIG.Madness.Formulas.Rolls[attrId];
+				const rollFormula = CONFIG.Madness.formulas.rolls[attrId];
 				return attr.roll(rollFormula);
 			}
 		};
@@ -307,10 +307,10 @@ class ActorSheetMadness extends ActorSheet {
 			system: spell.system,
 			effects: spell.system.items,
 			criticalFailureScore: new Formula(
-				CONFIG.Madness.Formulas.Scores.criticalFailure,
+				CONFIG.Madness.formulas.scores.criticalFailure,
 			).evaluate({ mod: critFailureMod }).evaluated,
 			criticalSuccessScore: new Formula(
-				CONFIG.Madness.Formulas.Scores.critical,
+				CONFIG.Madness.formulas.scores.critical,
 			).evaluate({
 				actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
 				mod: spell.critRateMod,

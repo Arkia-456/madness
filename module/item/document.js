@@ -142,7 +142,7 @@ class ItemMadness extends Item {
 const ItemProxyMadness = new Proxy(ItemMadness, {
 	construct(_target, args) {
 		const type = args[0]?.type;
-		const ItemClass = CONFIG.Madness.Item.documentClasses[type];
+		const ItemClass = CONFIG.Madness.item.documentClasses[type];
 		if (!ItemClass) {
 			throw new Error(`Item type ${type} does not exist`);
 		}

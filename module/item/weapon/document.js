@@ -1,4 +1,4 @@
-import { capitalizeFirstLetter, displayError } from '../../../utils/index.js';
+import { displayError } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
@@ -14,8 +14,8 @@ class WeaponMadness extends SkillMadness {
 		const modulePassives =
 			Object.entries(this.system.modules).reduce((arr, module) => {
 				if (module[1].id) {
-					const moduleId = capitalizeFirstLetter(module[1].id);
-					const effects = CONFIG.Madness.Modules[moduleId]?.Effects;
+					const moduleId = module[1].id;
+					const effects = CONFIG.Madness.modules[moduleId]?.effects;
 					if (effects) arr.push(...effects);
 				}
 				return arr;

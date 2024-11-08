@@ -141,7 +141,7 @@ class ActorMadness extends Actor {
 			hitPoints,
 			{ overwrite: false },
 		);
-		hpStat.max = new Formula(CONFIG.Madness.Formulas.HP).evaluate(
+		hpStat.max = new Formula(CONFIG.Madness.formulas.hp).evaluate(
 			totals,
 		)?.evaluated;
 		hpStat.value = Math.min(hpStat.value, hpStat.max);
@@ -154,7 +154,7 @@ class ActorMadness extends Actor {
 			manaPoints,
 			{ overwrite: false },
 		);
-		mpStat.max = new Formula(CONFIG.Madness.Formulas.MP).evaluate(
+		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate(
 			totals,
 		)?.evaluated;
 		mpStat.value = Math.min(mpStat.value, mpStat.max);
@@ -162,7 +162,7 @@ class ActorMadness extends Actor {
 
 		// Secondary attributes
 		system.secondaryAttributes = {};
-		Object.entries(CONFIG.Madness.Formulas.Attributes).forEach(
+		Object.entries(CONFIG.Madness.formulas.attributes).forEach(
 			([key, value]) => {
 				const modifiers = [];
 				const stat = foundry.utils.mergeObject(
@@ -192,7 +192,7 @@ class ActorMadness extends Actor {
 			});
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, {
-					type: 'Magics',
+					type: 'magics',
 					label: key,
 					modifiers: modifiers,
 				}),
@@ -209,11 +209,11 @@ class ActorMadness extends Actor {
 		);
 
 		system.secondaryMagics = {};
-		Object.entries(CONFIG.Madness.Formulas.Magics).forEach(([key, value]) => {
+		Object.entries(CONFIG.Madness.formulas.magics).forEach(([key, value]) => {
 			const modifiers = [];
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, {
-					type: 'Magics',
+					type: 'magics',
 					label: key,
 					modifiers: modifiers,
 				}),

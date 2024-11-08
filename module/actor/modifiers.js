@@ -19,7 +19,7 @@ export class Attribute {
 		this.actorId = actor.id;
 		this.id = data.label;
 		this.label = game.i18n.localize(
-			CONFIG.Madness[data.type ?? 'Attributes'][data.label],
+			CONFIG.Madness[data.type ?? 'attributes'][data.label],
 		);
 		const seen = data.modifiers.reduce((result, modifier) => {
 			const existing = result[modifier.label];
