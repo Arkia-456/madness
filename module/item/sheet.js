@@ -92,6 +92,12 @@ class ItemSheetMadness extends ItemSheet {
 			this._deleteItem(itemId);
 		};
 
+		handlers['open-compendium'] = (_, actionTarget) => {
+			return game.packs
+				.get(actionTarget.dataset.compendium ?? '')
+				?.render(true);
+		};
+
 		const sheetHandler = async (event) => {
 			const actionTarget = event.target.closest(
 				'a[data-action], button[data-action]',

@@ -39,7 +39,10 @@
 	</div>
 </div>
 <div class='item-list'>
-	<p>{{localize 'Madness.Label.Effects'}}</p>
+	<span>{{localize 'Madness.Label.Effects'}}</span>
+	<a data-action='open-compendium' data-compendium='madness-compendium.effects'>
+		<i class='fa-solid fa-fw fa-search'></i>
+	</a>
 	<div>
 		{{#each system.items as |effect i|}}
 			{{> "madness.item.effect-line" this=effect}}
