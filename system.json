@@ -23,6 +23,6 @@
 		}
 	],
 	"initiative": "1d10 + @secondaryAttributes.initiative.total",
-	"gridDistance": 2,
+	"gridDistance": 1,
 	"gridUnits": "m"
 }
