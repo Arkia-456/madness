@@ -159,7 +159,7 @@ class ChatMessageMadness extends ChatMessage {
 		const context = this.flags.madness?.context ?? {};
 		const outcome = context.outcome?.total ?? 0;
 		const passives = context.passives;
-		const effects = Object.values(context.item.system.items).reduce(
+		const effects = Object.values(context.item.system.items ?? []).reduce(
 			(arr, i) => {
 				const effect = CONFIG.statusEffects.find(
 					(e) => e.id === i.system.statusEffect,
