@@ -36,7 +36,7 @@ class WeaponMadness extends SkillMadness {
 	getPassiveModifier(modifierName, options = {}) {
 		const modulesValues =
 			Object.values(this.system.modules)?.reduce((values, module) => {
-				values[module.id] = module.value;
+				values[module.id] = module.value ?? 0;
 				return values;
 			}, {}) ?? {};
 		const opt = {
