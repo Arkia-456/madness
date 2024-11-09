@@ -71,8 +71,10 @@ class ActorSheetMadness extends ActorSheet {
 				allowDrop = tab === 'actions';
 				break;
 			case 'equipment':
-			case 'weapon':
 				allowDrop = tab === 'inventory';
+				break;
+			case 'weapon':
+				allowDrop = tab === 'inventory' || tab === 'actions';
 				break;
 			default:
 				break;
