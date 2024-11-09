@@ -103,12 +103,19 @@
 		},
 		"Modules": {
 			"Accurate": "Précis",
+			"AccurateDescription": "Augmente le taux de critique de :",
 			"Ammo": "Munition",
+			"AmmoDescription": "Ne peut pas être rechargée et augmente les dégâts de :",
 			"Crystaltech": "Crystaltech",
+			"CrystaltechDescription": "Consomme un point d'action pour recharger le chargeur, augmente la portée de :",
 			"Heavy": "Lourd",
+			"HeavyDescription": "Augmente les dégâts de :",
 			"Melee": "Mêlée",
+			"MeleeDescription": "Portée à 0, pas de recharge nécessaire",
 			"Overload": "Surcharge",
-			"Shield": "Bouclier"
+			"OverloadDescription": "Permet de consommer 2 PM pour augmenter les dégâts de :",
+			"Shield": "Bouclier",
+			"ShieldDescription": "Augmente l'armure de :"
 		},
 		"Item": {
 			"Effect": {

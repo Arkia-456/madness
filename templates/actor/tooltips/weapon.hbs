@@ -1,0 +1,53 @@
+<div class='tooltip actions'>
+	<div>
+		<div>{{localize 'Madness.Label.Description'}}</div>
+		<div>
+			{{#if system.description}}
+				{{{system.description}}}
+			{{else}}
+				-
+			{{/if}}
+		</div>
+	</div>
+	<table>
+		<tr>
+			<td colspan='2'>{{localize 'Madness.Item.Weapon.Modules'}}</td>
+			<td>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+		<tr>
+			{{#each system.modules}}
+				<td class='module'>
+					<p>{{localize (lookup (lookup @root.modules id) 'label')}}
+						{{value}}</p>
+					<p>{{localize (lookup (lookup @root.modules id) 'description')}}
+						{{#each (lookup (lookup @root.modules id) 'effects')}}
+							{{value}}
+						{{/each}}
+					</p>
+				</td>
+			{{/each}}
+			<td>{{system.weight}}</td>
+		</tr>
+	</table>
+	<table class='stats'>
+		<tr>
+			<td>{{localize 'Madness.Label.Damage'}}</td>
+			<td>{{localize 'Madness.Label.CriticalFailureScore'}}</td>
+			<td>{{localize 'Madness.Label.CriticalSuccessScore'}}</td>
+		</tr>
+		<tr>
+			<td>{{damageFormula}}</td>
+			<td>&lt;= {{criticalFailureScore}}</td>
+			<td>&gt; {{criticalSuccessScore}}</td>
+		</tr>
+	</table>
+	<table class='effects'>
+		{{#each effects}}
+			<tr>
+				<td>{{name}}</td>
+				<td>{{{system.description}}}</td>
+				<td>{{system.strength}}</td>
+			</tr>
+		{{/each}}
+	</table>
+</div>

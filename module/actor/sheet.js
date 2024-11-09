@@ -110,6 +110,10 @@ class ActorSheetMadness extends ActorSheet {
 			html,
 			actor.items.filter((i) => i.type === 'spell'),
 		);
+		this._generateWeaponsTooltip(
+			html,
+			actor.items.filter((i) => i.type === 'weapon'),
+		);
 
 		const characterTab = html.querySelector('.tab[data-tab=character]');
 		if (characterTab && this.isEditable) {
@@ -329,6 +333,59 @@ class ActorSheetMadness extends ActorSheet {
 		return renderTemplate(
 			'systems/madness/templates/actor/tooltips/spell.hbs',
 			spellData,
+		);
+	}
+
+	async _generateWeaponsTooltip(html, weapons) {
+		for (const weapon of weapons) {
+			const tooltip = await this._generateWeaponTooltip(weapon);
+			this._addTooltip(html, `.weapon[data-id='${weapon.id}']`, tooltip);
+		}
+	}
+
+	_generateWeaponTooltip(weapon) {
+		const damageFormula =
+			Formula.generateFormulaStrFromDice(
+				weapon.system.damage,
+				weapon.damageMod,
+			) || '0';
+		const critFailureMod =
+			weapon.criFailureRateMod + this.actor.criticalFailureRateMod;
+		const weaponData = {
+			damageFormula,
+			system: weapon.system,
+			modules: Object.values(weapon.system.modules).reduce((modules, value) => {
+				if (value.id) {
+					const moduleConfig = foundry.utils.deepClone(
+						CONFIG.Madness.modules[value.id],
+					);
+					modules[value.id] = moduleConfig;
+					if (moduleConfig.effects) {
+						modules[value.id].effects = moduleConfig.effects.map((e) => {
+							const modifier = weapon.getPassiveModifier(e.name);
+							return {
+								name: e.name,
+								value: isNaN(modifier) ? '' : modifier,
+							};
+						});
+					}
+				}
+				return modules;
+			}, {}),
+			effects: weapon.system.items,
+			criticalFailureScore: new Formula(
+				CONFIG.Madness.formulas.scores.criticalFailure,
+			).evaluate({ mod: critFailureMod }).evaluated,
+			criticalSuccessScore: new Formula(
+				CONFIG.Madness.formulas.scores.critical,
+			).evaluate({
+				actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
+				mod: weapon.critRateMod,
+			}).evaluated,
+		};
+		return renderTemplate(
+			'systems/madness/templates/actor/tooltips/weapon.hbs',
+			weaponData,
 		);
 	}
 }

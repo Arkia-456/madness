@@ -170,6 +170,7 @@ export const MadnessConfig = {
 	modules: {
 		heavy: {
 			label: 'Madness.Modules.Heavy',
+			description: 'Madness.Modules.HeavyDescription',
 			effects: [
 				{
 					name: 'increaseDamage',
@@ -179,6 +180,7 @@ export const MadnessConfig = {
 		},
 		accurate: {
 			label: 'Madness.Modules.Accurate',
+			description: 'Madness.Modules.AccurateDescription',
 			effects: [
 				{
 					name: 'increaseCritRate',
@@ -188,6 +190,7 @@ export const MadnessConfig = {
 		},
 		overload: {
 			label: 'Madness.Modules.Overload',
+			description: 'Madness.Modules.OverloadDescription',
 			effects: [
 				{
 					name: 'increaseDamageWithMPCost',
@@ -198,6 +201,7 @@ export const MadnessConfig = {
 		},
 		ammo: {
 			label: 'Madness.Modules.Ammo',
+			description: 'Madness.Modules.AmmoDescription',
 			effects: [
 				{
 					name: 'nonReloadable',
@@ -210,6 +214,7 @@ export const MadnessConfig = {
 		},
 		crystaltech: {
 			label: 'Madness.Modules.Crystaltech',
+			description: 'Madness.Modules.CrystaltechDescription',
 			effects: [
 				{
 					name: 'increaseRange',
@@ -219,6 +224,7 @@ export const MadnessConfig = {
 		},
 		melee: {
 			label: 'Madness.Modules.Melee',
+			description: 'Madness.Modules.MeleeDescription',
 			effects: [
 				{
 					name: 'nonReloadable',
@@ -230,6 +236,7 @@ export const MadnessConfig = {
 		},
 		shield: {
 			label: 'Madness.Modules.Shield',
+			description: 'Madness.Modules.ShieldDescription',
 			effects: [
 				{
 					name: 'increaseArmor',
