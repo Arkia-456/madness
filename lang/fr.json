@@ -86,6 +86,7 @@
 			"Name": "Nom",
 			"Power": "Puissance",
 			"BarrierPoints": "Points de bouclier",
+			"Reloadable": "Rechargeable",
 			"Slug": "Identifiant",
 			"Weapon": "Arme",
 			"Weapons": "Armes",
