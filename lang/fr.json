@@ -64,7 +64,6 @@
 				"Legs": "Jambes"
 			}
 		},
-		"Ethnicity": "Ethnie",
 		"Label": {
 			"Armor": "Armure",
 			"Character": "Personnage",
@@ -77,6 +76,7 @@
 			"EditMagics": "Editer les magies",
 			"Effects": "Effets",
 			"Equipment": "Equipement",
+			"Ethnicity": "Ethnie",
 			"ArmorPoints": "Points d'armure",
 			"HitPoints": "Points de vie",
 			"MagicSkills": "Compétences magiques",

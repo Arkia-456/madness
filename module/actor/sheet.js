@@ -278,7 +278,7 @@ class ActorSheetMadness extends ActorSheet {
 		const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${value.value >= 0 ? '+' : ''}${value.value}`;
 		const modifiersStr = value._modifiers.reduce((str, modifier) => {
 			if (str.length) str += '<br />';
-			return (str += `${game.i18n.localize(`Madness.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
+			return (str += `${game.i18n.localize(`Madness.Label.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
 		}, '');
 		return [naturalStr, modifiersStr];
 	}
