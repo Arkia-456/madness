@@ -53,4 +53,12 @@
 		data-dtype='number'
 	/>
 </div>
+<div>
+	<label>{{localize 'Madness.Label.Reloadable'}}</label>
+	<input
+		type='checkbox'
+		name='system.allowReload'
+		{{checked system.allowReload}}
+	/>
+</div>
 {{> 'madness.item.skill.details'}}

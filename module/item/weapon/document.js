@@ -6,8 +6,13 @@ class WeaponMadness extends SkillMadness {
 		return Object.values(this.system.modules).filter((el) => el.id).length;
 	}
 
+	// Add a button to edit the item sheet to set back the check
 	get reloadable() {
-		return !this.passives.some((p) => p.name === 'nonReloadable');
+		return this.useAmmo && (this.nonReloadable ? this.system.allowReload : 1);
+	}
+
+	get nonReloadable() {
+		return this.passives.some((p) => p.name === 'nonReloadable');
 	}
 
 	get useAmmo() {
@@ -43,7 +48,9 @@ class WeaponMadness extends SkillMadness {
 	}
 
 	reload() {
-		this.update({ 'system.ammo.value': this.system.ammo.max });
+		const updates = { 'system.ammo.value': this.system.ammo.max };
+		if (this.nonReloadable) updates['system.allowReload'] = false;
+		this.update(updates);
 	}
 
 	async roll(options = {}) {
