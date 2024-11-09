@@ -144,6 +144,9 @@ class ActorMadness extends Actor {
 		hpStat.max = new Formula(CONFIG.Madness.formulas.hp).evaluate(
 			totals,
 		)?.evaluated;
+		if (hpStat.value > hpStat.max) {
+			this.update({ 'system.hp.value': hpStat.max });
+		}
 		hpStat.value = Math.min(hpStat.value, hpStat.max);
 		system.hp = hpStat;
 
@@ -157,6 +160,9 @@ class ActorMadness extends Actor {
 		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate(
 			totals,
 		)?.evaluated;
+		if (mpStat.value > mpStat.max) {
+			this.update({ 'system.mp.value': mpStat.max });
+		}
 		mpStat.value = Math.min(mpStat.value, mpStat.max);
 		system.mp = mpStat;
 
