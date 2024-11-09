@@ -162,6 +162,14 @@ class ActorSheetMadness extends ActorSheet {
 			return new EditMagicsPopup(this.actor).render(true);
 		};
 
+		handlers['edit-item'] = (event, anchor) => {
+			const itemId =
+				anchor.closest('[data-item-id]')?.dataset.itemId ??
+				anchor.closest('[data-id]')?.dataset.id;
+			const item = this.actor.items.get(itemId);
+			item.sheet.render(true, { focus: true });
+		};
+
 		handlers['delete'] = (event, anchor) => {
 			const id = anchor.closest('[data-id]')?.dataset.id;
 			const item = this.actor.items.get(id);
