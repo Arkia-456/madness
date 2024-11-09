@@ -500,17 +500,25 @@ class ActorMadness extends Actor {
 		}
 	}
 
-	increaseStatusEffect(statusId) {
+	async increaseStatusEffect(statusId) {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
 		if (!existing) {
-			return this.toggleStatusEffect(statusId);
+			const statusEffect = await this.toggleStatusEffect(statusId);
+			if (statusEffect.system.stackable) {
+				this.increaseStacks(statusEffect, 1);
+			}
+			return statusEffect;
 		}
 
 		if (!existing.system.stackable) return;
 
-		const currentValue = existing.system.stacks ?? 1;
-		const newValue = currentValue + 1;
-		return existing.update({ 'system.stacks': newValue });
+		return this.increaseStacks(existing, 1);
+	}
+
+	increaseStacks(statusEffect, num = 1) {
+		const currentValue = statusEffect.system.stacks ?? 0;
+		const newValue = currentValue + num;
+		return statusEffect.update({ 'system.stacks': newValue });
 	}
 
 	toggleStatusEffects(statusIds) {
