@@ -432,13 +432,11 @@ class ActorMadness extends Actor {
 			additionalDamage = this.effects.reduce((damage, effect) => {
 				return (
 					damage +
-						effect.system.effects?.reduce((total, e) => {
-							const stacks = effect.system.stacks ?? 1;
-							const value = e.value * stacks;
-							return e.name === 'increaseDamageToHealth'
-								? total + value
-								: total;
-						}, 0) ?? 0
+					(effect.system.effects?.reduce((total, e) => {
+						const stacks = effect.system.stacks ?? 1;
+						const value = e.value * stacks;
+						return e.name === 'increaseDamageToHealth' ? total + value : total;
+					}, 0) ?? 0)
 				);
 			}, 0);
 		}
