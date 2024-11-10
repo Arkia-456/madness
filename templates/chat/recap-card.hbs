@@ -1,0 +1,34 @@
+<div class='chat-card'>
+	<table>
+		<tr>
+			<td>{{localize 'Madness.Label.HP'}}</td>
+			<td>{{hp}}/{{hpmax}}</td>
+			<td>{{localize 'Madness.Label.Barrier'}}</td>
+			<td>{{hptemp}}</td>
+		</tr>
+		<tr>
+			<td>{{localize 'Madness.Label.MP'}}</td>
+			<td>{{mp}}/{{mpmax}}</td>
+			<td>{{localize 'Madness.Label.Armor'}}</td>
+			<td>{{armor}}</td>
+		</tr>
+		<tr>
+			<td>{{localize 'Madness.Label.Movement'}}</td>
+			<td>{{movement}}</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td>{{localize 'Madness.Label.Effect'}}</td>
+			<td>{{localize 'Madness.Label.Stacks'}}</td>
+			<td>{{localize 'Madness.Label.Duration'}}</td>
+		</tr>
+		{{#each passives}}
+			<tr>
+				<td>{{name}}</td>
+				<td>{{stacks}}</td>
+				<td>{{duration}}</td>
+			</tr>
+		{{/each}}
+	</table>
+</div>
