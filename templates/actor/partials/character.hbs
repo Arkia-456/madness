@@ -123,9 +123,6 @@
 			</div>
 		</div>
 		<div class='stats'>
-			<button data-action='edit-attributes'>
-				<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
-			</button>
 			<div class='stats-tables'>
 				<table class='attributes'>
 					<tr>
@@ -141,11 +138,13 @@
 						<td
 							class='attribute-header primary-attribute'
 							rowspan='3'
+							data-action='edit-attributes'
 						>{{system.attributes.agi.label}}</td>
 						<td
 							rowspan='3'
 							class='attribute-total primary-attribute'
 							data-id='{{system.attributes.agi.id}}'
+							data-action='edit-attributes'
 						>{{system.attributes.agi.total}}</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.initiative.rollable}}
@@ -218,9 +217,11 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
+							data-action='edit-attributes'
 						>{{system.attributes.con.label}}</td>
 						<td
 							class='attribute-total primary-attribute'
+							data-action='edit-attributes'
 							data-id='{{system.attributes.con.id}}'
 						>{{system.attributes.con.total}}</td>
 						<td class='attribute-header'>
@@ -254,9 +255,11 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
+							data-action='edit-attributes'
 						>{{system.attributes.dex.label}}</td>
 						<td
 							class='attribute-total primary-attribute'
+							data-action='edit-attributes'
 							data-id='{{system.attributes.dex.id}}'
 						>{{system.attributes.dex.total}}</td>
 						<td class='attribute-header'>
@@ -290,9 +293,11 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
+							data-action='edit-attributes'
 						>{{system.attributes.int.label}}</td>
 						<td
 							class='attribute-total primary-attribute'
+							data-action='edit-attributes'
 							data-id='{{system.attributes.int.id}}'
 						>{{system.attributes.int.total}}</td>
 						<td class='attribute-header'>
@@ -333,11 +338,13 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
+							data-action='edit-attributes'
 							rowspan='3'
 						>{{system.attributes.str.label}}</td>
 						<td
 							rowspan='3'
 							class='attribute-total primary-attribute'
+							data-action='edit-attributes'
 							data-id='{{system.attributes.str.id}}'
 						>{{system.attributes.str.total}}</td>
 						<td class='attribute-header'>
@@ -400,7 +407,7 @@
 						>{{system.secondaryAttributes.inventoryMaxSlots.total}}</td>
 					</tr>
 				</table>
-				<table class='magics'>
+				<table class='magics' data-action='edit-magics'>
 					{{#each system.magics as |magic id|}}
 						<tr class='attribute magic' data-id='{{id}}'>
 							<td class='attribute-header'>{{magic.label}}</td>
@@ -415,9 +422,6 @@
 					{{/each}}
 				</table>
 			</div>
-			<button data-action='edit-magics'>
-				<i class='fa-solid fa-fw fa-edit'>{{localize Madness.Controls.Edit}}</i>
-			</button>
 			<table class='weapons'>
 				{{#each weapons as |weapon id|}}
 					<tr>

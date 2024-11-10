@@ -262,9 +262,7 @@ class ActorSheetMadness extends ActorSheet {
 
 		const sheetHandler = async (event) => {
 			const element = event.target;
-			const actionTarget = element.closest(
-				'a[data-action], button[data-action]',
-			);
+			const actionTarget = element.closest('[data-action]');
 			const handler = handlers[actionTarget?.dataset.action ?? ''];
 			if (handler && actionTarget) {
 				event.stopImmediatePropagation();
