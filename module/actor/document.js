@@ -506,6 +506,9 @@ class ActorMadness extends Actor {
 	}
 
 	async increaseStatusEffect(statusId) {
+		if (statusId === 'burn' && this.ethnicity?.name.startsWith('Draken ')) {
+			return;
+		}
 		const existing = this.effects.find((e) => e.system.slug === statusId);
 		if (!existing) {
 			const statusEffect = await this.toggleStatusEffect(statusId);
