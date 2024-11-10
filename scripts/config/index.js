@@ -37,6 +37,14 @@ export const MadnessConfig = {
 		},
 	},
 	effect: {
+		derion: {
+			effects: [
+				{
+					name: 'increaseDamage',
+					formula: '@{mod}',
+				},
+			],
+		},
 		piercing: {
 			effects: [
 				{
@@ -159,8 +167,10 @@ export const MadnessConfig = {
 		},
 	},
 	magics: {
+		derion: 'Madness.Magics.Derion',
 		doka: 'Madness.Magics.Doka',
 		erah: 'Madness.Magics.Erah',
+		escura: 'Madness.Magics.Escura',
 		natah: 'Madness.Magics.Natah',
 		ome: 'Madness.Magics.Ome',
 		shor: 'Madness.Magics.Shor',
