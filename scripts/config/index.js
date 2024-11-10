@@ -254,6 +254,7 @@ export const MadnessConfig = {
 			confusion: 'Madness.StatusEffect.Confusion',
 			down: 'Madness.StatusEffect.Down',
 			freeze: 'Madness.StatusEffect.Freeze',
+			overweight: 'Madness.StatusEffect.Overweight',
 			poison: 'Madness.StatusEffect.Poison',
 			shock: 'Madness.StatusEffect.Shock',
 			stun: 'Madness.StatusEffect.Stun',
