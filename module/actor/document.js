@@ -441,6 +441,7 @@ class ActorMadness extends Actor {
 		if (damageResult.totalApplied !== 0) {
 			this.update(damageResult.updates);
 		}
+		return damageResult.totalApplied;
 	}
 
 	_calculateHealthDelta(hp, delta, context) {
@@ -480,7 +481,7 @@ class ActorMadness extends Actor {
 		const toApply = appliedToHP + additionalDamage;
 		updates['system.hp.value'] = Math.clamp(hp.value - toApply, 0, hp.max);
 
-		const totalApplied = appliedToTemp + appliedToHP;
+		const totalApplied = appliedToTemp + toApply;
 
 		return { updates, totalApplied };
 	}

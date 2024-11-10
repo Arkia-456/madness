@@ -1,5 +1,11 @@
 {
 	"Madness": {
+		"Actions": {
+			"ParryPast": "A paré",
+			"DodgePast": "A esquivé",
+			"TakePast": "A subi",
+			"TriedToDodge": "A tenté d'esquiver"
+		},
 		"Attributes": {
 			"Agility": "Agilité",
 			"Constitution": "Physique",

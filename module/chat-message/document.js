@@ -82,8 +82,50 @@ class ChatMessageMadness extends ChatMessage {
 		}
 		const roll = await token.actor.dodge(token);
 		if (roll.isCritical || roll.result === 'success') return;
-		this.applyDamageFromMessage(token);
+		const damage = this.applyDamageFromMessage(token);
+		await this.toMessage({ type: 'dodge', actor: token.actor, damage });
 		await this._removeBuffsAndDebuffs(token.actor);
+	}
+
+	async toMessage(options) {
+		const { actor, type, damage } = options;
+		const template = 'systems/madness/templates/chat/defense-card.hbs';
+		let actionTranslation = '';
+		switch (type) {
+			case 'dodge':
+				actionTranslation = game.i18n
+					.localize('Madness.Actions.TriedToDodge')
+					?.toLowerCase();
+				break;
+			case 'parry':
+				actionTranslation = game.i18n
+					.localize('Madness.Actions.ParryPast')
+					?.toLowerCase();
+				break;
+			default:
+				break;
+		}
+		const andTranslation = game.i18n
+			.localize('Madness.Dialog.And')
+			?.toLowerCase();
+		const tookTranslation = game.i18n
+			.localize('Madness.Actions.TakePast')
+			?.toLowerCase();
+		const damageTranslation = game.i18n
+			.localize('Madness.Label.Damage')
+			?.toLowerCase();
+		const message = `${actor.name} ${actionTranslation} ${actionTranslation ? `${andTranslation} ` : ''}${tookTranslation} ${damage} ${damageTranslation}.`;
+		const templateData = {
+			message,
+		};
+		const chatData = {
+			speaker: ChatMessageMadness.getSpeaker({
+				actor: actor,
+				token: actor.token,
+			}),
+			content: await renderTemplate(template, templateData),
+		};
+		ChatMessageMadness.create(chatData);
 	}
 
 	async parryFromMessage() {
@@ -106,7 +148,8 @@ class ChatMessageMadness extends ChatMessage {
 		}
 		const roll = await token.actor.parry(token);
 		if (roll.isCritical) return;
-		this.applyDamageFromMessage(token, { parry: true });
+		const damage = this.applyDamageFromMessage(token, { parry: true });
+		await this.toMessage({ type: 'parry', actor: token.actor, damage });
 		await this._removeBuffsAndDebuffs(token.actor);
 	}
 
@@ -196,7 +239,8 @@ class ChatMessageMadness extends ChatMessage {
 			return;
 		}
 		const token = tokens[0];
-		this.applyDamageFromMessage(token);
+		const damage = this.applyDamageFromMessage(token);
+		await this.toMessage({ actor: token.actor, damage });
 		await this._removeBuffsAndDebuffs(token.actor);
 	}
 
@@ -215,7 +259,7 @@ class ChatMessageMadness extends ChatMessage {
 			[],
 		);
 		if (!outcome && !passives.length) return;
-		token.actor.applyDamage(outcome, {
+		return token.actor.applyDamage(outcome, {
 			...options,
 			passives: [...context.passives, ...effects],
 		});
