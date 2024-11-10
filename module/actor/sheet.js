@@ -229,8 +229,8 @@ class ActorSheetMadness extends ActorSheet {
 				const reasonTranslation = uncapitalizeFirstLetter(
 					game.i18n.format(
 						cantUseMagicEffects.length > 1
-							? 'Madness.Dialog.Reason.Effects'
-							: 'Madness.Dialog.Reason.Effect',
+							? 'Madness.Dialog.Reason.ActorEffects'
+							: 'Madness.Dialog.Reason.ActorEffect',
 						{
 							effects: cantUseMagicEffects.map((e) => e.name).join(', '),
 						},

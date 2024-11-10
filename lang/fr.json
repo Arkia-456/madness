@@ -43,6 +43,7 @@
 			"TakeDamage": "Appliquer les dégâts"
 		},
 		"Dialog": {
+			"And": "et",
 			"Confirm": "Confirmation",
 			"CantDodge": "Vous ne pouvez pas esquiver",
 			"CantParry": "Vous ne pouvez pas parer",
@@ -51,8 +52,10 @@
 			"OverloadEffectMessage": "Voulez-vous dépenser 2 PM supplémentaires pour augmenter les dégâts de {value} ?",
 			"Reason": {
 				"Because": "Car",
-				"Effect": "Vous êtes sous l'effet : {effects}",
-				"Effects": "Vous êtes sous les effets : {effects}"
+				"ActorEffect": "Vous êtes sous l'effet : {effects}",
+				"ActorEffects": "Vous êtes sous les effets : {effects}",
+				"ItemEffect": "L'attaque qui vous cible a l'effet : {effects}",
+				"ItemEffects": "L'attaque qui vous cible a les effets : {effects}"
 			}
 		},
 		"Equipment": {

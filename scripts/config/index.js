@@ -45,6 +45,20 @@ export const MadnessConfig = {
 				},
 			],
 		},
+		explosion: {
+			effects: [
+				{
+					name: 'preventDodge',
+				},
+			],
+		},
+		guardBreak: {
+			effects: [
+				{
+					name: 'preventParry',
+				},
+			],
+		},
 		piercing: {
 			effects: [
 				{

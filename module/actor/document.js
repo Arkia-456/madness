@@ -576,6 +576,20 @@ class ActorMadness extends Actor {
 		if (isNaN(value)) throw new Error('Invalid value');
 		return this.currentMP >= value;
 	}
+
+	get parryEffects() {
+		const effects = this.effects.filter((statusEffect) =>
+			statusEffect.system.effects?.some((e) => e.name === 'preventParry'),
+		);
+		return { canParry: !effects.length, effects: effects };
+	}
+
+	get dodgeEffects() {
+		const effects = this.effects.filter((statusEffect) =>
+			statusEffect.system.effects?.some((e) => e.name === 'preventDodge'),
+		);
+		return { canDodge: !effects.length, effects: effects };
+	}
 }
 
 export { ActorMadness };

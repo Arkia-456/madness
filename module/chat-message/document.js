@@ -1,4 +1,8 @@
-import { displayError, uncapitalizeFirstLetter } from '../../utils/index.js';
+import {
+	capitalizeFirstLetter,
+	displayError,
+	uncapitalizeFirstLetter,
+} from '../../utils/index.js';
 
 class ChatMessageMadness extends ChatMessage {
 	get actor() {
@@ -65,34 +69,15 @@ class ChatMessageMadness extends ChatMessage {
 			return;
 		}
 		const token = tokens[0];
-		const cantDodgeEffects = token.actor.effects.filter((actorEffect) =>
-			actorEffect.system.effects?.some((e) => e.name === 'preventDodge'),
-		);
-		if (cantDodgeEffects.length) {
-			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
-			const cantDodgeTranslation = game.i18n.localize(
-				'Madness.Dialog.CantDodge',
+		const { canDodge: actorCanDodge, effects: actorCantDodgeEffects } =
+			token.actor.dodgeEffects;
+		const { canDodge: itemCanDodge, effects: itemCantDodgeEffects } =
+			this.item.dodgeEffects;
+		if (!actorCanDodge || !itemCanDodge) {
+			const confirmDodge = await this._displayCantDodgeConfirmDialog(
+				actorCantDodgeEffects,
+				itemCantDodgeEffects,
 			);
-			const becauseTranslation = uncapitalizeFirstLetter(
-				game.i18n.localize('Madness.Dialog.Reason.Because'),
-			);
-			const reasonTranslation = uncapitalizeFirstLetter(
-				game.i18n.format(
-					cantDodgeEffects.length > 1
-						? 'Madness.Dialog.Reason.Effects'
-						: 'Madness.Dialog.Reason.Effect',
-					{
-						effects: cantDodgeEffects.map((e) => e.name).join(', '),
-					},
-				),
-			);
-			const askContinueTranslation = game.i18n.localize(
-				'Madness.Dialog.AskContinue',
-			);
-			const confirmDodge = await Dialog.confirm({
-				title: confirmDialogTitle,
-				content: `${cantDodgeTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`,
-			});
 			if (!confirmDodge) return;
 		}
 		const roll = await token.actor.dodge(token);
@@ -108,40 +93,100 @@ class ChatMessageMadness extends ChatMessage {
 			return;
 		}
 		const token = tokens[0];
-		const cantParryEffects = token.actor.effects.filter((actorEffect) =>
-			actorEffect.system.effects?.some((e) => e.name === 'preventParry'),
-		);
-		if (cantParryEffects.length) {
-			const confirmDialogTitle = game.i18n.localize('Madness.Dialog.Confirm');
-			const cantParryTranslation = game.i18n.localize(
-				'Madness.Dialog.CantParry',
+		const { canParry: actorCanParry, effects: actorCantParryEffects } =
+			token.actor.parryEffects;
+		const { canParry: itemCanParry, effects: itemCantParryEffects } =
+			this.item.parryEffects;
+		if (!actorCanParry || !itemCanParry) {
+			const confirmParry = await this._displayCantParryConfirmDialog(
+				actorCantParryEffects,
+				itemCantParryEffects,
 			);
-			const becauseTranslation = uncapitalizeFirstLetter(
-				game.i18n.localize('Madness.Dialog.Reason.Because'),
-			);
-			const reasonTranslation = uncapitalizeFirstLetter(
-				game.i18n.format(
-					cantParryEffects.length > 1
-						? 'Madness.Dialog.Reason.Effects'
-						: 'Madness.Dialog.Reason.Effect',
-					{
-						effects: cantParryEffects.map((e) => e.name).join(', '),
-					},
-				),
-			);
-			const askContinueTranslation = game.i18n.localize(
-				'Madness.Dialog.AskContinue',
-			);
-			const confirmParry = await Dialog.confirm({
-				title: confirmDialogTitle,
-				content: `${cantParryTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`,
-			});
 			if (!confirmParry) return;
 		}
 		const roll = await token.actor.parry(token);
 		if (roll.isCritical) return;
 		this.applyDamageFromMessage(token, { parry: true });
 		await this._removeBuffsAndDebuffs(token.actor);
+	}
+
+	_displayCantParryOrDodgeConfirmDialog(
+		type,
+		actorEffects = [],
+		itemEffects = [],
+	) {
+		const cantTranslation = game.i18n.localize(
+			`Madness.Dialog.Cant${capitalizeFirstLetter(type)}`,
+		);
+		const becauseTranslation = uncapitalizeFirstLetter(
+			game.i18n.localize('Madness.Dialog.Reason.Because'),
+		);
+		const andTranslation = uncapitalizeFirstLetter(
+			game.i18n.localize('Madness.Dialog.And'),
+		);
+
+		let actorReasonTranslation = '';
+		let itemReasonTranslation = '';
+
+		if (actorEffects.length) {
+			actorReasonTranslation = uncapitalizeFirstLetter(
+				game.i18n.format(
+					actorEffects.length > 1
+						? 'Madness.Dialog.Reason.ActorEffects'
+						: 'Madness.Dialog.Reason.ActorEffect',
+					{
+						effects: actorEffects.map((e) => e.name).join(', '),
+					},
+				),
+			);
+		}
+
+		if (itemEffects.length) {
+			itemReasonTranslation = uncapitalizeFirstLetter(
+				game.i18n.format(
+					itemEffects.length > 1
+						? 'Madness.Dialog.Reason.ItemEffects'
+						: 'Madness.Dialog.Reason.ItemEffect',
+					{
+						effects: itemEffects.map((e) => e.name).join(', '),
+					},
+				),
+			);
+		}
+
+		const reasonTranslation = `${actorReasonTranslation}${actorReasonTranslation && itemReasonTranslation ? ` ${andTranslation} ` : ''}${itemReasonTranslation}`;
+		const askContinueTranslation = game.i18n.localize(
+			'Madness.Dialog.AskContinue',
+		);
+
+		const content = `${cantTranslation} ${becauseTranslation} ${reasonTranslation}. ${askContinueTranslation}`;
+		return this._displayConfirmDialog({ content });
+	}
+
+	_displayCantParryConfirmDialog(actorEffects, itemEffects) {
+		return this._displayCantParryOrDodgeConfirmDialog(
+			'parry',
+			actorEffects,
+			itemEffects,
+		);
+	}
+
+	_displayCantDodgeConfirmDialog(actorEffects, itemEffects) {
+		return this._displayCantParryOrDodgeConfirmDialog(
+			'dodge',
+			actorEffects,
+			itemEffects,
+		);
+	}
+
+	_displayConfirmDialog({ title, content }) {
+		const confirmDialogTitle =
+			title ?? game.i18n.localize('Madness.Dialog.Confirm');
+		const confirmDialogContent = content;
+		return Dialog.confirm({
+			title: confirmDialogTitle,
+			content: confirmDialogContent,
+		});
 	}
 
 	async takeDamageFromMessage() {

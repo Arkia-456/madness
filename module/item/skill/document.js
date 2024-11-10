@@ -27,6 +27,36 @@ class SkillMadness extends ItemMadness {
 		return this.getPassiveModifier('increaseRange');
 	}
 
+	get parryEffects() {
+		const effects = Object.values(this.system.items ?? []).filter(
+			(itemEffect) => {
+				if (
+					CONFIG.Madness.effect[itemEffect.system.slug]?.effects?.some(
+						(e) => e.name === 'preventParry',
+					)
+				) {
+					return itemEffect;
+				}
+			},
+		);
+		return { canParry: !effects.length, effects: effects };
+	}
+
+	get dodgeEffects() {
+		const effects = Object.values(this.system.items ?? []).filter(
+			(itemEffect) => {
+				if (
+					CONFIG.Madness.effect[itemEffect.system.slug]?.effects?.some(
+						(e) => e.name === 'preventDodge',
+					)
+				) {
+					return itemEffect;
+				}
+			},
+		);
+		return { canDodge: !effects.length, effects: effects };
+	}
+
 	get passives() {
 		return (
 			Object.values(this.system.items ?? []).reduce((arr, effect) => {
