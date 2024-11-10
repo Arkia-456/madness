@@ -239,7 +239,8 @@ class ActorMadness extends Actor {
 			this.weapons.reduce(
 				(armor, w) => (armor += Number(w.getPassiveModifier('increaseArmor'))),
 				0,
-			);
+			) +
+			(this.ethnicity?.name.startsWith('Oni ') ? 1 : 0);
 
 		// Weight
 		const equipments = this.items.filter(
