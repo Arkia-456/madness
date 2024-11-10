@@ -5,9 +5,9 @@
 		</div>
 		<div class='identity'>
 			<div>
-				<label class='details-label'>{{localize
-						'Madness.Character.LastName'
-					}}</label>
+				<label class='details-label'>
+					{{localize 'Madness.Character.LastName'}}
+				</label>
 				<input
 					class='value'
 					name='system.lastName'
@@ -16,15 +16,15 @@
 				/>
 			</div>
 			<div>
-				<label class='details-label'>{{localize
-						'Madness.Character.FirstName'
-					}}</label>
+				<label class='details-label'>
+					{{localize 'Madness.Character.FirstName'}}
+				</label>
 				<input class='value' name='name' type='text' value='{{actor.name}}' />
 			</div>
 			<div>
-				<label class='details-label'>{{localize
-						'Madness.Character.Age'
-					}}</label>
+				<label class='details-label'>
+					{{localize 'Madness.Character.Age'}}
+				</label>
 				<input
 					class='value'
 					name='system.age'
@@ -33,9 +33,9 @@
 				/>
 			</div>
 			<div>
-				<span class='details-label'>{{localize
-						'Madness.Character.Ethnicity'
-					}}</span>
+				<span class='details-label'>
+					{{localize 'Madness.Character.Ethnicity'}}
+				</span>
 				<input
 					class='value'
 					name='ethnicity.name'
@@ -45,21 +45,23 @@
 				/>
 				{{#if @root}}
 					{{#if ethnicity}}
-						<span class='detail-item-control' data-item-id='{{ethnicity.id}}'><i
-								class='fa-solid fa-fw fa-ellipsis-v'
-							></i></span>
+						<span class='detail-item-control' data-item-id='{{ethnicity.id}}'>
+							<i class='fa-solid fa-fw fa-ellipsis-v'></i>
+						</span>
 					{{else}}
 						<a
 							data-action='open-compendium'
 							data-compendium='madness-compendium.ethnies'
-						><i class='fa-solid fa-fw fa-search'></i></a>
+						>
+							<i class='fa-solid fa-fw fa-search'></i>
+						</a>
 					{{/if}}
 				{{/if}}
 			</div>
 			<div>
-				<label class='details-label'>{{localize
-						'Madness.Character.Job'
-					}}</label>
+				<label class='details-label'>
+					{{localize 'Madness.Character.Job'}}
+				</label>
 				<input
 					class='value'
 					name='system.job'
@@ -68,9 +70,9 @@
 				/>
 			</div>
 			<div>
-				<label class='details-label'>{{localize
-						'Madness.Character.Faction'
-					}}</label>
+				<label class='details-label'>
+					{{localize 'Madness.Character.Faction'}}
+				</label>
 				<input
 					class='value'
 					name='system.faction'
@@ -139,13 +141,17 @@
 							class='attribute-header primary-attribute'
 							rowspan='3'
 							data-action='edit-attributes'
-						>{{system.attributes.agi.label}}</td>
+						>
+							{{system.attributes.agi.label}}
+						</td>
 						<td
 							rowspan='3'
 							class='attribute-total primary-attribute'
 							data-id='{{system.attributes.agi.id}}'
 							data-action='edit-attributes'
-						>{{system.attributes.agi.total}}</td>
+						>
+							{{system.attributes.agi.total}}
+						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.initiative.rollable}}
 								<a
@@ -157,13 +163,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.initiative.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.initiative.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.initiative.id}}'
-						>{{system.secondaryAttributes.initiative.total}}</td>
+						>
+							{{system.secondaryAttributes.initiative.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -177,13 +185,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.dodgeRate.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.dodgeRate.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.dodgeRate.id}}'
-						>{{system.secondaryAttributes.dodgeRate.total}}</td>
+						>
+							{{system.secondaryAttributes.dodgeRate.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -197,13 +207,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.maxMoveDistance.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.maxMoveDistance.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.maxMoveDistance.id}}'
-						>{{system.secondaryAttributes.maxMoveDistance.total}}</td>
+						>
+							{{system.secondaryAttributes.maxMoveDistance.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -218,12 +230,16 @@
 						<td
 							class='attribute-header primary-attribute'
 							data-action='edit-attributes'
-						>{{system.attributes.con.label}}</td>
+						>
+							{{system.attributes.con.label}}
+						</td>
 						<td
 							class='attribute-total primary-attribute'
 							data-action='edit-attributes'
 							data-id='{{system.attributes.con.id}}'
-						>{{system.attributes.con.total}}</td>
+						>
+							{{system.attributes.con.total}}
+						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.parryDamageReduction.rollable}}
 								<a
@@ -235,13 +251,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.parryDamageReduction.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.parryDamageReduction.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.parryDamageReduction.id}}'
-						>{{system.secondaryAttributes.parryDamageReduction.total}}</td>
+						>
+							{{system.secondaryAttributes.parryDamageReduction.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -256,12 +274,16 @@
 						<td
 							class='attribute-header primary-attribute'
 							data-action='edit-attributes'
-						>{{system.attributes.dex.label}}</td>
+						>
+							{{system.attributes.dex.label}}
+						</td>
 						<td
 							class='attribute-total primary-attribute'
 							data-action='edit-attributes'
 							data-id='{{system.attributes.dex.id}}'
-						>{{system.attributes.dex.total}}</td>
+						>
+							{{system.attributes.dex.total}}
+						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.critRate.rollable}}
 								<a
@@ -273,13 +295,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.critRate.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.critRate.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.critRate.id}}'
-						>{{system.secondaryAttributes.critRate.total}}</td>
+						>
+							{{system.secondaryAttributes.critRate.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -294,12 +318,16 @@
 						<td
 							class='attribute-header primary-attribute'
 							data-action='edit-attributes'
-						>{{system.attributes.int.label}}</td>
+						>
+							{{system.attributes.int.label}}
+						</td>
 						<td
 							class='attribute-total primary-attribute'
 							data-action='edit-attributes'
 							data-id='{{system.attributes.int.id}}'
-						>{{system.attributes.int.total}}</td>
+						>
+							{{system.attributes.int.total}}
+						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.manaRegen.rollable}}
 								<a
@@ -318,13 +346,15 @@
 								<i class='fa-solid fa-fw fa-undo-alt'></i>
 							</a>
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.manaRegen.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.manaRegen.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.manaRegen.id}}'
-						>{{system.secondaryAttributes.manaRegen.total}}</td>
+						>
+							{{system.secondaryAttributes.manaRegen.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header' rowspan='3'>
@@ -340,13 +370,17 @@
 							class='attribute-header primary-attribute'
 							data-action='edit-attributes'
 							rowspan='3'
-						>{{system.attributes.str.label}}</td>
+						>
+							{{system.attributes.str.label}}
+						</td>
 						<td
 							rowspan='3'
 							class='attribute-total primary-attribute'
 							data-action='edit-attributes'
 							data-id='{{system.attributes.str.id}}'
-						>{{system.attributes.str.total}}</td>
+						>
+							{{system.attributes.str.total}}
+						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.maxEquipmentWeight.rollable}}
 								<a
@@ -358,13 +392,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.maxEquipmentWeight.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.maxEquipmentWeight.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.maxEquipmentWeight.id}}'
-						>{{system.secondaryAttributes.maxEquipmentWeight.total}}</td>
+						>
+							{{system.secondaryAttributes.maxEquipmentWeight.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -378,13 +414,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.maxWeight.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.maxWeight.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.maxWeight.id}}'
-						>{{system.secondaryAttributes.maxWeight.total}}</td>
+						>
+							{{system.secondaryAttributes.maxWeight.total}}
+						</td>
 					</tr>
 					<tr>
 						<td class='attribute-header'>
@@ -398,13 +436,15 @@
 								</a>
 							{{/if}}
 						</td>
-						<td
-							class='attribute-header'
-						>{{system.secondaryAttributes.inventoryMaxSlots.label}}</td>
+						<td class='attribute-header'>
+							{{system.secondaryAttributes.inventoryMaxSlots.label}}
+						</td>
 						<td
 							class='attribute-total'
 							data-id='{{system.secondaryAttributes.inventoryMaxSlots.id}}'
-						>{{system.secondaryAttributes.inventoryMaxSlots.total}}</td>
+						>
+							{{system.secondaryAttributes.inventoryMaxSlots.total}}
+						</td>
 					</tr>
 				</table>
 				<table class='magics' data-action='edit-magics'>
