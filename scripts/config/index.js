@@ -115,12 +115,12 @@ export const MadnessConfig = {
 			maxWeight: '20 * @{str}',
 			parryDamageReduction: '50 + 2 * @{con}',
 		},
-		hp: '30 + 6 * @{con}',
+		hp: '@{base} + 6 * @{con}',
 		magics: {
 			doka: 'Math.min(@{ome}, @{teruuk})',
 			natah: 'Math.min(@{erah}, @{shor}, @{sith}, @{ome}, @{teruuk})',
 		},
-		mp: '15 + 3 * @{int}',
+		mp: '@{base} + 3 * @{int}',
 		rolls: {
 			critRate: '1d100',
 			dodgeRate: '1d100',

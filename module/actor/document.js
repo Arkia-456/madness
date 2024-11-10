@@ -163,9 +163,11 @@ class ActorMadness extends Actor {
 			hitPoints,
 			{ overwrite: false },
 		);
-		hpStat.max = new Formula(CONFIG.Madness.formulas.hp).evaluate(
-			totals,
-		)?.evaluated;
+		const baseHP = this.ethnicity?.system.hp ?? 30;
+		hpStat.max = new Formula(CONFIG.Madness.formulas.hp).evaluate({
+			...totals,
+			base: baseHP,
+		})?.evaluated;
 		if (hpStat.value > hpStat.max) {
 			this.update({ 'system.hp.value': hpStat.max });
 		}
@@ -179,9 +181,11 @@ class ActorMadness extends Actor {
 			manaPoints,
 			{ overwrite: false },
 		);
-		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate(
-			totals,
-		)?.evaluated;
+		const baseMP = this.ethnicity?.system.hp ?? 15;
+		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate({
+			...totals,
+			base: baseMP,
+		})?.evaluated;
 		if (mpStat.value > mpStat.max) {
 			this.update({ 'system.mp.value': mpStat.max });
 		}
