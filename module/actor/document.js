@@ -3,6 +3,7 @@ import {
 	capitalizeFirstLetter,
 	createHTMLElement,
 	elide,
+	objectMap,
 } from '../../utils/index.js';
 import { ChatMessageMadness } from '../chat-message/index.js';
 import { CheckMadness } from '../system/check.js';
@@ -22,19 +23,11 @@ class ActorMadness extends Actor {
 	}
 
 	get attributesTotals() {
-		const totals = {};
-		Object.entries(this.system.attributes).forEach(
-			([key, value]) => (totals[key] = value.total),
-		);
-		return totals;
+		return objectMap(this.system.attributes, (attr) => attr.total);
 	}
 
 	get magicsTotals() {
-		const totals = {};
-		Object.entries(this.system.magics).forEach(
-			([key, value]) => (totals[key] = value.total),
-		);
-		return totals;
+		return objectMap(this.system.magics, (m) => m.total);
 	}
 
 	get currentMP() {
