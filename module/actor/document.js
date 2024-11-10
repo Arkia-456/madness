@@ -323,6 +323,15 @@ class ActorMadness extends Actor {
 		return this.system.secondaryAttributes[attr];
 	}
 
+	regenMP() {
+		const manaRegen = this.system.secondaryAttributes.manaRegen.total;
+		this.addMP(manaRegen);
+	}
+
+	addMP(mp) {
+		this.update({ 'system.mp.value': this.system.mp.value + mp });
+	}
+
 	removeMP(mp) {
 		this.update({ 'system.mp.value': this.system.mp.value - mp });
 	}

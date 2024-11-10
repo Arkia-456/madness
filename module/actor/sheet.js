@@ -160,6 +160,10 @@ class ActorSheetMadness extends ActorSheet {
 	activateClickListener(html) {
 		const handlers = {};
 
+		handlers['addMP'] = () => {
+			this.actor.regenMP();
+		};
+
 		handlers['edit-attributes'] = () => {
 			return new EditAttributesPopup(this.actor).render(true);
 		};
