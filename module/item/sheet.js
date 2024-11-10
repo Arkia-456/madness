@@ -23,6 +23,7 @@ class ItemSheetMadness extends ItemSheet {
 
 		return {
 			...sheetData,
+			isOwned: item.isOwned,
 			system: item.system,
 			enrichedContent,
 			detailsTemplate: `madness.item.${item.type}.details`,

@@ -35,8 +35,19 @@
 		</li>
 	</ul>
 </div>
+{{#if isOwned}}
+	<div>
+		<label>{{localize 'Madness.Item.Weapon.Ammo'}}</label>
+		<input
+			type='number'
+			name='system.ammo.value'
+			value='{{system.ammo.value}}'
+			data-dtype='number'
+		/>
+	</div>
+{{/if}}
 <div>
-	<label>{{localize 'Madness.Item.Weapon.Ammo'}}</label>
+	<label>{{localize 'Madness.Item.Weapon.MaxAmmo'}}</label>
 	<input
 		type='number'
 		name='system.ammo.max'

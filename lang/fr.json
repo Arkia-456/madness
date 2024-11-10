@@ -150,6 +150,7 @@
 			},
 			"Weapon": {
 				"Ammo": "Munitions",
+				"MaxAmmo": "Munitions max",
 				"Modules": "Modules"
 			}
 		},
