@@ -65,14 +65,21 @@ class ActorMadness extends Actor {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,
 		);
-		sources.forEach((source) => {
-			const merged = foundry.utils.mergeObject(source, { prototypeToken: {} });
-			if (source.type === 'character') {
-				merged.prototypeToken.actorLink = true;
-			}
-		});
+		sources.forEach((source) => ActorMadness._preparePrototypeToken(source));
 
 		return super.createDocuments(sources, operation);
+	}
+
+	static _preparePrototypeToken(source) {
+		const merged = foundry.utils.mergeObject(source, { prototypeToken: {} });
+		merged.prototypeToken.actorLink = source.type === 'character';
+		merged.prototypeToken.displayBars = source.type === 'character' ? 50 : 40;
+		merged.prototypeToken.bar1 = {
+			attribute: 'hp',
+		};
+		merged.prototypeToken.bar2 = {
+			attribute: 'mp',
+		};
 	}
 
 	prepareBaseData() {
