@@ -110,14 +110,23 @@
 		},
 		"Magics": {
 			"Derion": "Dérion",
+			"DerionDescription": "Augmente les dégâts",
 			"Doka": "Dokah",
+			"DokaDescription": "Permet de se déplacer tout en attaquant",
 			"Erah": "Erah",
+			"ErahDescription": "Augmente les dégâts et le taux d'échec critique",
 			"Escura": "Escura",
+			"EscuraDescription": "???",
 			"Natah": "Natah",
+			"NatahDescription": "???",
 			"Ome": "Omé",
+			"OmeDescription": "Réduit le coût de mana",
 			"Shor": "Shor",
+			"ShorDescription": "Génère un bouclier",
 			"Sith": "Sith",
-			"Teruuk": "Teruuk"
+			"SithDescription": "Augmente le taux de critique",
+			"Teruuk": "Teruuk",
+			"TeruukDescription": "Augmente la portée"
 		},
 		"Modules": {
 			"Accurate": "Précis",

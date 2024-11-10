@@ -1,4 +1,4 @@
-import { Formula } from '../utils/index.js';
+import { capitalizeFirstLetter, Formula } from '../utils/index.js';
 
 function registerHandlebarsHelpers() {
 	Handlebars.registerHelper('getRollResult', (minMax, attrDice, attributes) => {
@@ -11,6 +11,10 @@ function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper('upper', (translationKey) => {
 		return game.i18n.localize(translationKey).toUpperCase();
+	});
+
+	Handlebars.registerHelper('capitalize', (str) => {
+		return capitalizeFirstLetter(str);
 	});
 
 	Handlebars.registerHelper('times', (n, options) => {
