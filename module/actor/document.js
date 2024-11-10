@@ -50,6 +50,28 @@ class ActorMadness extends Actor {
 		return Math.max(0, this._getCriticalFailureModEffects());
 	}
 
+	get firstUpdater() {
+		const { activeGM } = game.users;
+		if (activeGM) return activeGM;
+
+		const activePlayers = game.users.filter((u) => u.active);
+		const primaryOwner = activePlayers.find(
+			(u) => u.character?.id === this.id && this.ownership[u.id] === 3,
+		);
+		if (primaryOwner) return primaryOwner;
+
+		const firstUpdater = activePlayers
+			.filter(
+				(u) =>
+					this.canUserModify(u, 'update') &&
+					!u.isGM &&
+					u.id !== primaryOwner.id,
+			)
+			.shift();
+
+		return firstUpdater ?? null;
+	}
+
 	_getCriticalFailureModEffects() {
 		return this.effects.reduce((rate, effect) => {
 			return (

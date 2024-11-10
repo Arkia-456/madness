@@ -15,11 +15,13 @@ class EncounterMadness extends Combat {
 		if (!isTurnChange && !isRoundChange) return;
 
 		const previousCombatant = this.combatants.get(previous.combatantId);
-		if (previousCombatant) {
+		if (game.user === previousCombatant?.actor.firstUpdater) {
 			previousCombatant.endTurn();
 		}
 
-		combatant.startTurn();
+		if (game.user === combatant.actor.firstUpdater) {
+			combatant.startTurn();
+		}
 	}
 }
 
