@@ -134,6 +134,9 @@ class ActorMadness extends Actor {
 		// Init armor
 		this.system.armor = {};
 
+		// Init immunities
+		this.system.immunities = [];
+
 		console.log(
 			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
 		);
@@ -641,9 +644,7 @@ class ActorMadness extends Actor {
 	}
 
 	async increaseStatusEffect(statusId) {
-		if (statusId === 'burn' && this.ethnicity?.name.startsWith('Draken ')) {
-			return;
-		}
+		if (this.system.immunities.includes(statusId)) return;
 		const existing = this.effects.find((e) => e.system.slug === statusId);
 		if (!existing) {
 			const statusEffect = await this.toggleStatusEffect(statusId);

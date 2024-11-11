@@ -12,6 +12,11 @@ class EthnicityMadness extends ItemMadness {
 		});
 
 		actor.system.armor.ethnicity = this.system.armor;
+
+		if (this.system.immunity) {
+			actor.system.immunities.push(this.system.immunity);
+		}
+
 		console.log(
 			`Madness system | Actor | ${this.actor.name} | Actor data prepared ✅`,
 		);

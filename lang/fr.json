@@ -210,6 +210,18 @@
 				"Sith": "Modificateur de magie Sith",
 				"Teruuk": "Modificateur de magie Teruuk"
 			},
+			"Immunity": {
+				"Bleed": "Immunité au saignement",
+				"Burn": "Immunité à la brûlure",
+				"Confusion": "Immunité à la confusion",
+				"Down": "Immunité à la mise au sol",
+				"Freeze": "Immunité au gel",
+				"Poison": "Immunité à l'empoisonnement",
+				"Overweight": "Immunité à la surcharge",
+				"Shock": "Immunité au choc",
+				"Stun": "Immunité à l'étourdissement",
+				"Void": "Immunité au néant"
+			}
 		},
 		"StatusEffect": {
 			"Bleed": "Saignement",

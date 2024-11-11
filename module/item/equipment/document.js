@@ -11,6 +11,7 @@ class EquipmentMadness extends ItemMadness {
 		const secondaryAttributes = Object.keys(CONFIG.Madness.formulas.attributes);
 		const magics = Object.keys(actor.system.magics);
 		const secondaryMagics = Object.keys(CONFIG.Madness.formulas.magics);
+		const statusEffects = Object.keys(CONFIG.Madness.statusEffects.list);
 
 		Object.values(this.system.passives).forEach((p) => {
 			if (!p.active) return;
@@ -48,6 +49,11 @@ class EquipmentMadness extends ItemMadness {
 			if (p.passive === 'hp' || p.passive === 'mp' || p.passive === 'armor') {
 				actor.system[p.passive].passives =
 					(actor.system[p.passive].passives ?? 0) + p.strength;
+				return;
+			}
+
+			if (statusEffects.includes(p.passive)) {
+				actor.system.immunities.push(p.passive);
 				return;
 			}
 		});

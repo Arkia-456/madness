@@ -23,3 +23,10 @@
 	<label>{{localize 'Madness.Label.Armor'}}</label>
 	<input name='system.armor' type='number' value='{{system.armor}}' />
 </div>
+<div>
+	<label>{{localize 'Madness.Label.Immunity'}}</label>
+	<select name='system.immunity'>
+		<option value=''></option>
+		{{selectOptions statusEffects selected=system.immunity localize=true}}
+	</select>
+</div>
