@@ -114,7 +114,7 @@ class ChatMessageMadness extends ChatMessage {
 		const damageTranslation = game.i18n
 			.localize('Madness.Label.Damage')
 			?.toLowerCase();
-		const message = `${actor.name} ${actionTranslation} ${actionTranslation ? `${andTranslation} ` : ''}${tookTranslation} ${damage} ${damageTranslation}.`;
+		const message = `${actor.name} ${actionTranslation} ${actionTranslation ? `${andTranslation} ` : ''}${tookTranslation} ${damage ?? 0} ${damageTranslation}.`;
 		const templateData = {
 			message,
 		};
