@@ -44,8 +44,8 @@ class EquipmentMadness extends ItemMadness {
 				return;
 			}
 
-			// HP/MP modifiers
-			if (p.passive === 'hp' || p.passive === 'mp') {
+			// HP/MP/armor modifiers
+			if (p.passive === 'hp' || p.passive === 'mp' || p.passive === 'armor') {
 				actor.system[p.passive].passives =
 					(actor.system[p.passive].passives ?? 0) + p.strength;
 				return;

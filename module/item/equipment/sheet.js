@@ -15,12 +15,19 @@ class EquipmentSheetMadness extends ItemSheetMadness {
 			(label, attr) =>
 				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
 		);
+		const otherPassives = Object.fromEntries(
+			['armor'].map((p) => [
+				p,
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(p)}`,
+			]),
+		);
 		return {
 			...sheetData,
 			slots: CONFIG.Madness.equipment.slots,
 			passives: {
 				...attributesPassives,
 				...magicsPassives,
+				...otherPassives,
 			},
 		};
 	}

@@ -201,6 +201,7 @@
 				"MaxMoveDistance": "Modificateur de distance maximale de mouvement",
 				"MaxWeight": "Modificateur de charge maximale",
 				"ParryDamageReduction": "Modificateur de réduction de dégâts en parade",
+				"Armor": "Modificateur d'armure",
 				"Doka": "Modificateur de magie Dokah",
 				"Erah": "Modificateur de magie Erah",
 				"Natah": "Modificateur de magie Natah",

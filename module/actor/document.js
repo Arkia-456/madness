@@ -131,6 +131,9 @@ class ActorMadness extends Actor {
 			(key) => (this.system.secondaryMagics[key] = {}),
 		);
 
+		// Init armor
+		this.system.armor = {};
+
 		console.log(
 			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
 		);
@@ -292,16 +295,41 @@ class ActorMadness extends Actor {
 		});
 
 		// Armor
-		system.armor =
-			this.equipments.reduce(
-				(armor, e) => (armor += Number(e.system.armor)),
-				0,
-			) +
-			this.weapons.reduce(
-				(armor, w) => (armor += Number(w.getPassiveModifier('increaseArmor'))),
-				0,
-			) +
-			(this.ethnicity?.name.startsWith('Oni ') ? 1 : 0);
+		const armorModifiers = [
+			this.generateModifier(
+				this.equipments.reduce(
+					(armor, e) => (armor += Number(e.system.armor)),
+					0,
+				),
+				'Armor',
+				'equipments',
+			),
+			this.generateModifier(
+				this.weapons.reduce(
+					(armor, w) =>
+						(armor += Number(w.getPassiveModifier('increaseArmor'))),
+					0,
+				),
+				'Armor',
+				'weapons',
+			),
+		];
+
+		const armor = system.armor;
+		modifierTypes.forEach((type) => {
+			if (armor[type]) {
+				armorModifiers.push(this.generateArmorModifier(type));
+			}
+		});
+		const armorStat = foundry.utils.mergeObject(
+			new Attribute(this, {
+				label: 'armor',
+				modifiers: armorModifiers,
+			}),
+			{ overwrite: false },
+		);
+		armorStat.total = Math.max(0, armorStat.totalModifier);
+		system.armor = armorStat;
 
 		// Weight
 		const equipments = this.items.filter(
@@ -345,6 +373,11 @@ class ActorMadness extends Actor {
 	generateMPModifier(type) {
 		const mod = this.system.mp[type];
 		return this.generateModifier(mod, 'MP', type);
+	}
+
+	generateArmorModifier(type) {
+		const mod = this.system.armor[type];
+		return this.generateModifier(mod, 'Armor', type);
 	}
 
 	generateModifier(mod, key, type) {
@@ -559,7 +592,7 @@ class ActorMadness extends Actor {
 		if (passives.some((p) => p.name === 'ignoreArmor')) {
 			return damage;
 		}
-		return damage > 0 ? Math.max(1, damage - this.system.armor) : damage;
+		return damage > 0 ? Math.max(1, damage - this.system.armor.total) : damage;
 	}
 
 	addTempHP(value) {

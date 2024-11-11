@@ -29,7 +29,7 @@ class CombatantMadness extends Combatant {
 			hptemp: actor.system.hp.temp,
 			mp: actor.system.mp.value,
 			mpmax: actor.system.mp.max,
-			armor: actor.system.armor,
+			armor: actor.system.armor.total,
 			movement: actor.system.secondaryAttributes.maxMoveDistance.total,
 			passives,
 		};

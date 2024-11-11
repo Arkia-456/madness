@@ -10,6 +10,8 @@ class EthnicityMadness extends ItemMadness {
 		Object.entries(this.system.attributes).forEach(([key, value]) => {
 			actor.system.attributes[key].ethnicity = value.value;
 		});
+
+		actor.system.armor.ethnicity = this.system.armor;
 		console.log(
 			`Madness system | Actor | ${this.actor.name} | Actor data prepared ✅`,
 		);
