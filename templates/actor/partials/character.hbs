@@ -463,21 +463,23 @@
 				</table>
 			</div>
 			<table class='weapons'>
-				{{#each weapons as |weapon id|}}
-					<tr>
-						<td class='weapon-header'>{{name}}</td>
-						<td class='weapon-header'>
-							{{localize 'Madness.Item.Weapon.Ammo'}}
-						</td>
-						<td>
-							{{#if weapon.useAmmo}}
-								{{weapon.system.ammo.value}}/{{weapon.system.ammo.max}}
-							{{else}}
-								-
-							{{/if}}
-						</td>
-					</tr>
-				{{/each}}
+				<tbody>
+					{{#each weapons as |weapon id|}}
+						<tr>
+							<td class='weapon-header name'>{{name}}</td>
+							<td class='weapon-header ammo'>
+								{{localize 'Madness.Item.Weapon.Ammo'}}
+							</td>
+							<td>
+								{{#if weapon.useAmmo}}
+									{{weapon.system.ammo.value}}/{{weapon.system.ammo.max}}
+								{{else}}
+									-
+								{{/if}}
+							</td>
+						</tr>
+					{{/each}}
+				</tbody>
 			</table>
 		</div>
 	</div>

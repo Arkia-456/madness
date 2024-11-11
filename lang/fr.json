@@ -40,6 +40,7 @@
 			"Success": "Succès"
 		},
 		"Controls": {
+			"AddPassive": "Ajouter un passif",
 			"Attack": "Attaquer",
 			"Delete": "Supprimer",
 			"Dodge": "Esquiver",

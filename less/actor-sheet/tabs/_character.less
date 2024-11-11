@@ -212,14 +212,33 @@
 				margin-top: 8px;
 				table-layout: auto;
 				width: fit-content;
+				border: none;
 
-				td {
-					background-color: @madness-background-color-tertiary;
+				tbody {
+					display: grid;
+					grid-template-columns: repeat(2, 1fr);
 
-					&.weapon-header {
-						background-color: @madness-background-color-primary;
-						text-align: center;
-						color: white;
+					tr {
+						display: grid;
+						grid-template-columns: 1fr 78px 38px;
+
+						td {
+							background-color: @madness-background-color-tertiary;
+
+							&.weapon-header {
+								background-color: @madness-background-color-primary;
+								text-align: center;
+								color: white;
+
+								&.name {
+									padding-right: 2px;
+								}
+
+								&.ammo {
+									padding-left: 2px;
+								}
+							}
+						}
 					}
 				}
 			}
