@@ -181,7 +181,7 @@ class ActorMadness extends Actor {
 			manaPoints,
 			{ overwrite: false },
 		);
-		const baseMP = this.ethnicity?.system.hp ?? 15;
+		const baseMP = this.ethnicity?.system.mp ?? 15;
 		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate({
 			...totals,
 			base: baseMP,
