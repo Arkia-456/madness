@@ -1,7 +1,9 @@
 import {
 	Formula,
+	capitalizeFirstLetter,
 	displayWarning,
 	fontAwesomeIcon,
+	objectMap,
 	uncapitalizeFirstLetter,
 } from '../../utils/index.js';
 import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
@@ -49,6 +51,38 @@ class ActorSheetMadness extends ActorSheet {
 			weapon.maxDamage = weapon.getMaxDamage(actor.system.attributes);
 		});
 		sheetData.weapons = weapons;
+
+		// Passives
+
+		const attributesPassives = objectMap(
+			CONFIG.Madness.attributes,
+			(label, attr) =>
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
+		);
+		const { derion, escura, ...allowedMagics } = CONFIG.Madness.magics;
+		const magicsPassives = objectMap(
+			allowedMagics,
+			(label, attr) =>
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
+		);
+		const statusImmunities = objectMap(
+			CONFIG.Madness.statusEffects.list,
+			(label, e) => `Madness.Passives.Immunity.${capitalizeFirstLetter(e)}`,
+		);
+		const otherPassives = Object.fromEntries(
+			['armor'].map((p) => [
+				p,
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(p)}`,
+			]),
+		);
+
+		sheetData.passives = {
+			...attributesPassives,
+			...magicsPassives,
+			...statusImmunities,
+			...otherPassives,
+		};
+
 		return sheetData;
 	}
 
@@ -162,6 +196,10 @@ class ActorSheetMadness extends ActorSheet {
 
 		handlers['addMP'] = () => {
 			this.actor.regenMP();
+		};
+
+		handlers['create-passive'] = () => {
+			this.actor.createPassive();
 		};
 
 		handlers['edit-attributes'] = () => {

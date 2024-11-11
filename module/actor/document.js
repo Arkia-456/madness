@@ -160,6 +160,21 @@ class ActorMadness extends Actor {
 					modifiers.push(this.generateAttributeModifier(key, type));
 				}
 			});
+
+			Object.values(this.system.passives).forEach((p) => {
+				if (!p.active) return;
+
+				if (p.passive === key) {
+					modifiers.push(
+						this.generateModifier(
+							p.strength,
+							capitalizeFirstLetter(p.passive),
+							'personalPassives',
+						),
+					);
+				}
+			});
+
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, { label: key, modifiers: modifiers }),
 				value,
@@ -182,12 +197,28 @@ class ActorMadness extends Actor {
 				hpModifiers.push(this.generateHPModifier(type));
 			}
 		});
+
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (p.passive === 'hp') {
+				hpModifiers.push(
+					this.generateModifier(
+						p.strength,
+						p.passive.toUpperCase(),
+						'personalPassives',
+					),
+				);
+			}
+		});
+
 		const hpStat = foundry.utils.mergeObject(
 			new Attribute(this, { label: 'hp', modifiers: hpModifiers }),
 			hitPoints,
 			{ overwrite: false },
 		);
-		const baseHP = (this.ethnicity?.system.hp ?? 30) + (hpStat.passives ?? 0);
+		const baseHP =
+			(this.ethnicity?.system.hp ?? 30) + (hpStat.totalModifier ?? 0);
 		hpStat.max = Math.max(
 			0,
 			new Formula(CONFIG.Madness.formulas.hp).evaluate({
@@ -208,12 +239,28 @@ class ActorMadness extends Actor {
 				mpModifiers.push(this.generateMPModifier(type));
 			}
 		});
+
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (p.passive === 'mp') {
+				mpModifiers.push(
+					this.generateModifier(
+						p.strength,
+						p.passive.toUpperCase(),
+						'personalPassives',
+					),
+				);
+			}
+		});
+
 		const mpStat = foundry.utils.mergeObject(
 			new Attribute(this, { label: 'mp', modifiers: mpModifiers }),
 			manaPoints,
 			{ overwrite: false },
 		);
-		const baseMP = (this.ethnicity?.system.mp ?? 15) + (mpStat.passives ?? 0);
+		const baseMP =
+			(this.ethnicity?.system.mp ?? 15) + (mpStat.totalModifier ?? 0);
 		mpStat.max = Math.max(
 			0,
 			new Formula(CONFIG.Madness.formulas.mp).evaluate({
@@ -236,6 +283,21 @@ class ActorMadness extends Actor {
 						modifiers.push(this.generateSecondaryAttributeModifier(key, type));
 					}
 				});
+
+				Object.values(this.system.passives).forEach((p) => {
+					if (!p.active) return;
+
+					if (p.passive === key) {
+						modifiers.push(
+							this.generateModifier(
+								p.strength,
+								capitalizeFirstLetter(p.passive),
+								'personalPassives',
+							),
+						);
+					}
+				});
+
 				const stat = foundry.utils.mergeObject(
 					new Attribute(this, { label: key, modifiers: modifiers }),
 					{ value: new Formula(value).evaluate(totals)?.evaluated },
@@ -259,6 +321,21 @@ class ActorMadness extends Actor {
 					modifiers.push(this.generateMagicModifier(key, type));
 				}
 			});
+
+			Object.values(this.system.passives).forEach((p) => {
+				if (!p.active) return;
+
+				if (p.passive === key) {
+					modifiers.push(
+						this.generateModifier(
+							p.strength,
+							capitalizeFirstLetter(p.passive),
+							'personalPassives',
+						),
+					);
+				}
+			});
+
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, {
 					type: 'magics',
@@ -284,6 +361,21 @@ class ActorMadness extends Actor {
 					modifiers.push(this.generateSecondaryMagicModifier(key, type));
 				}
 			});
+
+			Object.values(this.system.passives).forEach((p) => {
+				if (!p.active) return;
+
+				if (p.passive === key) {
+					modifiers.push(
+						this.generateModifier(
+							p.strength,
+							capitalizeFirstLetter(p.passive),
+							'personalPassives',
+						),
+					);
+				}
+			});
+
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, {
 					type: 'magics',
@@ -324,6 +416,21 @@ class ActorMadness extends Actor {
 				armorModifiers.push(this.generateArmorModifier(type));
 			}
 		});
+
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (p.passive === 'armor') {
+				armorModifiers.push(
+					this.generateModifier(
+						p.strength,
+						capitalizeFirstLetter(p.passive),
+						'personalPassives',
+					),
+				);
+			}
+		});
+
 		const armorStat = foundry.utils.mergeObject(
 			new Attribute(this, {
 				label: 'armor',
@@ -342,6 +449,15 @@ class ActorMadness extends Actor {
 			(weight, e) => (weight += Number(e.system.weight)),
 			0,
 		);
+
+		const statusEffects = Object.keys(CONFIG.Madness.statusEffects.list);
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (statusEffects.includes(p.passive)) {
+				this.system.immunities.push(p.passive);
+			}
+		});
 
 		console.log(
 			`Madness system | Actor | ${this.name} | Derived data prepared ✅`,
@@ -460,6 +576,13 @@ class ActorMadness extends Actor {
 
 	removeMP(mp) {
 		this.update({ 'system.mp.value': this.system.mp.value - mp });
+	}
+
+	createPassive() {
+		const data = { name: null, passive: null, strength: null };
+		const id = foundry.utils.randomID(16);
+		this.system.passives[id] = data;
+		this.update({ 'system.passives': this.system.passives });
 	}
 
 	async dodge(token) {

@@ -74,6 +74,7 @@
 			}
 		},
 		"Label": {
+			"Active": "Actif",
 			"Armor": "Armure",
 			"Barrier": "Bouclier",
 			"Character": "Personnage",
@@ -99,7 +100,9 @@
 			"MovementDistance": "Distance de mouvement",
 			"MP": "PM",
 			"Name": "Nom",
+			"Passive": "Passif",
 			"Passives": "Passifs",
+			"PersonalPassives": "Passifs personnels",
 			"Power": "Puissance",
 			"BarrierPoints": "Points de bouclier",
 			"Reloadable": "Rechargeable",
@@ -108,6 +111,7 @@
 			"Stacks": "Cumuls",
 			"Status": "Statut",
 			"StatusPlural": "Statuts",
+			"Strength": "Puissance",
 			"Weapon": "Arme",
 			"Weapons": "Armes",
 			"Weight": "Poids"

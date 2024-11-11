@@ -46,7 +46,8 @@
 					"teruuk": {
 						"value": 0
 					}
-				}
+				},
+				"passives": {}
 			}
 		},
 		"character": {
