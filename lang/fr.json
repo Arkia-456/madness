@@ -103,8 +103,11 @@
 			"Power": "Puissance",
 			"BarrierPoints": "Points de bouclier",
 			"Reloadable": "Rechargeable",
+			"RemainingDuration": "Durée restante",
 			"Slug": "Identifiant",
-			"Stacks": "Accumulations",
+			"Stacks": "Cumuls",
+			"Status": "Statut",
+			"StatusPlural": "Statuts",
 			"Weapon": "Arme",
 			"Weapons": "Armes",
 			"Weight": "Poids"

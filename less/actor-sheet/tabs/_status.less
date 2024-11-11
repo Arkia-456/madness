@@ -1,0 +1,30 @@
+// main: "../../madness.less"
+
+.tab.status {
+	.grid {
+		width: calc(100% - @aside-width - 12px);
+		margin-left: calc(@aside-width + 12px);
+
+		.row {
+			display: grid;
+			grid-template-columns: 25% 1fr 15% 15%;
+			background-color: @madness-background-color-tertiary;
+			min-height: 30px;
+
+			&.head {
+				background-color: @madness-background-color-secondary;
+				color: white;
+			}
+
+			div {
+				border: solid 1px white;
+				padding: 6px;
+				text-align: center;
+
+				&.align-left {
+					text-align: left;
+				}
+			}
+		}
+	}
+}

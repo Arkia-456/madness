@@ -1,0 +1,28 @@
+<section class='tab status' data-tab='status'>
+	<div class='status'>
+		<div class='section-header'>{{localize 'Madness.Label.StatusPlural'}}</div>
+		<div class='grid'>
+			<div class='row head'>
+				<div>{{localize 'Madness.Label.Status'}}</div>
+				<div>{{localize 'Madness.Label.Description'}}</div>
+				<div>{{localize 'Madness.Label.Stacks'}}</div>
+				<div>{{localize 'Madness.Label.RemainingDuration'}}</div>
+			</div>
+			{{#each effects}}
+				<div class='row'>
+					<div>{{name}}</div>
+					<div class='align-left'>{{description}}</div>
+					<div>{{system.stacks}}</div>
+					<div>
+						{{#each system.durations}}
+							{{value}}
+							{{type}}
+							<br />
+						{{/each}}
+					</div>
+				</div>
+			{{/each}}
+		</div>
+
+	</div>
+</section>

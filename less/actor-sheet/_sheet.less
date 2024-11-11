@@ -5,6 +5,7 @@
 @import './tabs/_actions.less';
 @import './tabs/_actions-tooltip.less';
 @import './tabs/_inventory.less';
+@import './tabs/_status.less';
 
 .sheet.character .window-content {
 	background: linear-gradient(
@@ -25,8 +26,16 @@
 
 	.section-header {
 		text-align: center;
-		color: black;
+		color: white;
 		font-size: 1.2em;
-		margin: 8px;
+		margin-bottom: 8px;
+		margin-top: 20px;
+		margin-right: -8px;
+		padding: 8px 0px;
+		background-color: @madness-background-color-primary;
+
+		&.top {
+			margin-top: -8px;
+		}
 	}
 }
