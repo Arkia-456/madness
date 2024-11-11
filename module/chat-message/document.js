@@ -258,7 +258,7 @@ class ChatMessageMadness extends ChatMessage {
 			},
 			[],
 		);
-		if (!outcome && !passives.length) return;
+		if (!outcome && !passives.length && !effects.length) return;
 		return token.actor.applyDamage(outcome, {
 			...options,
 			passives: [...context.passives, ...effects],
