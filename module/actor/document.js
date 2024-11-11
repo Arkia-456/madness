@@ -118,6 +118,19 @@ class ActorMadness extends Actor {
 		Object.entries(attributes).forEach(([key, value]) => {
 			value.ethnicity = 0;
 		});
+
+		// Init secondary attributes
+		this.system.secondaryAttributes = {};
+		Object.keys(CONFIG.Madness.formulas.attributes).forEach(
+			(key) => (this.system.secondaryAttributes[key] = {}),
+		);
+
+		// Init secondary magics
+		this.system.secondaryMagics = {};
+		Object.keys(CONFIG.Madness.formulas.magics).forEach(
+			(key) => (this.system.secondaryMagics[key] = {}),
+		);
+
 		console.log(
 			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
 		);
@@ -133,9 +146,9 @@ class ActorMadness extends Actor {
 
 		// Attributes modifiers from items
 
+		const modifierTypes = ['ethnicity', 'effects', 'passives'];
 		Object.entries(system.attributes).forEach(([key, value]) => {
 			const modifiers = [];
-			const modifierTypes = ['ethnicity', 'effects'];
 			modifierTypes.forEach((type) => {
 				if (value[type]) {
 					modifiers.push(this.generateAttributeModifier(key, type));
@@ -158,16 +171,24 @@ class ActorMadness extends Actor {
 		// Calculate HP and MP
 		const hitPoints = system.hp;
 		const hpModifiers = [];
+		modifierTypes.forEach((type) => {
+			if (hitPoints[type]) {
+				hpModifiers.push(this.generateHPModifier(type));
+			}
+		});
 		const hpStat = foundry.utils.mergeObject(
 			new Attribute(this, { label: 'hp', modifiers: hpModifiers }),
 			hitPoints,
 			{ overwrite: false },
 		);
-		const baseHP = this.ethnicity?.system.hp ?? 30;
-		hpStat.max = new Formula(CONFIG.Madness.formulas.hp).evaluate({
-			...totals,
-			base: baseHP,
-		})?.evaluated;
+		const baseHP = (this.ethnicity?.system.hp ?? 30) + (hpStat.passives ?? 0);
+		hpStat.max = Math.max(
+			0,
+			new Formula(CONFIG.Madness.formulas.hp).evaluate({
+				...totals,
+				base: baseHP,
+			})?.evaluated,
+		);
 		if (hpStat.value > hpStat.max) {
 			this.update({ 'system.hp.value': hpStat.max });
 		}
@@ -176,16 +197,24 @@ class ActorMadness extends Actor {
 
 		const manaPoints = system.mp;
 		const mpModifiers = [];
+		modifierTypes.forEach((type) => {
+			if (manaPoints[type]) {
+				mpModifiers.push(this.generateMPModifier(type));
+			}
+		});
 		const mpStat = foundry.utils.mergeObject(
 			new Attribute(this, { label: 'mp', modifiers: mpModifiers }),
 			manaPoints,
 			{ overwrite: false },
 		);
-		const baseMP = this.ethnicity?.system.mp ?? 15;
-		mpStat.max = new Formula(CONFIG.Madness.formulas.mp).evaluate({
-			...totals,
-			base: baseMP,
-		})?.evaluated;
+		const baseMP = (this.ethnicity?.system.mp ?? 15) + (mpStat.passives ?? 0);
+		mpStat.max = Math.max(
+			0,
+			new Formula(CONFIG.Madness.formulas.mp).evaluate({
+				...totals,
+				base: baseMP,
+			})?.evaluated,
+		);
 		if (mpStat.value > mpStat.max) {
 			this.update({ 'system.mp.value': mpStat.max });
 		}
@@ -193,16 +222,20 @@ class ActorMadness extends Actor {
 		system.mp = mpStat;
 
 		// Secondary attributes
-		system.secondaryAttributes = {};
 		Object.entries(CONFIG.Madness.formulas.attributes).forEach(
 			([key, value]) => {
 				const modifiers = [];
+				modifierTypes.forEach((type) => {
+					if (system.secondaryAttributes[key]?.[type]) {
+						modifiers.push(this.generateSecondaryAttributeModifier(key, type));
+					}
+				});
 				const stat = foundry.utils.mergeObject(
 					new Attribute(this, { label: key, modifiers: modifiers }),
 					{ value: new Formula(value).evaluate(totals)?.evaluated },
 					{ overwrite: false },
 				);
-				stat.total = stat.totalModifier + stat.value;
+				stat.total = Math.max(0, stat.totalModifier + stat.value);
 				system.secondaryAttributes[key] = stat;
 			},
 		);
@@ -213,13 +246,11 @@ class ActorMadness extends Actor {
 		);
 
 		// Magics modifiers
-
 		Object.entries(system.magics).forEach(([key, value]) => {
 			const modifiers = [];
-			const modifierTypes = [];
 			modifierTypes.forEach((type) => {
 				if (value[type]) {
-					modifiers.push(this.generateAttributeModifier(key, type));
+					modifiers.push(this.generateMagicModifier(key, type));
 				}
 			});
 			const stat = foundry.utils.mergeObject(
@@ -231,7 +262,7 @@ class ActorMadness extends Actor {
 				value,
 				{ overwrite: false },
 			);
-			stat.total = stat.totalModifier + stat.value;
+			stat.total = Math.max(stat.totalModifier + stat.value, 0);
 			system.magics[key] = stat;
 		});
 
@@ -240,9 +271,13 @@ class ActorMadness extends Actor {
 			([key, value]) => (magicTotals[key] = value.total),
 		);
 
-		system.secondaryMagics = {};
 		Object.entries(CONFIG.Madness.formulas.magics).forEach(([key, value]) => {
 			const modifiers = [];
+			modifierTypes.forEach((type) => {
+				if (system.secondaryMagics[key]?.[type]) {
+					modifiers.push(this.generateSecondaryMagicModifier(key, type));
+				}
+			});
 			const stat = foundry.utils.mergeObject(
 				new Attribute(this, {
 					type: 'magics',
@@ -252,7 +287,7 @@ class ActorMadness extends Actor {
 				{ value: new Formula(value).evaluate(magicTotals)?.evaluated },
 				{ overwrite: false },
 			);
-			stat.total = stat.totalModifier + stat.value;
+			stat.total = Math.max(0, stat.totalModifier + stat.value);
 			system.secondaryMagics[key] = stat;
 		});
 
@@ -283,11 +318,40 @@ class ActorMadness extends Actor {
 	}
 
 	generateAttributeModifier(key, type) {
-		const attr = this.system.attributes[key][type];
+		const mod = this.system.attributes[key][type];
+		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+	}
+
+	generateHPModifier(type) {
+		const mod = this.system.hp[type];
+		return this.generateModifier(mod, 'HP', type);
+	}
+
+	generateSecondaryAttributeModifier(key, type) {
+		const mod = this.system.secondaryAttributes[key][type];
+		return this.generateModifier(mod, key, type);
+	}
+
+	generateMagicModifier(key, type) {
+		const mod = this.system.magics[key][type];
+		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+	}
+
+	generateSecondaryMagicModifier(key, type) {
+		const mod = this.system.secondaryMagics[key][type];
+		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+	}
+
+	generateMPModifier(type) {
+		const mod = this.system.mp[type];
+		return this.generateModifier(mod, 'MP', type);
+	}
+
+	generateModifier(mod, key, type) {
 		return new ModifierMadness(
-			`Madness.${capitalizeFirstLetter(type)}${capitalizeFirstLetter(key)}`,
+			`Madness.${capitalizeFirstLetter(type)}${key}`,
 			capitalizeFirstLetter(type),
-			attr,
+			mod,
 		);
 	}
 

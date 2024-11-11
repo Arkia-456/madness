@@ -15,6 +15,13 @@ class ItemMadness extends Item {
 		this.updateItems(items);
 	}
 
+	createPassive() {
+		const data = { name: null, passive: null, strength: null };
+		const id = foundry.utils.randomID(16);
+		this.system.passives[id] = data;
+		this.update({ 'system.passives': this.system.passives });
+	}
+
 	updateItems(data) {
 		throw new Error('Method not implemented.');
 	}

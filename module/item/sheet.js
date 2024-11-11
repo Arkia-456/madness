@@ -88,6 +88,10 @@ class ItemSheetMadness extends ItemSheet {
 	activateClickListeners(html) {
 		const handlers = {};
 
+		handlers['create-passive'] = (event, anchor) => {
+			this.item.createPassive();
+		};
+
 		handlers['delete'] = (event, anchor) => {
 			const itemId = anchor.closest('[data-item-id]')?.dataset.itemId;
 			this._deleteItem(itemId);

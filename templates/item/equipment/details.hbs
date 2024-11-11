@@ -23,3 +23,51 @@
 		data-dtype='number'
 	/>
 </div>
+<a data-action='create-passive'>
+	<i class='fa-plus'></i>
+</a>
+<table class='passives'>
+	<tr>
+		<td>Nom</td>
+		<td>Passif</td>
+		<td>Puissance</td>
+		<td>Actif</td>
+	</tr>
+	{{#each system.passives as |p id|}}
+		<tr>
+			<td>
+				<input
+					class='value'
+					type='text'
+					name='system.passives.{{id}}.name'
+					value='{{p.name}}'
+				/>
+			</td>
+			<td>
+				<select name='system.passives.{{id}}.passive'>
+					<option value=''></option>
+					{{selectOptions
+						(localizeAndSort @root.passives)
+						selected=p.passive
+						localize=true
+					}}
+				</select>
+			</td>
+			<td>
+				<input
+					class='value'
+					type='number'
+					name='system.passives.{{id}}.strength'
+					value='{{p.strength}}'
+				/>
+			</td>
+			<td>
+				<input
+					type='checkbox'
+					name='system.passives.{{id}}.active'
+					{{checked p.active}}
+				/>
+			</td>
+		</tr>
+	{{/each}}
+</table>

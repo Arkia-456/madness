@@ -99,6 +99,7 @@
 			"MovementDistance": "Distance de mouvement",
 			"MP": "PM",
 			"Name": "Nom",
+			"Passives": "Passifs",
 			"Power": "Puissance",
 			"BarrierPoints": "Points de bouclier",
 			"Reloadable": "Rechargeable",
@@ -181,6 +182,33 @@
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\"",
 				"NoAvailableWeaponSlot": "Aucun emplacement d'arme disponible"
 			}
+		},
+		"Passives": {
+			"Modifier": {
+				"Agi": "Modificateur d'agilité",
+				"Con": "Modificateur de physique",
+				"Dex": "Modificateur de dextérité",
+				"Int": "Modificateur d'intelligence",
+				"Str": "Modificateur de force",
+				"Hp": "Modificateur de points de vie max",
+				"Mp": "Modificateur de points de mana max",
+				"CritRate": "Modificateur de taux de critique",
+				"DodgeRate": "Modificateur de taux d'esquive",
+				"Initiative": "Modificateur d'initiative",
+				"InventoryMaxSlots": "Modificateur de nombre maximal d'emplacements d'inventaire",
+				"ManaRegen": "Modificateur de régénération de mana",
+				"MaxEquipmentWeight": "Modificateur de charge maximale de l'équipement",
+				"MaxMoveDistance": "Modificateur de distance maximale de mouvement",
+				"MaxWeight": "Modificateur de charge maximale",
+				"ParryDamageReduction": "Modificateur de réduction de dégâts en parade",
+				"Doka": "Modificateur de magie Dokah",
+				"Erah": "Modificateur de magie Erah",
+				"Natah": "Modificateur de magie Natah",
+				"Ome": "Modificateur de magie Omé",
+				"Shor": "Modificateur de magie Shor",
+				"Sith": "Modificateur de magie Sith",
+				"Teruuk": "Modificateur de magie Teruuk"
+			},
 		},
 		"StatusEffect": {
 			"Bleed": "Saignement",

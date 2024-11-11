@@ -38,6 +38,22 @@ function registerHandlebarsHelpers() {
 		}
 		return Number(a) - Number(b);
 	});
+
+	Handlebars.registerHelper('localizeAndSort', (obj) => {
+		return Object.fromEntries(
+			Object.entries(obj).sort(([, translationKey1], [, translationKey2]) => {
+				const t1 = game.i18n.localize(translationKey1);
+				const t2 = game.i18n.localize(translationKey2);
+				if (t1 < t2) {
+					return -1;
+				}
+				if (t1 > t2) {
+					return 1;
+				}
+				return 0;
+			}),
+		);
+	});
 }
 
 function createFormula(attrDice, attributes, minMax) {
