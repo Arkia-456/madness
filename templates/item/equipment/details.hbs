@@ -34,7 +34,7 @@
 		<td>Actif</td>
 	</tr>
 	{{#each system.passives as |p id|}}
-		<tr>
+		<tr data-id='{{id}}'>
 			<td>
 				<input
 					class='value'
@@ -67,6 +67,11 @@
 					name='system.passives.{{id}}.active'
 					{{checked p.active}}
 				/>
+			</td>
+			<td class='actions'>
+				<a data-action='delete-passive'>
+					<i class='fa fa-trash'></i>
+				</a>
 			</td>
 		</tr>
 	{{/each}}
