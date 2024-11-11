@@ -224,6 +224,15 @@ class ActorSheetMadness extends ActorSheet {
 			item.delete();
 		};
 
+		handlers['delete-passive'] = (event, anchor) => {
+			const id = anchor.closest('[data-id]')?.dataset.id;
+			const passives = this.actor.system.passives;
+			const passive = passives[id];
+			if (passive) {
+				this.actor.update({ [`system.passives.-=${id}`]: null });
+			}
+		};
+
 		handlers['open-compendium'] = (_, actionTarget) => {
 			return game.packs
 				.get(actionTarget.dataset.compendium ?? '')

@@ -15,9 +15,10 @@
 				<div>{{localize 'Madness.Label.Description'}}</div>
 				<div>{{localize 'Madness.Label.Strength'}}</div>
 				<div>{{localize 'Madness.Label.Active'}}</div>
+				<div class='actions'></div>
 			</div>
 			{{#each system.passives as |p id|}}
-				<div class='row'>
+				<div class='row' data-id='{{id}}'>
 					<div>
 						<input
 							class='value'
@@ -51,6 +52,11 @@
 							{{checked p.active}}
 						/>
 					</div>
+					<div class='actions'>
+						<a data-action='delete-passive'>
+							<i class='fa fa-trash'></i>
+						</a>
+					</div>
 				</div>
 			{{/each}}
 		</div>
@@ -63,6 +69,7 @@
 				<div>{{localize 'Madness.Label.Description'}}</div>
 				<div>{{localize 'Madness.Label.Stacks'}}</div>
 				<div>{{localize 'Madness.Label.RemainingDuration'}}</div>
+				<div class='actions'></div>
 			</div>
 			{{#each effects}}
 				<div class='row'>
@@ -76,6 +83,7 @@
 							<br />
 						{{/each}}
 					</div>
+					<div class='actions'></div>
 				</div>
 			{{/each}}
 		</div>

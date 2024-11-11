@@ -7,7 +7,7 @@
 
 		.row {
 			display: grid;
-			grid-template-columns: 25% 1fr 15% 15%;
+			grid-template-columns: 25% 1fr 15% 15% 5%;
 			background-color: @madness-background-color-tertiary;
 			min-height: 30px;
 
@@ -27,6 +27,10 @@
 
 				&.active {
 					background-color: @madness-highlight-color;
+				}
+
+				&.actions {
+					background-color: white;
 				}
 
 				select {
