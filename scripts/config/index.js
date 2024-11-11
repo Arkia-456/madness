@@ -285,6 +285,7 @@ export const MadnessConfig = {
 			void: 'Madness.StatusEffect.Void',
 		},
 		bleed: {
+			description: 'Madness.StatusEffect.Description.Bleed',
 			effects: [
 				{
 					name: 'dot',
@@ -296,6 +297,7 @@ export const MadnessConfig = {
 			],
 		},
 		burn: {
+			description: 'Madness.StatusEffect.Description.Burn',
 			effects: [
 				{
 					name: 'increaseDamageToHealth',
@@ -304,6 +306,7 @@ export const MadnessConfig = {
 			],
 		},
 		confusion: {
+			description: 'Madness.StatusEffect.Description.Confusion',
 			effects: [
 				{
 					name: 'increaseCriticalFailureRate',
@@ -319,13 +322,21 @@ export const MadnessConfig = {
 			],
 		},
 		down: {
+			description: 'Madness.StatusEffect.Description.Down',
 			effects: [
 				{
 					name: 'preventDodge',
 				},
 			],
 		},
+		freeze: {
+			description: 'Madness.StatusEffect.Description.Freeze',
+		},
+		overweight: {
+			description: 'Madness.StatusEffect.Description.Overweight',
+		},
 		poison: {
+			description: 'Madness.StatusEffect.Description.Poison',
 			effects: [
 				{
 					name: 'increasePrimaryAttribute',
@@ -334,6 +345,7 @@ export const MadnessConfig = {
 			],
 		},
 		shock: {
+			description: 'Madness.StatusEffect.Description.Shock',
 			effects: [
 				{
 					name: 'cantUseMagic',
@@ -348,6 +360,7 @@ export const MadnessConfig = {
 			],
 		},
 		stun: {
+			description: 'Madness.StatusEffect.Description.Stun',
 			durations: [
 				{
 					type: 'action',
@@ -368,6 +381,9 @@ export const MadnessConfig = {
 					name: 'preventParry',
 				},
 			],
+		},
+		void: {
+			description: 'Madness.StatusEffect.Description.Void',
 		},
 	},
 };

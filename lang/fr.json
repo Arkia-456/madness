@@ -192,7 +192,19 @@
 			"Overweight": "Surcharge",
 			"Shock": "Choc",
 			"Stun": "Etourdissement",
-			"Void": "Néant"
+			"Void": "Néant",
+			"Description": {
+				"Bleed": "Inflige 2 dégâts par tour jusqu'à ce que la cible soit soignée, cumulable",
+				"Burn": "Augmente les dégâts subis d'un montant plat de +2 jusqu'à ce que la cible soit soignée, cumulable",
+				"Confusion": "Augmente les chances d'échec critique de 20% sur le prochain tour",
+				"Down": "La cible ne peut pas esquiver jusqu'à son prochain tour, se relever consomme un point d'action",
+				"Freeze": "Réduit les déplacements de la cible de 2 m jusqu'à ce que la cible soit soignée, cumulable",
+				"Poison": "Retire 1 dans toutes les caractéristiques jusqu'à ce que la cible soit soignée, cumulable",
+				"Overweight": "Réduit le nombre de points d'action de la cible",
+				"Shock": "Empêche d'utiliser des sorts sur le prochain tour",
+				"Stun": "La prochaine attaque subie est impossible à parer ou esquiver, si aucune attaque n'est subie avant le tour de le cible étourdie, l'effet est dissipé",
+				"Void": "Permet de détruire le prochain sort qui vous cible"
+			}
 		},
 		"Tab": {
 			"Actions": "Actions",

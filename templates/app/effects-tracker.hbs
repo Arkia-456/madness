@@ -1,0 +1,16 @@
+<div id='effects-tracker'>
+	{{#each effects}}
+		<div class='effect-item'>
+			<div class='effect-info'>
+				<h1>{{name}}</h1>
+				{{{description}}}
+			</div>
+			<div class='icon'>
+				<img src='{{img}}' />
+				{{#if system.stacks}}
+					<i class='badge'>{{system.stacks}}</i>
+				{{/if}}
+			</div>
+		</div>
+	{{/each}}
+</div>

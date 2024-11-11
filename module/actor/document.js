@@ -528,14 +528,16 @@ class ActorMadness extends Actor {
 		);
 	}
 
-	decreaseStatusEffect(statusId) {
+	async decreaseStatusEffect(statusId) {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
 		if (!existing) return;
 
 		const stacks = existing.system.stacks ?? 1;
 		if (stacks > 1) {
 			const newValue = stacks - 1;
-			return existing.update({ 'system.stacks': newValue });
+			const effect = await existing.update({ 'system.stacks': newValue });
+			game.madness.effectsTracker.refresh();
+			return effect;
 		} else {
 			return this.toggleStatusEffect(statusId);
 		}
@@ -562,7 +564,9 @@ class ActorMadness extends Actor {
 	increaseStacks(statusEffect, num = 1) {
 		const currentValue = statusEffect.system.stacks ?? 0;
 		const newValue = currentValue + num;
-		return statusEffect.update({ 'system.stacks': newValue });
+		const effect = statusEffect.update({ 'system.stacks': newValue });
+		game.madness.effectsTracker.refresh();
+		return effect;
 	}
 
 	toggleStatusEffects(statusIds) {
@@ -571,6 +575,12 @@ class ActorMadness extends Actor {
 			promises.push(this.toggleStatusEffect(statusId)),
 		);
 		return Promise.all(promises);
+	}
+
+	async toggleStatusEffect(statusId, options) {
+		const effect = await super.toggleStatusEffect(statusId, options);
+		game.madness.effectsTracker.refresh();
+		return effect;
 	}
 
 	decreaseStatusEffectsDuration(statusIds, durationFilterCallback) {

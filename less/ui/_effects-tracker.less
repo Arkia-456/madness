@@ -1,0 +1,63 @@
+// main: "../madness.less"
+
+#effects-tracker {
+	position: absolute;
+	top: 5px;
+	right: 0px;
+	pointer-events: initial;
+
+	.effect-item {
+		height: 48px;
+		display: flex;
+		justify-content: flex-end;
+		margin: 2px;
+
+		.effect-info {
+			display: none;
+			background-color: rgba(0, 0, 0, 0.75);
+			color: white;
+			max-width: 328px;
+			padding: 8px;
+			height: fit-content;
+			margin-right: 4px;
+
+			h1 {
+				font-size: 1.2em;
+				border-bottom: solid 1px white;
+				padding: initial;
+				margin: 0px;
+				margin-bottom: 4px;
+			}
+		}
+
+		&:hover {
+			.effect-info {
+				display: block;
+			}
+		}
+
+		.icon {
+			max-height: 100%;
+
+			img {
+				max-height: 100%;
+				border: none;
+			}
+
+			.badge {
+				display: block;
+				position: relative;
+				top: -52px;
+				right: -34px;
+				height: 16px;
+				width: 16px;
+				border-radius: 50%;
+				border: solid 1px @madness-background-color-secondary;
+				background-color: white;
+				font-style: normal;
+				line-height: 1em;
+				text-align: center;
+			}
+		}
+	}
+}

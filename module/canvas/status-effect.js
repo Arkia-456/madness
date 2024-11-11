@@ -17,6 +17,7 @@ export class StatusEffects {
 			id: 'dead',
 			name: 'EFFECT.StatusDead',
 			img: 'icons/svg/skull.svg',
+			slug: 'dead',
 		});
 	}
 

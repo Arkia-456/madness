@@ -6,6 +6,11 @@ export class ActiveEffectMadness extends ActiveEffect {
 			effects: effectData.effects,
 			durations: effectData.durations,
 		};
+		if (effectData.slug) {
+			effectData.description = game.i18n.localize(
+				CONFIG.Madness.statusEffects[effectData.slug]?.description,
+			);
+		}
 		return super._fromStatusEffect(statusId, effectData, options);
 	}
 
