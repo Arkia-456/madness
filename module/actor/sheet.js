@@ -352,10 +352,6 @@ class ActorSheetMadness extends ActorSheet {
 		return [naturalStr, modifiersStr];
 	}
 
-	_addTooltip(html, querySelector, tooltip) {
-		html.querySelector(querySelector).dataset.tooltip = tooltip;
-	}
-
 	_generateSkillsTooltips(html, skills) {
 		skills.forEach((s) => {
 			s.generateTooltip(
