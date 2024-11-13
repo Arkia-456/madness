@@ -145,6 +145,7 @@ class ActorSheetMadness extends ActorSheet {
 		this._generateAttributesTooltip(html, {
 			...system.attributes,
 			...system.secondaryAttributes,
+			...system.magics,
 		});
 		this._generateSkillsTooltips(
 			html,

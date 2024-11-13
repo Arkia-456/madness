@@ -455,7 +455,7 @@
 					{{#each system.magics as |magic id|}}
 						<tr class='attribute magic' data-id='{{id}}'>
 							<td class='attribute-header'>{{magic.label}}</td>
-							<td class='attribute-total'>{{magic.total}}</td>
+							<td class='attribute-total' data-id='{{id}}'>{{magic.total}}</td>
 						</tr>
 					{{/each}}
 					{{#each system.secondaryMagics as |magic id|}}
