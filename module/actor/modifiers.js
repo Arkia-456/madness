@@ -1,5 +1,6 @@
 import { createHTMLElement, elide } from '../../utils/index.js';
 import { ChatMessageMadness } from '../chat-message/index.js';
+import Tooltip from '../system/tooltip.js';
 
 export class ModifierMadness {
 	constructor(...args) {
@@ -43,6 +44,13 @@ export class Attribute {
 		this.totalModifier = this._modifiers.reduce(
 			(total, m) => total + m.modifier,
 			0,
+		);
+	}
+
+	generateTooltip(html, template, querySelector) {
+		new Tooltip({ rendered: template, item: this }).appendTo(
+			html,
+			querySelector,
 		);
 	}
 

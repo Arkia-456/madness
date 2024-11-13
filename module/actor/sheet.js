@@ -329,15 +329,20 @@ class ActorSheetMadness extends ActorSheet {
 	}
 
 	_generateAttributesTooltip(html, attributes) {
-		Object.entries(attributes).forEach(([key, value]) => {
-			const tooltip = this._generateAttributeTooltip(value).join('<br />');
-			this._addTooltip(html, `.attribute-total[data-id=${key}]`, tooltip);
+		Object.values(attributes).forEach((attr) => {
+			const template =
+				this._generateAttributeTooltipTemplate(attr).join('<br />');
+			attr.generateTooltip(
+				html,
+				template,
+				`.attribute-total[data-id=${attr.id}]`,
+			);
 		});
 	}
 
-	_generateAttributeTooltip(value) {
-		const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${value.value >= 0 ? '+' : ''}${value.value}`;
-		const modifiersStr = value._modifiers.reduce((str, modifier) => {
+	_generateAttributeTooltipTemplate(attr) {
+		const naturalStr = `${game.i18n.localize('Madness.Label.Character')} : ${attr.value >= 0 ? '+' : ''}${attr.value}`;
+		const modifiersStr = attr._modifiers.reduce((str, modifier) => {
 			if (str.length) str += '<br />';
 			return (str += `${game.i18n.localize(`Madness.Label.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`);
 		}, '');
