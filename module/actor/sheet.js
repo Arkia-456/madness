@@ -141,7 +141,10 @@ class ActorSheetMadness extends ActorSheet {
 
 		const actor = this.actor;
 		const system = actor.system;
-		this._generateAttributesTooltip(html, system.attributes);
+		this._generateAttributesTooltip(html, {
+			...system.attributes,
+			...system.secondaryAttributes,
+		});
 		this._generateSkillsTooltips(
 			html,
 			actor.items.filter((i) => ['spell', 'weapon'].includes(i.type)),
