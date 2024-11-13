@@ -38,19 +38,23 @@ class Formula {
 		withDecoration = false,
 		calculable = false,
 	) {
-		let formula = Object.entries(attributeDice).reduce((f, [attr, value]) => {
-			if (!value) return f;
-			if (f.length) f += ' + ';
-			const attrString = withDecoration ? '@{' + attr + '}' : ' ' + attr;
-			return (f +=
-				attr === 'flat'
-					? Number(value) + Number(modifier)
-					: `${value}${calculable ? '*' : 'd'}${attrString}`);
-		}, '');
-		if (!attributeDice.flat && modifier) {
-			formula += `${formula.length ? ' + ' : ''}${modifier}`;
-		}
-		return formula;
+		const formula = Object.entries(attributeDice).reduce(
+			(formulaString, [attr, value]) => {
+				if (!value) return formulaString;
+				const attrString = withDecoration ? `@{${attr}}` : ` ${attr}`;
+				const diceExpression =
+					attr === 'flat'
+						? `${Number(value) + Number(modifier)}`
+						: `${value}${calculable ? '*' : 'd'}${attrString}`;
+				return formulaString
+					? `${formulaString} + ${diceExpression}`
+					: diceExpression;
+			},
+			'',
+		);
+		return !attributeDice.flat && modifier
+			? `${formula}${formula ? ' + ' : ''}${modifier}`
+			: formula;
 	}
 
 	static generateCalculableFormulaFromDice(attributeDice, modifier = 0) {
