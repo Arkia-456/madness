@@ -137,6 +137,21 @@ class ActorMadness extends Actor {
 		// Init immunities
 		this.system.immunities = [];
 
+		// Init passives
+		const attr = {
+			attributes: Object.keys(this.system.attributes),
+			secondaryAttributes: Object.keys(CONFIG.Madness.formulas.attributes),
+			magics: Object.keys(CONFIG.Madness.magics),
+			secondaryMagics: Object.keys(CONFIG.Madness.formulas.magics),
+		};
+		Object.entries(attr).forEach(([key, value]) => {
+			value.forEach((v) => {
+				if (this.system[key][v]) {
+					this.system[key][v].passives = 0;
+				}
+			});
+		});
+
 		console.log(
 			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
 		);
