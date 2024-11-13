@@ -119,7 +119,11 @@
 			</div>
 			<div class='container ap'>
 				<label>{{localize 'Madness.Label.ArmorPoints'}}</label>
-				<div class='points-value'>
+				<div
+					id='armor-total'
+					class='points-value'
+					data-id='{{system.armor.id}}'
+				>
 					<span>{{system.armor.total}}</span>
 				</div>
 			</div>

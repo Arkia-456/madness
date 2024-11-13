@@ -141,6 +141,7 @@ class ActorSheetMadness extends ActorSheet {
 
 		const actor = this.actor;
 		const system = actor.system;
+		this._generateArmorTooltip(html, system.armor);
 		this._generateAttributesTooltip(html, {
 			...system.attributes,
 			...system.secondaryAttributes,
@@ -329,6 +330,24 @@ class ActorSheetMadness extends ActorSheet {
 		html.addEventListener('click', sheetHandler);
 
 		return handlers;
+	}
+
+	_generateArmorTooltip(html, armor) {
+		armor.generateTooltip(
+			html,
+			this._generateArmorTooltipTemplate(armor),
+			`#armor-total[data-id='${armor.id}']`,
+		);
+	}
+
+	_generateArmorTooltipTemplate(armor) {
+		const modifiersStr = armor._modifiers.reduce((str, modifier) => {
+			if (modifier.modifier > 0) {
+				str += `${str ? '<br />' : ''}${game.i18n.localize(`Madness.Label.${modifier.sourceType}`)} : ${modifier.modifier >= 0 ? '+' : ''}${modifier.modifier}`;
+			}
+			return str;
+		}, '');
+		return modifiersStr;
 	}
 
 	_generateAttributesTooltip(html, attributes) {
