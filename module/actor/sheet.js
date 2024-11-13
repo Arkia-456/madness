@@ -51,6 +51,7 @@ class ActorSheetMadness extends ActorSheet {
 			weapon.maxDamage = weapon.getMaxDamage(actor.system.attributes);
 		});
 		sheetData.weapons = weapons;
+		sheetData.config = CONFIG.Madness.default;
 
 		// Passives
 

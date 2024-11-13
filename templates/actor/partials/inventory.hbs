@@ -91,9 +91,7 @@
 				</td>
 			</tr>
 		{{/each}}
-		{{#times
-			(minus system.secondaryAttributes.inventoryMaxSlots.total weapons.length)
-		}}
+		{{#times (minus config.weaponMaxSlots weapons.length)}}
 			<tr class='placeholder'>
 				<td class='head'></td>
 				<td></td>
