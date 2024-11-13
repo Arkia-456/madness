@@ -1,5 +1,6 @@
 import { displayError, Formula } from '../../../utils/index.js';
 import { CheckMadness } from '../../system/check.js';
+import Tooltip from '../../system/tooltip.js';
 import { ItemMadness } from '../index.js';
 
 class SkillMadness extends ItemMadness {
@@ -17,6 +18,30 @@ class SkillMadness extends ItemMadness {
 
 	get tempHPMod() {
 		return this.getPassiveModifier('addTempHP');
+	}
+
+	get tooltip() {
+		const damageFormula =
+			Formula.generateFormulaStrFromDice(this.system.damage, this.damageMod) ||
+			'0';
+		const criticalFailureMod =
+			this.criFailureRateMod + this.actor.criticalFailureRateMod;
+		const criticalFailureScore = new Formula(
+			CONFIG.Madness.formulas.scores.criticalFailure,
+		).evaluate({ mod: criticalFailureMod }).evaluated;
+		const criticalSuccessScore = new Formula(
+			CONFIG.Madness.formulas.scores.critical,
+		).evaluate({
+			actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
+			mod: this.critRateMod,
+		}).evaluated;
+		return {
+			damageFormula,
+			criticalFailureScore,
+			criticalSuccessScore,
+			effects: this.system.items,
+			system: this.system,
+		};
 	}
 
 	get range() {
@@ -102,6 +127,10 @@ class SkillMadness extends ItemMadness {
 				modifierName: modifierName,
 			});
 		}
+	}
+
+	generateTooltip(html, templatePath, querySelector) {
+		new Tooltip({ templatePath, item: this }).appendTo(html, querySelector);
 	}
 
 	updateItems(items) {

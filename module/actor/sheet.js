@@ -1,5 +1,4 @@
 import {
-	Formula,
 	capitalizeFirstLetter,
 	displayWarning,
 	fontAwesomeIcon,
@@ -10,6 +9,8 @@ import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
 import { EditMagicsPopup } from './popups/edit-magics-popup.js';
 
 class ActorSheetMadness extends ActorSheet {
+	static TOOLTIPS_PATH = 'systems/madness/templates/actor/tooltips/';
+
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes = ['madness', 'sheet', 'character'];
@@ -141,13 +142,9 @@ class ActorSheetMadness extends ActorSheet {
 		const actor = this.actor;
 		const system = actor.system;
 		this._generateAttributesTooltip(html, system.attributes);
-		this._generateSpellsTooltip(
+		this._generateSkillsTooltips(
 			html,
-			actor.items.filter((i) => i.type === 'spell'),
-		);
-		this._generateWeaponsTooltip(
-			html,
-			actor.items.filter((i) => i.type === 'weapon'),
+			actor.items.filter((i) => ['spell', 'weapon'].includes(i.type)),
 		);
 
 		const characterTab = html.querySelector('.tab[data-tab=character]');
@@ -351,92 +348,14 @@ class ActorSheetMadness extends ActorSheet {
 		html.querySelector(querySelector).dataset.tooltip = tooltip;
 	}
 
-	async _generateSpellsTooltip(html, spells) {
-		for (const spell of spells) {
-			const tooltip = await this._generateSpellTooltip(spell);
-			this._addTooltip(html, `.spell[data-id='${spell.id}']`, tooltip);
-		}
-	}
-
-	_generateSpellTooltip(spell) {
-		const damageFormula =
-			Formula.generateFormulaStrFromDice(
-				spell.system.damage,
-				spell.damageMod,
-			) || '0';
-		const critFailureMod =
-			spell.criFailureRateMod + this.actor.criticalFailureRateMod;
-		const spellData = {
-			damageFormula,
-			system: spell.system,
-			effects: spell.system.items,
-			criticalFailureScore: new Formula(
-				CONFIG.Madness.formulas.scores.criticalFailure,
-			).evaluate({ mod: critFailureMod }).evaluated,
-			criticalSuccessScore: new Formula(
-				CONFIG.Madness.formulas.scores.critical,
-			).evaluate({
-				actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
-				mod: spell.critRateMod,
-			}).evaluated,
-		};
-		return renderTemplate(
-			'systems/madness/templates/actor/tooltips/spell.hbs',
-			spellData,
-		);
-	}
-
-	async _generateWeaponsTooltip(html, weapons) {
-		for (const weapon of weapons) {
-			const tooltip = await this._generateWeaponTooltip(weapon);
-			this._addTooltip(html, `.weapon[data-id='${weapon.id}']`, tooltip);
-		}
-	}
-
-	_generateWeaponTooltip(weapon) {
-		const damageFormula =
-			Formula.generateFormulaStrFromDice(
-				weapon.system.damage,
-				weapon.damageMod,
-			) || '0';
-		const critFailureMod =
-			weapon.criFailureRateMod + this.actor.criticalFailureRateMod;
-		const weaponData = {
-			damageFormula,
-			system: weapon.system,
-			modules: Object.values(weapon.system.modules).reduce((modules, value) => {
-				if (value.id) {
-					const moduleConfig = foundry.utils.deepClone(
-						CONFIG.Madness.modules[value.id],
-					);
-					modules[value.id] = moduleConfig;
-					if (moduleConfig.effects) {
-						modules[value.id].effects = moduleConfig.effects.map((e) => {
-							const modifier = weapon.getPassiveModifier(e.name);
-							return {
-								name: e.name,
-								value: isNaN(modifier) ? '' : modifier,
-							};
-						});
-					}
-				}
-				return modules;
-			}, {}),
-			effects: weapon.system.items,
-			criticalFailureScore: new Formula(
-				CONFIG.Madness.formulas.scores.criticalFailure,
-			).evaluate({ mod: critFailureMod }).evaluated,
-			criticalSuccessScore: new Formula(
-				CONFIG.Madness.formulas.scores.critical,
-			).evaluate({
-				actorCritRate: this.actor.system.secondaryAttributes.critRate.total,
-				mod: weapon.critRateMod,
-			}).evaluated,
-		};
-		return renderTemplate(
-			'systems/madness/templates/actor/tooltips/weapon.hbs',
-			weaponData,
-		);
+	_generateSkillsTooltips(html, skills) {
+		skills.forEach((s) => {
+			s.generateTooltip(
+				html,
+				`${ActorSheetMadness.TOOLTIPS_PATH}${s.type}.hbs`,
+				`.${s.type}[data-id='${s.id}']`,
+			);
+		});
 	}
 }
 

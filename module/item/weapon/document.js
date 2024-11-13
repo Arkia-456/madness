@@ -15,6 +15,35 @@ class WeaponMadness extends SkillMadness {
 		return this.passives.some((p) => p.name === 'nonReloadable');
 	}
 
+	get tooltip() {
+		const data = {
+			...super.tooltip,
+			modules: this._modulesTooltip,
+		};
+		return data;
+	}
+
+	get _modulesTooltip() {
+		return Object.values(this.system.modules).reduce((modules, m) => {
+			if (m.id) {
+				const moduleConfig = foundry.utils.deepClone(
+					CONFIG.Madness.modules[m.id],
+				);
+				modules[m.id] = moduleConfig;
+				if (moduleConfig.effects) {
+					modules[m.id].effects = moduleConfig.effects.map((e) => {
+						const modifier = this.getPassiveModifier(e.name);
+						return {
+							name: e.name,
+							value: isNaN(modifier) ? '' : modifier,
+						};
+					});
+				}
+			}
+			return modules;
+		}, {});
+	}
+
 	get useAmmo() {
 		return !this.passives.some((p) => p.name === 'noAmmo');
 	}
