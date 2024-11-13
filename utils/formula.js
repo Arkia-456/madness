@@ -34,19 +34,23 @@ class Formula {
 
 	static generateFormulaStrFromDice(
 		attributeDice,
-		modifier = 0,
+		modifier = '',
 		withDecoration = false,
 		calculable = false,
 	) {
-		return Object.entries(attributeDice).reduce((f, [attr, value]) => {
+		let formula = Object.entries(attributeDice).reduce((f, [attr, value]) => {
 			if (!value) return f;
 			if (f.length) f += ' + ';
 			const attrString = withDecoration ? '@{' + attr + '}' : ' ' + attr;
 			return (f +=
 				attr === 'flat'
-					? Number(value)
+					? Number(value) + Number(modifier)
 					: `${value}${calculable ? '*' : 'd'}${attrString}`);
-		}, `${modifier}`);
+		}, '');
+		if (!attributeDice.flat && modifier) {
+			formula += `${formula.length ? ' + ' : ''}${modifier}`;
+		}
+		return formula;
 	}
 
 	static generateCalculableFormulaFromDice(attributeDice, modifier = 0) {
