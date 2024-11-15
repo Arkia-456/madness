@@ -1,0 +1,61 @@
+// main: "../madness.less"
+
+.sheet.item.equipment {
+	.row {
+		display: grid;
+		grid-template-columns: 25% 1fr 15% 15% 5%;
+		background-color: @madness-background-color-tertiary;
+		min-height: 30px;
+
+		&.head {
+			background-color: @madness-background-color-secondary;
+			color: white;
+		}
+
+		div {
+			border: solid 1px white;
+			padding: 6px;
+			text-align: center;
+
+			&.name,
+			&.active,
+			&.actions {
+				grid-row: span 2;
+			}
+
+			&.description {
+				grid-column: span 2;
+
+				textarea {
+					resize: vertical;
+				}
+			}
+
+			&.align-left {
+				text-align: left;
+			}
+
+			&.active {
+				background-color: @madness-highlight-color;
+			}
+
+			&.actions {
+				background-color: white;
+			}
+
+			select {
+				width: 100%;
+			}
+		}
+	}
+
+	button {
+		background-color: @madness-highlight-color;
+		color: black;
+		border: none;
+		border-radius: 0px;
+		display: block;
+		width: fit-content;
+		margin: 0px 0px 8px auto;
+	}
+}

@@ -2,6 +2,12 @@ import { capitalizeFirstLetter, objectMap } from '../../../utils/misc.js';
 import { ItemSheetMadness } from '../index.js';
 
 class EquipmentSheetMadness extends ItemSheetMadness {
+	static get defaultOptions() {
+		const options = super.defaultOptions;
+		options.classes.push('equipment');
+		return options;
+	}
+
 	async getData(options) {
 		const sheetData = await super.getData(options);
 		const attributesPassives = objectMap(

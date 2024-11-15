@@ -23,27 +23,31 @@
 		data-dtype='number'
 	/>
 </div>
-<a data-action='create-passive'>
-	<i class='fa-plus'></i>
-</a>
-<table class='passives'>
-	<tr>
-		<td>Nom</td>
-		<td>Passif</td>
-		<td>Puissance</td>
-		<td>Actif</td>
-	</tr>
+<div>
+	<button data-action='create-passive'>
+		<i class='fa fa-plus'></i>
+		{{localize 'Madness.Controls.AddPassive'}}
+	</button>
+</div>
+<div class='grid'>
+	<div class='row head'>
+		<div>{{localize 'Madness.Label.Passive'}}</div>
+		<div>{{localize 'Madness.Label.Description'}}</div>
+		<div>{{localize 'Madness.Label.Strength'}}</div>
+		<div>{{localize 'Madness.Label.Active'}}</div>
+		<div class='actions'></div>
+	</div>
 	{{#each system.passives as |p id|}}
-		<tr data-id='{{id}}'>
-			<td>
+		<div class='row' data-id='{{id}}'>
+			<div class='name'>
 				<input
 					class='value'
 					type='text'
 					name='system.passives.{{id}}.name'
 					value='{{p.name}}'
 				/>
-			</td>
-			<td>
+			</div>
+			<div>
 				<select name='system.passives.{{id}}.passive'>
 					<option value=''></option>
 					{{selectOptions
@@ -52,27 +56,33 @@
 						localize=true
 					}}
 				</select>
-			</td>
-			<td>
+			</div>
+			<div>
 				<input
 					class='value'
 					type='number'
 					name='system.passives.{{id}}.strength'
 					value='{{p.strength}}'
 				/>
-			</td>
-			<td>
+			</div>
+			<div class='active'>
 				<input
 					type='checkbox'
 					name='system.passives.{{id}}.active'
 					{{checked p.active}}
 				/>
-			</td>
-			<td class='actions'>
+			</div>
+			<div class='actions'>
 				<a data-action='delete-passive'>
 					<i class='fa fa-trash'></i>
 				</a>
-			</td>
-		</tr>
+			</div>
+			<div class='description'>
+				<textarea
+					class='value'
+					name='system.passives.{{id}}.description'
+				>{{p.description}}</textarea>
+			</div>
+		</div>
 	{{/each}}
-</table>
+</div>
