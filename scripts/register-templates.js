@@ -32,5 +32,7 @@ const getPartials = () => {
 				`${templatesPath}/item/${type}/details.hbs`),
 	);
 
+	paths['madness.partials.passives'] = `${templatesPath}/partials/passives.hbs`;
+
 	return paths;
 };

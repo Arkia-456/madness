@@ -1,6 +1,6 @@
 // main: "../madness.less"
 
-.sheet.item.equipment {
+.passives-grid {
 	.row {
 		display: grid;
 		grid-template-columns: 25% 1fr 15% 15% 5%;
@@ -31,10 +31,6 @@
 				}
 			}
 
-			&.align-left {
-				text-align: left;
-			}
-
 			&.active {
 				background-color: @madness-highlight-color;
 			}
@@ -48,14 +44,10 @@
 			}
 		}
 	}
+}
 
-	button {
-		background-color: @madness-highlight-color;
-		color: black;
-		border: none;
-		border-radius: 0px;
-		display: block;
-		width: fit-content;
-		margin: 0px 0px 8px auto;
-	}
+button.add-passive {
+	display: block;
+	width: fit-content;
+	margin: 0px 0px 8px auto;
 }
