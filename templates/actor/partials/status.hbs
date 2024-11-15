@@ -19,7 +19,7 @@
 			</div>
 			{{#each system.passives as |p id|}}
 				<div class='row' data-id='{{id}}'>
-					<div>
+					<div class='name'>
 						<input
 							class='value'
 							type='text'
@@ -56,6 +56,12 @@
 						<a data-action='delete-passive'>
 							<i class='fa fa-trash'></i>
 						</a>
+					</div>
+					<div class='description'>
+						<textarea
+							class='value'
+							name='system.passives.{{id}}.description'
+						>{{p.description}}</textarea>
 					</div>
 				</div>
 			{{/each}}
