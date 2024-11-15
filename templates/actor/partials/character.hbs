@@ -475,7 +475,7 @@
 								{{localize 'Madness.Item.Weapon.Ammo'}}
 							</td>
 							<td>
-								{{#if weapon.useAmmo}}
+								{{#if (and weapon.useAmmo weapon.system.ammo.max)}}
 									{{weapon.system.ammo.value}}/{{weapon.system.ammo.max}}
 								{{else}}
 									-

@@ -1,6 +1,8 @@
 import { capitalizeFirstLetter, Formula } from '../utils/index.js';
 
 function registerHandlebarsHelpers() {
+	Handlebars.registerHelper('and', (a, b) => Boolean(a) && Boolean(b));
+
 	Handlebars.registerHelper('getRollResult', (minMax, attrDice, attributes) => {
 		return createFormula(attrDice, attributes, minMax);
 	});

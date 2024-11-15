@@ -62,7 +62,7 @@
 						{{/if}}
 					</div>
 					<div>
-						{{#if useAmmo}}
+						{{#if (and useAmmo system.ammo.max)}}
 							{{system.ammo.value}}/{{system.ammo.max}}
 						{{else}}
 							-
