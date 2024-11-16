@@ -166,6 +166,14 @@ class ActorSheetMadness extends ActorSheet {
 				},
 			};
 
+			const contextMenuEntrySearch = {
+				name: 'Madness.Controls.Search',
+				icon: fontAwesomeIcon('search'),
+				callback: () => {
+					game.packs.get('madness-compendium.ethnies' ?? '')?.render(true);
+				},
+			};
+
 			const contextMenuEntryDelete = {
 				name: 'Madness.Controls.Delete',
 				icon: fontAwesomeIcon('trash'),
@@ -179,7 +187,7 @@ class ActorSheetMadness extends ActorSheet {
 			new ContextMenu(
 				characterTab,
 				'.detail-item-control',
-				[contextMenuEntryEdit, contextMenuEntryDelete],
+				[contextMenuEntryEdit, contextMenuEntrySearch, contextMenuEntryDelete],
 				{
 					eventName: 'click',
 					onOpen: () => {
