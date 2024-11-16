@@ -241,8 +241,10 @@ class ActorMadness extends Actor {
 				base: baseHP,
 			})?.evaluated,
 		);
-		if (hpStat.value > hpStat.max) {
-			this.update({ 'system.hp.value': hpStat.max });
+		if (game.user === this.firstUpdater) {
+			if (hpStat.value > hpStat.max) {
+				this.update({ 'system.hp.value': hpStat.max });
+			}
 		}
 		hpStat.value = Math.min(hpStat.value, hpStat.max);
 		system.hp = hpStat;
@@ -283,8 +285,10 @@ class ActorMadness extends Actor {
 				base: baseMP,
 			})?.evaluated,
 		);
-		if (mpStat.value > mpStat.max) {
-			this.update({ 'system.mp.value': mpStat.max });
+		if (game.user === this.firstUpdater) {
+			if (mpStat.value > mpStat.max) {
+				this.update({ 'system.mp.value': mpStat.max });
+			}
 		}
 		mpStat.value = Math.min(mpStat.value, mpStat.max);
 		system.mp = mpStat;
@@ -586,11 +590,16 @@ class ActorMadness extends Actor {
 	}
 
 	addMP(mp) {
-		this.update({ 'system.mp.value': this.system.mp.value + mp });
+		this.update({
+			'system.mp.value': Math.min(
+				this.system.mp.value + mp,
+				this.system.mp.max,
+			),
+		});
 	}
 
 	removeMP(mp) {
-		this.update({ 'system.mp.value': this.system.mp.value - mp });
+		this.update({ 'system.mp.value': Math.max(0, this.system.mp.value - mp) });
 	}
 
 	createPassive() {
