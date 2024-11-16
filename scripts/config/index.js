@@ -394,6 +394,12 @@ export const MadnessConfig = {
 		},
 		freeze: {
 			description: 'Madness.StatusEffect.Description.Freeze',
+			effects: [
+				{
+					name: 'increaseMaxMoveDistance',
+					value: -2,
+				},
+			],
 		},
 		overweight: {
 			description: 'Madness.StatusEffect.Description.Overweight',

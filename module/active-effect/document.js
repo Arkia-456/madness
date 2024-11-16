@@ -36,6 +36,12 @@ export class ActiveEffectMadness extends ActiveEffect {
 					);
 				}
 			});
+		this.system.effects
+			?.filter((e) => e.name === 'increaseMaxMoveDistance')
+			?.forEach((e) => {
+				actor.system.secondaryAttributes.maxMoveDistance.effects =
+					stacks * e.value;
+			});
 		console.log(
 			`Madness system | Actor | ${this.parent.name} | Actor data prepared ✅`,
 		);
