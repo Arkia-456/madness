@@ -779,15 +779,19 @@ class ActorMadness extends Actor {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
 		if (!existing) return;
 
-		const stacks = existing.system.stacks ?? 1;
-		if (stacks > 1) {
-			const newValue = stacks - 1;
-			const effect = await existing.update({ 'system.stacks': newValue });
-			game.madness.effectsTracker.refresh();
-			return effect;
-		} else {
-			return this.toggleStatusEffect(statusId);
+		if (existing.system.stackable) {
+			const effect = await this.decreaseStacks(existing, 1);
+			if (effect.system.stacks) return effect;
 		}
+		return this.toggleStatusEffect(statusId);
+	}
+
+	decreaseStacks(statusEffect, num = 1) {
+		const currentValue = statusEffect.system.stacks ?? 0;
+		const newValue = Math.max(0, currentValue - num);
+		const effect = statusEffect.update({ 'system.stacks': newValue });
+		game.madness.effectsTracker.refresh();
+		return effect;
 	}
 
 	async increaseStatusEffect(statusId) {
