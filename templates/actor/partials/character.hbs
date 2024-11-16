@@ -146,7 +146,7 @@
 						<td
 							class='attribute-header primary-attribute'
 							rowspan='3'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 						>
 							{{system.attributes.agi.label}}
 						</td>
@@ -154,7 +154,7 @@
 							rowspan='3'
 							class='attribute-total primary-attribute'
 							data-id='{{system.attributes.agi.id}}'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 						>
 							{{system.attributes.agi.total}}
 						</td>
@@ -243,13 +243,13 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 						>
 							{{system.attributes.con.label}}
 						</td>
 						<td
 							class='attribute-total primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 							data-id='{{system.attributes.con.id}}'
 						>
 							{{system.attributes.con.total}}
@@ -291,13 +291,13 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 						>
 							{{system.attributes.dex.label}}
 						</td>
 						<td
 							class='attribute-total primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 							data-id='{{system.attributes.dex.id}}'
 						>
 							{{system.attributes.dex.total}}
@@ -339,13 +339,13 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 						>
 							{{system.attributes.int.label}}
 						</td>
 						<td
 							class='attribute-total primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 							data-id='{{system.attributes.int.id}}'
 						>
 							{{system.attributes.int.total}}
@@ -396,7 +396,7 @@
 						</td>
 						<td
 							class='attribute-header primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 							rowspan='3'
 						>
 							{{system.attributes.str.label}}
@@ -404,7 +404,7 @@
 						<td
 							rowspan='3'
 							class='attribute-total primary-attribute'
-							data-action='edit-attributes'
+							{{#if editable}}data-action='edit-attributes'{{/if}}
 							data-id='{{system.attributes.str.id}}'
 						>
 							{{system.attributes.str.total}}
@@ -481,7 +481,7 @@
 						</td>
 					</tr>
 				</table>
-				<table class='magics' data-action='edit-magics'>
+				<table class='magics' {{#if editable}}data-action='edit-magics'{{/if}}>
 					{{#each system.magics as |magic id|}}
 						<tr class='attribute magic' data-id='{{id}}'>
 							<td class='attribute-header'>{{magic.label}}</td>
