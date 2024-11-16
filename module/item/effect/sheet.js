@@ -5,7 +5,13 @@ class EffectSheetMadness extends ItemSheetMadness {
 		const sheetData = await super.getData(options);
 		return {
 			...sheetData,
-			magics: CONFIG.Madness.magics,
+			magics: Object.entries(CONFIG.Madness.magics).reduce(
+				(magics, [id, m]) => {
+					magics[id] = m.label;
+					return magics;
+				},
+				{},
+			),
 			statusEffects: CONFIG.Madness.statusEffects.list,
 		};
 	}
