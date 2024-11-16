@@ -26,7 +26,7 @@
 						{{maxDamage}}
 					</div>
 					<div>{{range}}</div>
-					{{#if editable}}
+					{{#if @root.editable}}
 						<button class='action' data-action='roll-spell'>
 							{{localize 'Madness.Controls.Attack'}}
 						</button>
@@ -58,7 +58,7 @@
 					<div class='item-name'>{{name}}</div>
 					<div>
 						{{#if reloadable}}
-							{{#if editable}}
+							{{#if @root.editable}}
 								<button class='action reload' data-action='reload-weapon'>
 									{{localize 'Madness.Controls.Reload'}}
 								</button>
@@ -78,7 +78,7 @@
 						{{maxDamage}}
 					</div>
 					<div>{{range}}</div>
-					{{#if editable}}
+					{{#if @root.editable}}
 						<button class='action' data-action='roll-weapon'>
 							{{localize 'Madness.Controls.Attack'}}
 						</button>
