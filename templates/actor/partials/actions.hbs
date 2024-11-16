@@ -45,10 +45,10 @@
 	</section>
 	<section class='weapons'>
 		<div class='section-header'>{{localize 'Madness.Label.Weapons'}}</div>
-		<div class='row'>
+		<div class='row header'>
 			<div class='item-name'>{{localize 'Madness.Label.Name'}}</div>
 			<div></div>
-			<div>{{localize 'Madness.Item.Weapon.Ammo'}}</div>
+			<div class='ammo'>{{localize 'Madness.Item.Weapon.Ammo'}}</div>
 			<div>{{localize 'Madness.Label.Damage'}} <br /> min-max</div>
 			<div>{{localize 'Madness.Item.Range'}}</div>
 		</div>
@@ -65,11 +65,17 @@
 							{{/if}}
 						{{/if}}
 					</div>
-					<div>
+					<div class='ammo'>
 						{{#if (and useAmmo system.ammo.max)}}
 							{{system.ammo.value}}/{{system.ammo.max}}
 						{{else}}
 							-
+						{{/if}}
+					</div>
+					<div>
+						{{#if (and useAmmo system.ammo.max)}}
+							<button class='add-ammo' data-action='add-ammo'>+</button>
+							<button class='remove-ammo' data-action='remove-ammo'>-</button>
 						{{/if}}
 					</div>
 					<div>

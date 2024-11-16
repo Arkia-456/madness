@@ -262,6 +262,22 @@ class ActorSheetMadness extends ActorSheet {
 			}
 		};
 
+		handlers['add-ammo'] = (event, anchor) => {
+			const weaponId = anchor.closest('.weapon[data-id]')?.dataset.id;
+			if (weaponId) {
+				const weapon = this.actor.items.get(weaponId);
+				return weapon.addAmmo();
+			}
+		};
+
+		handlers['remove-ammo'] = (event, anchor) => {
+			const weaponId = anchor.closest('.weapon[data-id]')?.dataset.id;
+			if (weaponId) {
+				const weapon = this.actor.items.get(weaponId);
+				return weapon.removeAmmo();
+			}
+		};
+
 		handlers['roll-check'] = (event, anchor) => {
 			let attrId = anchor.closest('[data-attribute]')?.dataset.attribute;
 			if (attrId) {

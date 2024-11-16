@@ -110,8 +110,19 @@ class WeaponMadness extends SkillMadness {
 		return this.system.ammo.value > 0;
 	}
 
+	addAmmo() {
+		this.update({
+			'system.ammo.value': Math.min(
+				this.system.ammo.value + 1,
+				this.system.ammo.max,
+			),
+		});
+	}
+
 	removeAmmo() {
-		this.update({ 'system.ammo.value': this.system.ammo.value - 1 });
+		this.update({
+			'system.ammo.value': Math.max(0, this.system.ammo.value - 1),
+		});
 	}
 }
 

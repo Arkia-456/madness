@@ -3,7 +3,7 @@
 .tab.actions {
 	.row {
 		display: grid;
-		grid-template-columns: 1fr 104px 52px 96px 64px 104px 28px;
+		grid-template-columns: 1fr 92px 72px 96px 64px 84px 28px;
 		gap: 4px;
 		margin-bottom: 4px;
 
@@ -38,12 +38,40 @@
 		}
 
 		button.action {
-			font-size: 1.2em;
+			font-size: 1.1em;
 			margin: 2px;
 
 			&.reload {
 				margin: 0;
+				height: 100%;
 			}
+		}
+	}
+
+	.weapons {
+		.row {
+			grid-template-columns: 1fr 92px 52px 20px 96px 64px 84px 28px;
+
+			&.header > div.ammo {
+				grid-column: span 2;
+			}
+
+			div.ammo {
+				border-right: 1px;
+			}
+
+			div:has(button.remove-ammo) {
+				border-left: none;
+				background-color: white;
+				display: flex;
+				flex-direction: column;
+			}
+		}
+
+		button.add-ammo,
+		button.remove-ammo {
+			line-height: normal;
+			height: 50%;
 		}
 	}
 }
