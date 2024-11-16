@@ -93,6 +93,7 @@ class SkillMadness extends ItemMadness {
 						if (
 							effect.system.hasStrength &&
 							effect.system.strength !== null &&
+							effect.system.strength !== undefined &&
 							e.formula
 						) {
 							e.formula = new Formula(e.formula)
