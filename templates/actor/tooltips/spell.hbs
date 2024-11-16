@@ -9,6 +9,34 @@
 			{{/if}}
 		</div>
 	</div>
+	<table>
+		<tr>
+			<td colspan='2'>{{localize 'Madness.Label.Magics'}}</td>
+		</tr>
+		<tr>
+			{{#each system.requirements}}
+				<td class='magic'>
+					<p>{{localize (lookup (lookup @root.magics id) 'label')}}</p>
+					{{#if id}}
+						<p>{{localize (lookup (lookup @root.magics id) 'description')}}
+							{{#if (lookup (lookup @root.magics id) 'effects')}}
+								{{lower (localize 'Madness.Misc.Of')}}
+							{{/if}}
+							{{#each (lookup (lookup @root.magics id) 'effects')}}
+								{{#if (gt @index 0)}}
+									{{lower (localize 'Madness.Misc.And')}}
+								{{/if}}
+								{{value}}
+								{{#if (gt @index 0)}}
+									{{lower (localize 'Madness.Misc.Respectively')}}
+								{{/if}}
+							{{/each}}
+						</p>
+					{{/if}}
+				</td>
+			{{/each}}
+		</tr>
+	</table>
 	<table class='stats'>
 		<tr>
 			<td>{{localize 'Madness.Label.Damage'}}</td>

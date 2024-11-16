@@ -28,6 +28,34 @@ class SpellMadness extends SkillMadness {
 		return this.getPassiveModifier('decreaseMPCost');
 	}
 
+	get tooltip() {
+		return {
+			...super.tooltip,
+			magics: this._magicsTooltip,
+		};
+	}
+
+	get _magicsTooltip() {
+		return Object.values(this.system.requirements).reduce((magics, m) => {
+			if (m.id) {
+				const magicConfig = foundry.utils.deepClone(
+					CONFIG.Madness.magics[m.id],
+				);
+				magics[m.id] = magicConfig;
+				if (magicConfig.effects) {
+					magics[m.id].effects = magicConfig.effects.map((e) => {
+						const modifier = this.getPassiveModifier(e.name);
+						return {
+							name: e.name,
+							value: isNaN(modifier) ? '' : modifier,
+						};
+					});
+				}
+			}
+			return magics;
+		}, {});
+	}
+
 	getPassiveModifier(modifierName, options = {}) {
 		const opt = {
 			...options,

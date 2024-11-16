@@ -122,9 +122,9 @@
 			"Derion": "Dérion",
 			"DerionDescription": "Augmente les dégâts",
 			"Doka": "Dokah",
-			"DokaDescription": "Permet de se déplacer tout en attaquant",
+			"DokaDescription": "Permet de se déplacer",
 			"Erah": "Erah",
-			"ErahDescription": "Augmente les dégâts et le taux d'échec critique",
+			"ErahDescription": "Augmente le taux d'échec critique et les dégâts",
 			"Escura": "Escura",
 			"EscuraDescription": "???",
 			"Natah": "Natah",
@@ -191,6 +191,11 @@
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\"",
 				"NoAvailableWeaponSlot": "Aucun emplacement d'arme disponible"
 			}
+		},
+		"Misc": {
+			"And": "Et",
+			"Of": "De",
+			"Respectively": "Respectivement"
 		},
 		"Passives": {
 			"Modifier": {

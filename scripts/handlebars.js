@@ -41,6 +41,13 @@ function registerHandlebarsHelpers() {
 		return Number(a) - Number(b);
 	});
 
+	Handlebars.registerHelper('gt', (a, b) => {
+		if (isNaN(a) || isNaN(b)) {
+			throw new TypeError('One of the arguments is not a number');
+		}
+		return Number(a) > Number(b);
+	});
+
 	Handlebars.registerHelper('localizeAndSort', (obj) => {
 		return Object.fromEntries(
 			Object.entries(obj).sort(([, translationKey1], [, translationKey2]) => {

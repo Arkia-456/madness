@@ -182,15 +182,77 @@ export const MadnessConfig = {
 		},
 	},
 	magics: {
-		derion: 'Madness.Magics.Derion',
-		doka: 'Madness.Magics.Doka',
-		erah: 'Madness.Magics.Erah',
-		escura: 'Madness.Magics.Escura',
-		natah: 'Madness.Magics.Natah',
-		ome: 'Madness.Magics.Ome',
-		shor: 'Madness.Magics.Shor',
-		sith: 'Madness.Magics.Sith',
-		teruuk: 'Madness.Magics.Teruuk',
+		derion: {
+			label: 'Madness.Magics.Derion',
+			description: 'Madness.Magics.DerionDescription',
+		},
+		doka: {
+			label: 'Madness.Magics.Doka',
+			description: 'Madness.Magics.DokaDescription',
+		},
+		erah: {
+			label: 'Madness.Magics.Erah',
+			description: 'Madness.Magics.ErahDescription',
+			effects: [
+				{
+					name: 'increaseCritFailureRate',
+					formula: '(Math.ceil(@{erah}/2)*2)/@{nbMagics}',
+				},
+				{
+					name: 'increaseDamage',
+					formula: '(Math.ceil(@{erah}/2)*8)/@{nbMagics}',
+				},
+			],
+		},
+		escura: {
+			label: 'Madness.Magics.Escura',
+			description: 'Madness.Magics.EscuraDescription',
+		},
+		natah: {
+			label: 'Madness.Magics.Natah',
+			description: 'Madness.Magics.NatahDescription',
+		},
+		ome: {
+			label: 'Madness.Magics.Ome',
+			description: 'Madness.Magics.OmeDescription',
+			effects: [
+				{
+					name: 'decreaseMPCost',
+					formula: '(Math.ceil(@{ome}/2)*2)/@{nbMagics}',
+				},
+			],
+		},
+		shor: {
+			label: 'Madness.Magics.Shor',
+			description: 'Madness.Magics.ShorDescription',
+			effects: [
+				{
+					name: 'addTempHP',
+					type: 'buff',
+					formula: '(Math.ceil(@{shor}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
+		sith: {
+			label: 'Madness.Magics.Sith',
+			description: 'Madness.Magics.SithDescription',
+			effects: [
+				{
+					name: 'increaseCritRate',
+					formula: '(Math.ceil(@{sith}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
+		teruuk: {
+			label: 'Madness.Magics.Teruuk',
+			description: 'Madness.Magics.TeruukDescription',
+			effects: [
+				{
+					name: 'increaseRange',
+					formula: '(Math.ceil(@{teruuk}/2)*4)/@{nbMagics}',
+				},
+			],
+		},
 	},
 	modules: {
 		heavy: {

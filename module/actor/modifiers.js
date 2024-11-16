@@ -19,9 +19,9 @@ export class Attribute {
 	constructor(actor, data) {
 		this.actorId = actor.id;
 		this.id = data.label;
-		this.label = game.i18n.localize(
-			CONFIG.Madness[data.type ?? 'attributes'][data.label],
-		);
+		const configData = CONFIG.Madness[data.type ?? 'attributes'][data.label];
+		const label = data.type === 'magics' ? configData.label : configData;
+		this.label = game.i18n.localize(label);
 		const seen = data.modifiers.reduce((result, modifier) => {
 			const existing = result[modifier.label];
 			if (
