@@ -1,4 +1,4 @@
-import { displayError } from '../../../utils/index.js';
+import { displayError, Formula } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
@@ -32,10 +32,16 @@ class WeaponMadness extends SkillMadness {
 				modules[m.id] = moduleConfig;
 				if (moduleConfig.effects) {
 					modules[m.id].effects = moduleConfig.effects.map((e) => {
-						const modifier = this.getPassiveModifier(e.name);
+						let value;
+						if (e.formula) {
+							value = new Formula(e.formula).evaluate({
+								[m.id]: m.value,
+								nbModules: this.nbModules,
+							}).evaluated;
+						}
 						return {
 							name: e.name,
-							value: isNaN(modifier) ? '' : modifier,
+							value: isNaN(value) ? '' : value,
 						};
 					});
 				}
