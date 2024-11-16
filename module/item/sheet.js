@@ -26,7 +26,9 @@ class ItemSheetMadness extends ItemSheet {
 			isOwned: item.isOwned,
 			system: item.system,
 			enrichedContent,
-			detailsTemplate: `madness.item.${item.type}.details`,
+			detailsTemplate: options.hasDetails
+				? `madness.item.${item.type}.details`
+				: null,
 		};
 	}
 

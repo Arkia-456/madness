@@ -3,6 +3,7 @@ import {
 	EffectSheetMadness,
 	EquipmentSheetMadness,
 	EthnicitySheetMadness,
+	ItemSheetMadness,
 	SpellSheetMadness,
 	WeaponSheetMadness,
 } from '../module/item/index.js';
@@ -25,6 +26,10 @@ export function registerSheets() {
 
 	Items.registerSheet('madness', EffectSheetMadness, {
 		types: ['effect'],
+		makeDefault: true,
+	});
+	Items.registerSheet('madness', ItemSheetMadness, {
+		types: ['generic'],
 		makeDefault: true,
 	});
 	Items.registerSheet('madness', SpellSheetMadness, {

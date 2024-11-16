@@ -66,6 +66,7 @@
 			"effect",
 			"equipment",
 			"ethnicity",
+			"generic",
 			"spell",
 			"weapon"
 		],
@@ -104,6 +105,11 @@
 					"value": 0
 				}
 			}
+		},
+		"generic": {
+			"templates": [
+				"common"
+			]
 		},
 		"spell": {
 			"templates": [

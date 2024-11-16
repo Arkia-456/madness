@@ -5,6 +5,7 @@ class EquipmentSheetMadness extends ItemSheetMadness {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes.push('equipment');
+		options.hasDetails = true;
 		return options;
 	}
 

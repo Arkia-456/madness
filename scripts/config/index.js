@@ -2,6 +2,7 @@ import {
 	EffectMadness,
 	EquipmentMadness,
 	EthnicityMadness,
+	ItemMadness,
 	SpellMadness,
 	WeaponMadness,
 } from '../../module/item/index.js';
@@ -100,6 +101,7 @@ export const MadnessConfig = {
 			equipment: EquipmentMadness,
 			ethnicity: EthnicityMadness,
 			effect: EffectMadness,
+			generic: ItemMadness,
 			spell: SpellMadness,
 			weapon: WeaponMadness,
 		},

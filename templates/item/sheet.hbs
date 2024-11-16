@@ -24,8 +24,10 @@
 				engine='prosemirror'
 			}}
 		</div>
-		<div class='details'>
-			{{> (lookup . 'detailsTemplate')}}
-		</div>
+		{{#if detailsTemplate}}
+			<div class='details'>
+				{{> (lookup . 'detailsTemplate')}}
+			</div>
+		{{/if}}
 	</section>
 </form>
