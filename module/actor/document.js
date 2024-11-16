@@ -104,6 +104,13 @@ class ActorMadness extends Actor {
 		};
 	}
 
+	prepareData() {
+		console.log(`Madness system | Actor | ${this.name} | Preparing data...`);
+		super.prepareData();
+		game.madness.effectsTracker.refresh();
+		console.log(`Madness system | Actor | ${this.name} | Data prepared ✅`);
+	}
+
 	prepareBaseData() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing base data...`,
