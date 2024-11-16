@@ -13,7 +13,12 @@ export default class Tooltip {
 	}
 
 	async render() {
-		this.rendered = await renderTemplate(this.templatePath, this.item.tooltip);
+		if (this.templatePath) {
+			this.rendered = await renderTemplate(
+				this.templatePath,
+				this.item.tooltip,
+			);
+		}
 		return this;
 	}
 }
