@@ -43,7 +43,9 @@ class ActorSheetMadness extends ActorSheet {
 		sheetData.spells = spells;
 		const equipments = {};
 		actor.items.forEach((i) => {
-			equipments[i.system.slot] = i;
+			if (i.type === 'equipment') {
+				equipments[i.system.slot] = i;
+			}
 		});
 		sheetData.equipments = equipments;
 		const weapons = actor.items.filter((i) => i.type === 'weapon');
