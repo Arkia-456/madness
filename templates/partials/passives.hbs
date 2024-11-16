@@ -1,8 +1,10 @@
 <div>
-	<button class='add-passive' data-action='create-passive'>
-		<i class='fa fa-plus'></i>
-		{{localize 'Madness.Controls.AddPassive'}}
-	</button>
+	{{#if editable}}
+		<button class='add-passive' data-action='create-passive'>
+			<i class='fa fa-plus'></i>
+			{{localize 'Madness.Controls.AddPassive'}}
+		</button>
+	{{/if}}
 </div>
 <div class='passives-grid'>
 	<div class='row head'>
@@ -48,9 +50,11 @@
 				/>
 			</div>
 			<div class='actions'>
-				<a data-action='delete-passive'>
-					<i class='fa fa-trash'></i>
-				</a>
+				{{#if editable}}
+					<a data-action='delete-passive'>
+						<i class='fa fa-trash'></i>
+					</a>
+				{{/if}}
 			</div>
 			<div class='description'>
 				<textarea

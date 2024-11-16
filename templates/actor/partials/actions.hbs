@@ -26,17 +26,19 @@
 						{{maxDamage}}
 					</div>
 					<div>{{range}}</div>
-					<button class='action' data-action='roll-spell'>
-						{{localize 'Madness.Controls.Attack'}}
-					</button>
-					<div class='delete'>
-						<a data-action='delete'>
-							<i class='fa fa-trash'></i>
-						</a>
-						<a data-action='edit-item'>
-							<i class='fa-solid fa-fw fa-edit'></i>
-						</a>
-					</div>
+					{{#if editable}}
+						<button class='action' data-action='roll-spell'>
+							{{localize 'Madness.Controls.Attack'}}
+						</button>
+						<div class='delete'>
+							<a data-action='delete'>
+								<i class='fa fa-trash'></i>
+							</a>
+							<a data-action='edit-item'>
+								<i class='fa-solid fa-fw fa-edit'></i>
+							</a>
+						</div>
+					{{/if}}
 				</div>
 			</div>
 		{{/each}}
@@ -56,9 +58,11 @@
 					<div class='item-name'>{{name}}</div>
 					<div>
 						{{#if reloadable}}
-							<button class='action reload' data-action='reload-weapon'>
-								{{localize 'Madness.Controls.Reload'}}
-							</button>
+							{{#if editable}}
+								<button class='action reload' data-action='reload-weapon'>
+									{{localize 'Madness.Controls.Reload'}}
+								</button>
+							{{/if}}
 						{{/if}}
 					</div>
 					<div>
@@ -74,17 +78,19 @@
 						{{maxDamage}}
 					</div>
 					<div>{{range}}</div>
-					<button class='action' data-action='roll-weapon'>
-						{{localize 'Madness.Controls.Attack'}}
-					</button>
-					<div class='delete'>
-						<a data-action='delete'>
-							<i class='fa fa-trash'></i>
-						</a>
-						<a data-action='edit-item'>
-							<i class='fa-solid fa-fw fa-edit'></i>
-						</a>
-					</div>
+					{{#if editable}}
+						<button class='action' data-action='roll-weapon'>
+							{{localize 'Madness.Controls.Attack'}}
+						</button>
+						<div class='delete'>
+							<a data-action='delete'>
+								<i class='fa fa-trash'></i>
+							</a>
+							<a data-action='edit-item'>
+								<i class='fa-solid fa-fw fa-edit'></i>
+							</a>
+						</div>
+					{{/if}}
 				</div>
 			</div>
 		{{/each}}

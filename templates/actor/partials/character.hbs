@@ -133,13 +133,15 @@
 				<table class='attributes'>
 					<tr>
 						<td class='attribute-header' rowspan='3'>
-							<a
-								class='roll-icon'
-								data-action='roll-check'
-								data-attribute='{{system.attributes.agi.id}}'
-							>
-								<i class='fa-solid fa-fw fa-dice-d20'></i>
-							</a>
+							{{#if editable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-attribute='{{system.attributes.agi.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
 						</td>
 						<td
 							class='attribute-header primary-attribute'
@@ -158,13 +160,15 @@
 						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.initiative.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.initiative.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.initiative.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -180,13 +184,15 @@
 					<tr>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.dodgeRate.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.dodgeRate.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.dodgeRate.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -202,13 +208,15 @@
 					<tr>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.maxMoveDistance.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.maxMoveDistance.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.maxMoveDistance.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -223,13 +231,15 @@
 					</tr>
 					<tr>
 						<td class='attribute-header'>
-							<a
-								class='roll-icon'
-								data-action='roll-check'
-								data-attribute='{{system.attributes.con.id}}'
-							>
-								<i class='fa-solid fa-fw fa-dice-d20'></i>
-							</a>
+							{{#if editable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-attribute='{{system.attributes.con.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
 						</td>
 						<td
 							class='attribute-header primary-attribute'
@@ -246,13 +256,15 @@
 						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.parryDamageReduction.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.parryDamageReduction.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.parryDamageReduction.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -267,13 +279,15 @@
 					</tr>
 					<tr>
 						<td class='attribute-header'>
-							<a
-								class='roll-icon'
-								data-action='roll-check'
-								data-attribute='{{system.attributes.dex.id}}'
-							>
-								<i class='fa-solid fa-fw fa-dice-d20'></i>
-							</a>
+							{{#if editable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-attribute='{{system.attributes.dex.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
 						</td>
 						<td
 							class='attribute-header primary-attribute'
@@ -290,13 +304,15 @@
 						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.critRate.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.critRate.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.critRate.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -311,13 +327,15 @@
 					</tr>
 					<tr>
 						<td class='attribute-header'>
-							<a
-								class='roll-icon'
-								data-action='roll-check'
-								data-attribute='{{system.attributes.int.id}}'
-							>
-								<i class='fa-solid fa-fw fa-dice-d20'></i>
-							</a>
+							{{#if editable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-attribute='{{system.attributes.int.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
 						</td>
 						<td
 							class='attribute-header primary-attribute'
@@ -334,21 +352,25 @@
 						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.manaRegen.rollable}}
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.manaRegen.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
+							{{/if}}
+							{{#if editable}}
 								<a
 									class='roll-icon'
-									data-action='roll-check'
+									data-action='addMP'
 									data-secondary-attribute='{{system.secondaryAttributes.manaRegen.id}}'
 								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
+									<i class='fa-solid fa-fw fa-undo-alt'></i>
 								</a>
 							{{/if}}
-							<a
-								class='roll-icon'
-								data-action='addMP'
-								data-secondary-attribute='{{system.secondaryAttributes.manaRegen.id}}'
-							>
-								<i class='fa-solid fa-fw fa-undo-alt'></i>
-							</a>
 						</td>
 						<td class='attribute-header'>
 							{{system.secondaryAttributes.manaRegen.label}}
@@ -362,13 +384,15 @@
 					</tr>
 					<tr>
 						<td class='attribute-header' rowspan='3'>
-							<a
-								class='roll-icon'
-								data-action='roll-check'
-								data-attribute='{{system.attributes.str.id}}'
-							>
-								<i class='fa-solid fa-fw fa-dice-d20'></i>
-							</a>
+							{{#if editable}}
+								<a
+									class='roll-icon'
+									data-action='roll-check'
+									data-attribute='{{system.attributes.str.id}}'
+								>
+									<i class='fa-solid fa-fw fa-dice-d20'></i>
+								</a>
+							{{/if}}
 						</td>
 						<td
 							class='attribute-header primary-attribute'
@@ -387,13 +411,15 @@
 						</td>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.maxEquipmentWeight.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.maxEquipmentWeight.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.maxEquipmentWeight.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -409,13 +435,15 @@
 					<tr>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.maxWeight.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.maxWeight.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.maxWeight.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>
@@ -431,13 +459,15 @@
 					<tr>
 						<td class='attribute-header'>
 							{{#if system.secondaryAttributes.inventoryMaxSlots.rollable}}
-								<a
-									class='roll-icon'
-									data-action='roll-check'
-									data-secondary-attribute='{{system.secondaryAttributes.inventoryMaxSlots.id}}'
-								>
-									<i class='fa-solid fa-fw fa-dice-d20'></i>
-								</a>
+								{{#if editable}}
+									<a
+										class='roll-icon'
+										data-action='roll-check'
+										data-secondary-attribute='{{system.secondaryAttributes.inventoryMaxSlots.id}}'
+									>
+										<i class='fa-solid fa-fw fa-dice-d20'></i>
+									</a>
+								{{/if}}
 							{{/if}}
 						</td>
 						<td class='attribute-header'>

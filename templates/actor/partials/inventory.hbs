@@ -13,12 +13,14 @@
 			<td class='value'>{{equipments.head.system.weight}}</td>
 			<td class='actions'>
 				{{#if equipments.head}}
-					<a data-action='delete'>
-						<i class='fa fa-trash'></i>
-					</a>
-					<a data-action='edit-item' data-item-id='{{equipments.head.id}}'>
-						<i class='fa-solid fa-fw fa-edit'></i>
-					</a>
+					{{#if editable}}
+						<a data-action='delete'>
+							<i class='fa fa-trash'></i>
+						</a>
+						<a data-action='edit-item' data-item-id='{{equipments.head.id}}'>
+							<i class='fa-solid fa-fw fa-edit'></i>
+						</a>
+					{{/if}}
 				{{/if}}
 			</td>
 		</tr>
@@ -36,12 +38,14 @@
 			<td class='value'>{{equipments.body.system.weight}}</td>
 			<td class='actions'>
 				{{#if equipments.body}}
-					<a data-action='delete'>
-						<i class='fa fa-trash'></i>
-					</a>
-					<a data-action='edit-item' data-item-id='{{equipments.body.id}}'>
-						<i class='fa-solid fa-fw fa-edit'></i>
-					</a>
+					{{#if editable}}
+						<a data-action='delete'>
+							<i class='fa fa-trash'></i>
+						</a>
+						<a data-action='edit-item' data-item-id='{{equipments.body.id}}'>
+							<i class='fa-solid fa-fw fa-edit'></i>
+						</a>
+					{{/if}}
 				{{/if}}
 			</td>
 		</tr>
@@ -59,12 +63,14 @@
 			<td class='value'>{{equipments.legs.system.weight}}</td>
 			<td class='actions'>
 				{{#if equipments.legs}}
-					<a data-action='delete'>
-						<i class='fa fa-trash'></i>
-					</a>
-					<a data-action='edit-item' data-item-id='{{equipments.legs.id}}'>
-						<i class='fa-solid fa-fw fa-edit'></i>
-					</a>
+					{{#if editable}}
+						<a data-action='delete'>
+							<i class='fa fa-trash'></i>
+						</a>
+						<a data-action='edit-item' data-item-id='{{equipments.legs.id}}'>
+							<i class='fa-solid fa-fw fa-edit'></i>
+						</a>
+					{{/if}}
 				{{/if}}
 			</td>
 		</tr>
@@ -82,12 +88,14 @@
 				<td>{{name}}</td>
 				<td>{{system.weight}}</td>
 				<td class='actions'>
-					<a data-action='delete'>
-						<i class='fa fa-trash'></i>
-					</a>
-					<a data-action='edit-item' data-item-id='{{id}}'>
-						<i class='fa-solid fa-fw fa-edit'></i>
-					</a>
+					{{#if editable}}
+						<a data-action='delete'>
+							<i class='fa fa-trash'></i>
+						</a>
+						<a data-action='edit-item' data-item-id='{{id}}'>
+							<i class='fa-solid fa-fw fa-edit'></i>
+						</a>
+					{{/if}}
 				</td>
 			</tr>
 		{{/each}}
