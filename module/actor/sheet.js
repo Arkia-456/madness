@@ -54,6 +54,7 @@ class ActorSheetMadness extends ActorSheet {
 			weapon.maxDamage = weapon.getMaxDamage(actor.system.attributes);
 		});
 		sheetData.weapons = weapons;
+		sheetData.generics = actor.items.filter((i) => i.type === 'generic');
 		sheetData.config = CONFIG.Madness.default;
 
 		// Passives
@@ -109,6 +110,7 @@ class ActorSheetMadness extends ActorSheet {
 				allowDrop = tab === 'actions';
 				break;
 			case 'equipment':
+			case 'generic':
 				allowDrop = tab === 'inventory';
 				break;
 			case 'weapon':

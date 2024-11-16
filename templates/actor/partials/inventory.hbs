@@ -117,4 +117,36 @@
 			<td class='actions'></td>
 		</tr>
 	</table>
+	<table class='items'>
+		<tr class='head'>
+			<td>{{localize 'Madness.Label.Name'}}</td>
+			<td>{{localize 'Madness.Label.Description'}}</td>
+			<td class='actions'></td>
+		</tr>
+		{{#each generics}}
+			<tr data-id='{{id}}'>
+				<td>{{name}}</td>
+				<td>{{{system.description}}}</td>
+				<td class='actions'>
+					{{#if @root.editable}}
+						<a data-action='delete'>
+							<i class='fa fa-trash'></i>
+						</a>
+						<a data-action='edit-item' data-item-id='{{id}}'>
+							<i class='fa-solid fa-fw fa-edit'></i>
+						</a>
+					{{/if}}
+				</td>
+			</tr>
+		{{/each}}
+		{{#times
+			(minus system.secondaryAttributes.inventoryMaxSlots.total generics.length)
+		}}
+			<tr class='placeholder'>
+				<td></td>
+				<td></td>
+				<td class='actions'></td>
+			</tr>
+		{{/times}}
+	</table>
 </section>
