@@ -80,6 +80,33 @@ class SpellMadness extends SkillMadness {
 		});
 	}
 
+	async _rollEscuraTable() {
+		const table = game.tables.find((t) =>
+			['escura'].includes(t.name.toLowerCase()),
+		);
+		if (!table) return;
+		const { roll, results } = await table.draw({ displayChat: false });
+		const data = {
+			roll,
+			messageData: {
+				sound: undefined,
+				rollMode: 'gmroll',
+			},
+		};
+		return table.toMessage(results, data);
+	}
+
+	beforeRoll() {
+		if (
+			Object.values(this.system.requirements).some((m) => m.id === 'escura')
+		) {
+			if (this.nbMagics === 1) {
+				return Promise.all([this._rollEscuraTable(), this._rollEscuraTable()]);
+			}
+			return this._rollEscuraTable();
+		}
+	}
+
 	checkBeforeRoll() {
 		if (this.checkMP()) return true;
 		displayError('Madness.Message.Error.NotEnoughMP');

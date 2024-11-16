@@ -17,6 +17,14 @@ class ChatMessageMadness extends ChatMessage {
 		return actor?.items.get(itemId) ?? null;
 	}
 
+	get visible() {
+		const visible = super.visible;
+		if (this.whisper.length && this.isRoll) {
+			return this.isAuthor || this.whisper.includes(game.user.id);
+		}
+		return visible;
+	}
+
 	async getHTML() {
 		const $html = await super.getHTML();
 		const html = $html[0];

@@ -157,6 +157,10 @@ class SkillMadness extends ItemMadness {
 		}
 	}
 
+	beforeRoll() {
+		return new Promise(true);
+	}
+
 	checkBeforeRoll() {
 		return true;
 	}
@@ -180,6 +184,7 @@ class SkillMadness extends ItemMadness {
 
 	async roll(options = {}) {
 		if (!this.checkBeforeRoll()) return;
+		await this.beforeRoll();
 		const context = {
 			...options,
 			...this.getContext(),
