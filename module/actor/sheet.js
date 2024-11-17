@@ -121,7 +121,7 @@ class ActorSheetMadness extends ActorSheet {
 		}
 		if (allowDrop) {
 			if (itemSource.type === 'equipment' || itemSource.type === 'weapon') {
-				const weightOk = this.actor.checkWeight(itemSource);
+				const weightOk = this.actor.checkWeightWithNewItem(itemSource);
 				if (!weightOk) {
 					displayWarning('Madness.Message.Warning.EquipmentOverweight');
 				}

@@ -72,6 +72,19 @@ class ActorMadness extends Actor {
 		return firstUpdater ?? null;
 	}
 
+	get weight() {
+		return this.items.reduce((weight, i) => {
+			if (i.system.weight) weight += Number(i.system.weight);
+			return weight;
+		}, 0);
+	}
+
+	get overweight() {
+		return (
+			this.weight > this.system.secondaryAttributes.maxEquipmentWeight.total
+		);
+	}
+
 	_getCriticalFailureModEffects() {
 		return this.effects.reduce((rate, effect) => {
 			return (
@@ -107,6 +120,7 @@ class ActorMadness extends Actor {
 	prepareData() {
 		console.log(`Madness system | Actor | ${this.name} | Preparing data...`);
 		super.prepareData();
+		this.checkWeight();
 		game.madness.effectsTracker.refresh();
 		console.log(`Madness system | Actor | ${this.name} | Data prepared ✅`);
 	}
@@ -760,7 +774,13 @@ class ActorMadness extends Actor {
 		this.update({ 'system.hp.temp': value });
 	}
 
-	checkWeight(item) {
+	async checkWeight() {
+		const isOverweight = this.overweight;
+		await this.toggleStatusEffect('overweight', { active: isOverweight });
+		return !isOverweight;
+	}
+
+	checkWeightWithNewItem(item) {
 		let newWeight = this.weapons.reduce(
 			(weight, w) => (weight += Number(w.system.weight)),
 			Number(item.system.weight),
