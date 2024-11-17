@@ -120,7 +120,9 @@ class ActorMadness extends Actor {
 	prepareData() {
 		console.log(`Madness system | Actor | ${this.name} | Preparing data...`);
 		super.prepareData();
-		this.checkWeight();
+		if (game.user === this.firstUpdater) {
+			this.checkWeight();
+		}
 		game.madness.effectsTracker.refresh();
 		console.log(`Madness system | Actor | ${this.name} | Data prepared ✅`);
 	}
