@@ -110,7 +110,6 @@ class ItemMadness extends Item {
 			actor,
 			item: this,
 			roll: options.roll,
-			// In card add magics icons
 		};
 
 		const outcome = options.roll.outcome;
