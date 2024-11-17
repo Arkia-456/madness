@@ -3,9 +3,6 @@
 .tab.status {
 	.grid,
 	.passives-grid {
-		width: calc(100% - @aside-width - 12px);
-		margin-left: calc(@aside-width + 12px);
-
 		.row {
 			display: grid;
 			grid-template-columns: 25% 1fr 15% 15% 5%;
@@ -21,6 +18,12 @@
 				border: solid 1px white;
 				padding: 6px;
 				text-align: center;
+
+				&.item-name {
+					background-color: @madness-background-color-primary;
+					color: white;
+					text-align: left;
+				}
 
 				&.align-left {
 					text-align: left;

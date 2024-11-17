@@ -1,36 +1,49 @@
 <section class='tab status' data-tab='status'>
-	<div class='passives'>
+	<section class='passives'>
 		<div class='section-header top'>
-			{{localize 'Madness.Label.PersonalPassives'}}
-		</div>
-		{{> 'madness.partials.passives'}}
-	</div>
-	<div class='status'>
-		<div class='section-header'>{{localize 'Madness.Label.StatusPlural'}}</div>
-		<div class='grid'>
-			<div class='row head'>
-				<div>{{localize 'Madness.Label.Status'}}</div>
-				<div>{{localize 'Madness.Label.Description'}}</div>
-				<div>{{localize 'Madness.Label.Stacks'}}</div>
-				<div>{{localize 'Madness.Label.RemainingDuration'}}</div>
-				<div class='actions'></div>
+			<div>{{localize 'Madness.Label.PersonalPassives'}}</div>
+			<div class='decoration'>
+				<div></div>
+				<div></div>
 			</div>
-			{{#each effects}}
-				<div class='row'>
-					<div>{{name}}</div>
-					<div class='align-left'>{{description}}</div>
-					<div>{{system.stacks}}</div>
-					<div>
-						{{#each system.durations}}
-							{{value}}
-							{{type}}
-							<br />
-						{{/each}}
-					</div>
+		</div>
+		<div class='content'>
+			{{> 'madness.partials.passives'}}
+		</div>
+	</section>
+	<section class='status'>
+		<div class='section-header'>
+			<div>{{localize 'Madness.Label.StatusPlural'}}</div>
+			<div class='decoration'>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<div class='content'>
+			<div class='grid'>
+				<div class='row head'>
+					<div>{{localize 'Madness.Label.Status'}}</div>
+					<div>{{localize 'Madness.Label.Description'}}</div>
+					<div>{{localize 'Madness.Label.Stacks'}}</div>
+					<div>{{localize 'Madness.Label.RemainingDuration'}}</div>
 					<div class='actions'></div>
 				</div>
-			{{/each}}
+				{{#each effects}}
+					<div class='row'>
+						<div class='item-name'>{{name}}</div>
+						<div class='align-left'>{{description}}</div>
+						<div>{{system.stacks}}</div>
+						<div>
+							{{#each system.durations}}
+								{{value}}
+								{{type}}
+								<br />
+							{{/each}}
+						</div>
+						<div class='actions'></div>
+					</div>
+				{{/each}}
+			</div>
 		</div>
-
-	</div>
+	</section>
 </section>

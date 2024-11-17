@@ -1,77 +1,90 @@
 // main: "../../madness.less"
 
 .tab.actions {
-	.row {
-		display: grid;
-		grid-template-columns: 1fr 92px 72px 96px 64px 84px 28px;
-		gap: 4px;
-		margin-bottom: 4px;
+	.item-list {
+		&.weapons {
+			.row {
+				grid-template-columns: 1fr 92px 52px 20px 96px 64px 84px 34px;
 
-		div {
-			display: flex;
-			align-items: center;
-			text-align: center;
-			justify-content: center;
-			border: solid 2px white;
-			background-color: @madness-background-color-primary;
-			color: white;
+				&.head > div.ammo {
+					grid-column: span 2;
+				}
 
-			&.magic-icons {
-				justify-content: flex-start;
-				padding: 4px;
+				div.ammo {
+					border-right: 1px;
+				}
+
+				div:has(button.remove-ammo) {
+					border-left: none;
+					background-color: white;
+					display: flex;
+					flex-direction: column;
+				}
 			}
 
-			&.item-name {
+			button.add-ammo,
+			button.remove-ammo {
+				line-height: normal;
+				height: 50%;
+			}
+		}
+
+		.row {
+			display: grid;
+			grid-template-columns: 1fr 92px 72px 96px 64px 84px 34px;
+			// gap: 4px;
+			// margin-bottom: 4px;
+
+			div {
+				display: flex;
+				align-items: center;
+				text-align: center;
+				justify-content: center;
+				// border: solid 2px white;
+				border: solid 1px white;
+				background-color: @madness-background-color-tertiary;
+				// color: white;
+				color: black;
+
+				&.magic-icons {
+					background-color: @madness-background-color-primary;
+					justify-content: flex-start;
+					padding: 4px;
+				}
+
+				&.item-name {
+					background-color: @madness-background-color-primary;
+					color: white;
+					text-align: left;
+				}
+
+				&.delete {
+					// width: 28px;
+					background-color: white;
+					color: black;
+				}
+			}
+
+			&.head > div {
+				color: white;
 				background-color: @madness-background-color-secondary;
 			}
 
-			&.delete {
-				width: 28px;
-				background-color: white;
-				color: black;
-			}
-		}
-
-		img {
-			width: calc((96px / 2) - (2 * 4px));
-			border: none;
-		}
-
-		button.action {
-			font-size: 1.1em;
-			margin: 2px;
-
-			&.reload {
-				margin: 0;
-				height: 100%;
-			}
-		}
-	}
-
-	.weapons {
-		.row {
-			grid-template-columns: 1fr 92px 52px 20px 96px 64px 84px 28px;
-
-			&.header > div.ammo {
-				grid-column: span 2;
+			img {
+				width: calc((96px / 2) - (2 * 4px));
+				border: none;
 			}
 
-			div.ammo {
-				border-right: 1px;
-			}
+			button.action {
+				font-size: 1.1em;
+				margin: 1px;
+				margin-right: 2px;
 
-			div:has(button.remove-ammo) {
-				border-left: none;
-				background-color: white;
-				display: flex;
-				flex-direction: column;
+				&.reload {
+					margin: 0;
+					height: 100%;
+				}
 			}
-		}
-
-		button.add-ammo,
-		button.remove-ammo {
-			line-height: normal;
-			height: 50%;
 		}
 	}
 }

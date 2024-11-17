@@ -3,55 +3,79 @@
 .tab.character {
 	.header {
 		display: flex;
-		margin: -8px -8px 0px -8px;
-		padding: 8px;
+		flex-direction: column;
 		background-color: @madness-background-color-primary;
 
-		.picture {
-			flex: 0 0 21%;
-			padding: 8px;
-			background-color: @madness-background-color-secondary;
+		.decoration {
+			margin: 0px 108px 0 auto;
+			height: 28px;
 
-			img {
-				border: none;
-				max-height: 100%;
+			div {
+				display: inline-block;
+				background-color: #ffc000;
+				height: 28px;
+				width: 52px;
+				transform: skewX(-20deg);
+
+				&:nth-child(1) {
+					margin-right: 8px;
+				}
 			}
 		}
 
-		.identity {
+		.id-card {
 			display: flex;
-			flex-wrap: wrap;
-			flex: 1 1 70%;
-			color: white;
+			padding: 8px;
+			padding-top: 0px;
+			padding-bottom: 12px;
+			background-color: @madness-background-color-primary;
 
-			div {
-				flex: 1 1 45%;
+			.picture {
+				flex: 0 0 21%;
+				padding: 8px;
 				background-color: @madness-background-color-secondary;
-				padding: 4px 8px;
 
-				.details-label {
-					display: inline-block;
-					padding: 0px 3px;
-					font-size: 0.65em;
-					text-transform: uppercase;
+				img {
+					border: none;
+					max-height: 100%;
 				}
+			}
 
-				.value {
-					background: #29323f;
-					text-transform: uppercase;
+			.identity {
+				display: flex;
+				flex-wrap: wrap;
+				flex: 1 1 70%;
+				color: white;
 
-					&[name='ethnicity.name'] {
-						width: calc(100% - 2px - 20px);
+				div {
+					flex: 1 1 45%;
+					background-color: @madness-background-color-secondary;
+					padding: 4px 8px;
+
+					.details-label {
+						display: inline-block;
+						padding: 0px 3px;
+						font-size: 0.65em;
+						text-transform: uppercase;
 					}
-				}
 
-				.detail-item-control {
-					cursor: pointer;
+					.value {
+						background: #29323f;
+						text-transform: uppercase;
 
-					#context-menu {
-						left: initial;
-						right: 0;
-						text-align: end;
+						&[name='ethnicity.name'] {
+							width: calc(100% - 2px - 20px);
+						}
+					}
+
+					.detail-item-control {
+						cursor: pointer;
+
+						#context-menu {
+							left: initial;
+							right: 0;
+							text-align: end;
+						}
 					}
 				}
 			}
@@ -64,7 +88,7 @@
 		.state {
 			display: inline-flex;
 			flex-direction: column;
-			width: @aside-width;
+			width: calc(@aside-width - 8px);
 			color: white;
 			padding-right: 12px;
 
@@ -109,8 +133,8 @@
 
 		.stats {
 			display: inline-block;
-			padding: 8px;
-			width: calc(100% - @aside-width);
+			padding-left: 8px;
+			width: calc(100% - @aside-width + 8px);
 
 			table {
 				margin: 0px;

@@ -1,20 +1,29 @@
 // main: "../madness.less"
 
 nav.sheet-navigation {
-	display: inline-block;
-	width: calc(100% - @aside-width);
-	margin-left: @aside-width;
-
 	.row {
 		display: grid;
 		grid-template-columns: repeat(5, 50px);
 		gap: 32px;
-		justify-content: center;
+		justify-content: end;
 		padding-right: 8px;
 		justify-items: center;
 
+		&:nth-child(1) {
+			background: url('resources/images/derion_logo.png');
+			background-size: contain;
+			background-repeat: no-repeat;
+			background-color: rgb(247, 246, 249);
+		}
+
 		&:nth-child(2) {
 			background-color: @madness-background-color-secondary;
+			height: 24px;
+		}
+
+		&:nth-child(3) {
+			background-color: @madness-highlight-color;
+			height: 4px;
 		}
 
 		.item-icon {
