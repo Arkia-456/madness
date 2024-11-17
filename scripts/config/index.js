@@ -133,7 +133,7 @@ export const MadnessConfig = {
 			get criticalFailure() {
 				return `${MadnessConfig.default.criticalFailureRate} + @{mod}`;
 			},
-			critical: '100 - (@{actorCritRate} + @{mod})',
+			critical: '100 - (@{actorCritRate} + @{mod}) + 1',
 		},
 	},
 	magic: {
