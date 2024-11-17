@@ -1,11 +1,3 @@
-<div>
-	{{#if editable}}
-		<button class='add-passive' data-action='create-passive'>
-			<i class='fa fa-plus'></i>
-			{{localize 'Madness.Controls.AddPassive'}}
-		</button>
-	{{/if}}
-</div>
 <div class='passives-grid'>
 	<div class='row head'>
 		<div>{{localize 'Madness.Label.Passive'}}</div>
@@ -64,4 +56,11 @@
 			</div>
 		</div>
 	{{/each}}
+</div>
+<div>
+	{{#if editable}}
+		<button class='add-passive' data-action='create-passive'>
+			<i class='fa fa-plus'></i>
+		</button>
+	{{/if}}
 </div>
