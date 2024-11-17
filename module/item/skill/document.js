@@ -157,9 +157,7 @@ class SkillMadness extends ItemMadness {
 		}
 	}
 
-	beforeRoll() {
-		return new Promise(true);
-	}
+	beforeRoll() {}
 
 	checkBeforeRoll() {
 		return true;
