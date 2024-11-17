@@ -273,7 +273,7 @@ export const MadnessConfig = {
 			effects: [
 				{
 					name: 'increaseCritRate',
-					formula: '(@{accurate}*5)/@{nbModules}',
+					formula: '(@{accurate}*4)/@{nbModules}',
 				},
 			],
 		},
