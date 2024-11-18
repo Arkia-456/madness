@@ -16,31 +16,31 @@ export class StatusEffects {
 		CONFIG.statusEffects.push({
 			id: 'blind',
 			name: 'EFFECT.StatusBlind',
-			img: 'icons/svg/blind.svg',
+			img: 'systems/madness/resources/icons/status-effects/blind.png',
 			slug: 'blind',
 		});
 		CONFIG.statusEffects.push({
 			id: 'burrow',
 			name: 'EFFECT.StatusBurrow',
-			img: 'icons/svg/mole.svg',
+			img: 'systems/madness/resources/icons/status-effects/burrow.png',
 			slug: 'burrow',
 		});
 		CONFIG.statusEffects.push({
 			id: 'dead',
 			name: 'EFFECT.StatusDead',
-			img: 'icons/svg/skull.svg',
+			img: 'systems/madness/resources/icons/status-effects/dead.png',
 			slug: 'dead',
 		});
 		CONFIG.statusEffects.push({
 			id: 'fly',
 			name: 'EFFECT.StatusFlying',
-			img: 'icons/svg/wing.svg',
+			img: 'systems/madness/resources/icons/status-effects/fly.png',
 			slug: 'fly',
 		});
 		CONFIG.statusEffects.push({
 			id: 'invisible',
 			name: 'EFFECT.StatusInvisible',
-			img: 'icons/svg/invisible.svg',
+			img: 'systems/madness/resources/icons/status-effects/invisible.png',
 			slug: 'invisible',
 		});
 	}
