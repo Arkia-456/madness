@@ -19,8 +19,16 @@ class ChatMessageMadness extends ChatMessage {
 
 	get visible() {
 		const visible = super.visible;
-		if (this.whisper.length && this.isRoll) {
+		if (this.system.forceVisible) return true;
+		if (this.whisper.length) {
 			return this.isAuthor || this.whisper.includes(game.user.id);
+		}
+		if (game.user.isGM) return true;
+		if (canvas.ready && visible) {
+			const speaker = canvas.tokens.get(this.speaker.token);
+			if (!speaker.isVisible) {
+				return false;
+			}
 		}
 		return visible;
 	}

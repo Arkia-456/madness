@@ -3,6 +3,7 @@ import { registerHandlebarsHelpers } from '../handlebars.js';
 import { StatusEffects } from '../../module/canvas/status-effect.js';
 import { TokenMadness } from '../../module/canvas/token.js';
 import { EffectsTrackerMadness } from '../../module/app/effect-tracker/effect-tracker.js';
+import { ChatLogMadness } from '../../module/app/sidebar/tabs/chat-log.js';
 
 export const Init = {
 	listen: () => {
@@ -10,6 +11,8 @@ export const Init = {
 			console.log('Madness system | Initializing...');
 			CONFIG.Madness = MadnessConfig;
 			CONFIG.Token.objectClass = TokenMadness;
+
+			CONFIG.ui.chat = ChatLogMadness;
 
 			const uiTop = document.querySelector('#ui-top');
 			if (uiTop) {
