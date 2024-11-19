@@ -340,6 +340,7 @@ export const MadnessConfig = {
 		list: {
 			bleed: 'Madness.StatusEffect.Bleed',
 			burn: 'Madness.StatusEffect.Burn',
+			cover: 'Madness.StatusEffect.Cover',
 			confusion: 'Madness.StatusEffect.Confusion',
 			down: 'Madness.StatusEffect.Down',
 			freeze: 'Madness.StatusEffect.Freeze',
