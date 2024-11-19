@@ -81,7 +81,7 @@ class ActorSheetMadness extends ActorSheet {
 			]),
 		);
 
-		sheetData.passives = {
+		sheetData.passivesEffects = {
 			...attributesPassives,
 			...magicsPassives,
 			...statusImmunities,

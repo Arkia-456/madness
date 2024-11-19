@@ -35,7 +35,7 @@ class EquipmentSheetMadness extends ItemSheetMadness {
 		return {
 			...sheetData,
 			slots: CONFIG.Madness.equipment.slots,
-			passives: {
+			passivesEffects: {
 				...attributesPassives,
 				...magicsPassives,
 				...statusImmunities,
