@@ -144,7 +144,8 @@
 				"module0": {},
 				"module1": {}
 			},
-			"allowReload": true
+			"allowReload": true,
+			"passives": {}
 		}
 	}
 }

@@ -1,4 +1,8 @@
-import { displayWarning } from '../../utils/index.js';
+import {
+	capitalizeFirstLetter,
+	displayWarning,
+	objectMap,
+} from '../../utils/index.js';
 
 class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
@@ -21,6 +25,29 @@ class ItemSheetMadness extends ItemSheet {
 			item._source.system.description,
 		);
 
+		// Passives effects
+		const attributesPassives = objectMap(
+			CONFIG.Madness.attributes,
+			(label, attr) =>
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
+		);
+		const { derion, escura, ...allowedMagics } = CONFIG.Madness.magics;
+		const magicsPassives = objectMap(
+			allowedMagics,
+			(label, attr) =>
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
+		);
+		const statusImmunities = objectMap(
+			CONFIG.Madness.statusEffects.list,
+			(label, e) => `Madness.Passives.Immunity.${capitalizeFirstLetter(e)}`,
+		);
+		const otherPassives = Object.fromEntries(
+			['armor'].map((p) => [
+				p,
+				`Madness.Passives.Modifier.${capitalizeFirstLetter(p)}`,
+			]),
+		);
+
 		return {
 			...sheetData,
 			isOwned: item.isOwned,
@@ -29,6 +56,12 @@ class ItemSheetMadness extends ItemSheet {
 			detailsTemplate: options.hasDetails
 				? `madness.item.${item.type}.details`
 				: null,
+			passivesEffects: {
+				...attributesPassives,
+				...magicsPassives,
+				...statusImmunities,
+				...otherPassives,
+			},
 		};
 	}
 
