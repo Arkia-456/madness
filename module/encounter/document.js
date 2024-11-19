@@ -23,6 +23,14 @@ class EncounterMadness extends Combat {
 			combatant.startTurn();
 		}
 	}
+
+	async rollInitiative(ids, options = {}) {
+		const messageOptions = {
+			rollMode: 'gmroll',
+		};
+		const merged = foundry.utils.mergeObject(options, { messageOptions });
+		return super.rollInitiative(ids, merged);
+	}
 }
 
 export { EncounterMadness };
