@@ -57,6 +57,25 @@ class ActorSheetMadness extends ActorSheet {
 		sheetData.generics = actor.items.filter((i) => i.type === 'generic');
 		sheetData.config = CONFIG.Madness.default;
 
+		sheetData.otherPassives = actor.items.reduce((items, i) => {
+			if (i.system.passives) {
+				items.push({
+					name: i.name,
+					source: i.type,
+					passives: Object.values(i.system.passives).reduce((arr, p) => {
+						arr.push({
+							...p,
+							type: CONFIG.Madness.statusEffects.list[p.passive]
+								? 'immunity'
+								: 'modifier',
+						});
+						return arr;
+					}, []),
+				});
+			}
+			return items;
+		}, []);
+
 		// Passives
 
 		const attributesPassives = objectMap(

@@ -19,6 +19,10 @@ function registerHandlebarsHelpers() {
 		return capitalizeFirstLetter(str);
 	});
 
+	Handlebars.registerHelper('concat', (...params) => {
+		return params.slice(0, -1).join('');
+	});
+
 	Handlebars.registerHelper('times', (n, options) => {
 		let accum = '';
 		for (let i = 0; i < n; i++) {

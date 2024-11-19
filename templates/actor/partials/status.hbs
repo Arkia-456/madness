@@ -11,6 +11,62 @@
 			{{> 'madness.partials.passives'}}
 		</div>
 	</section>
+	<section class='other-passives'>
+		<div class='section-header top'>
+			<div>{{localize 'Madness.Label.OtherPassives'}}</div>
+			<div class='decoration'>
+				<div></div>
+				<div></div>
+			</div>
+		</div>
+		<div class='content'>
+			<div class='other-passives-grid grid'>
+				<div class='row head'>
+					<div>{{localize 'Madness.Label.Name'}}</div>
+					<div class='description'>
+						{{localize 'Madness.Label.Description'}}
+					</div>
+					<div class='actions'></div>
+				</div>
+				{{#each otherPassives}}
+					<div class='row'>
+						<div class='item-name'>{{name}}
+							({{localize (concat 'Madness.Label.' (capitalize source))}})
+						</div>
+						<div class='description'>
+							{{#each passives}}
+								<div class='passive-description'>
+									<div class='align-left'>
+										{{name}}
+									</div>
+									<div class='align-left'>
+										{{localize
+											(concat
+												'Madness.Passives.'
+												(capitalize type)
+												'.'
+												(capitalize passive)
+											)
+										}}
+										{{#if strength}}
+											:
+										{{/if}}
+										{{strength}}
+										<br />
+										{{description}}
+									</div>
+									<div>
+										<input type='checkbox' {{checked active}} disabled />
+									</div>
+								</div>
+							{{/each}}
+						</div>
+						<div class='actions'></div>
+					</div>
+				{{/each}}
+			</div>
+		</div>
+	</section>
 	<section class='status'>
 		<div class='section-header'>
 			<div>{{localize 'Madness.Label.StatusPlural'}}</div>
