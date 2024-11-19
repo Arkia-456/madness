@@ -94,16 +94,31 @@ class ItemSheetMadness extends ItemSheet {
 			this.item.createPassive();
 		};
 
-		handlers['delete'] = (event, anchor) => {
+		handlers['delete'] = async (event, anchor) => {
 			const itemId = anchor.closest('[data-item-id]')?.dataset.itemId;
-			this._deleteItem(itemId);
+			const allowDelete = event.shiftKey
+				? true
+				: await Dialog.confirm({
+						title: game.i18n.localize('Madness.Dialog.Confirm'),
+						content: game.i18n.localize('Madness.Dialog.AskDelete'),
+					});
+			if (allowDelete) {
+				this._deleteItem(itemId);
+			}
 		};
 
-		handlers['delete-passive'] = (event, anchor) => {
+		handlers['delete-passive'] = async (event, anchor) => {
 			const id = anchor.closest('[data-id]')?.dataset.id;
 			const passives = this.item.system.passives;
 			const passive = passives[id];
-			if (passive) {
+			if (!passive) return;
+			const allowDelete = event.shiftKey
+				? true
+				: await Dialog.confirm({
+						title: game.i18n.localize('Madness.Dialog.Confirm'),
+						content: game.i18n.localize('Madness.Dialog.AskDelete'),
+					});
+			if (allowDelete) {
 				this.item.update({ [`system.passives.-=${id}`]: null });
 			}
 		};

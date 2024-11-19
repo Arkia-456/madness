@@ -179,10 +179,14 @@ class ActorSheetMadness extends ActorSheet {
 			const contextMenuEntryDelete = {
 				name: 'Madness.Controls.Delete',
 				icon: fontAwesomeIcon('trash'),
-				callback: ($target) => {
+				callback: async ($target) => {
 					const itemId = $target[0].closest('[data-item-id]')?.dataset.itemId;
 					const item = actor.items.get(itemId);
-					item.delete();
+					const confirmDelete = await Dialog.confirm({
+						title: game.i18n.localize('Madness.Dialog.Confirm'),
+						content: game.i18n.localize('Madness.Dialog.AskDelete'),
+					});
+					if (confirmDelete) item.delete();
 				},
 			};
 
@@ -233,17 +237,32 @@ class ActorSheetMadness extends ActorSheet {
 			item.sheet.render(true, { focus: true });
 		};
 
-		handlers['delete'] = (event, anchor) => {
+		handlers['delete'] = async (event, anchor) => {
 			const id = anchor.closest('[data-id]')?.dataset.id;
 			const item = this.actor.items.get(id);
-			item.delete();
+			const allowDelete = event.shiftKey
+				? true
+				: await Dialog.confirm({
+						title: game.i18n.localize('Madness.Dialog.Confirm'),
+						content: game.i18n.localize('Madness.Dialog.AskDelete'),
+					});
+			if (allowDelete) {
+				item.delete();
+			}
 		};
 
-		handlers['delete-passive'] = (event, anchor) => {
+		handlers['delete-passive'] = async (event, anchor) => {
 			const id = anchor.closest('[data-id]')?.dataset.id;
 			const passives = this.actor.system.passives;
 			const passive = passives[id];
-			if (passive) {
+			if (!passive) return;
+			const allowDelete = event.shiftKey
+				? true
+				: await Dialog.confirm({
+						title: game.i18n.localize('Madness.Dialog.Confirm'),
+						content: game.i18n.localize('Madness.Dialog.AskDelete'),
+					});
+			if (allowDelete) {
 				this.actor.update({ [`system.passives.-=${id}`]: null });
 			}
 		};
