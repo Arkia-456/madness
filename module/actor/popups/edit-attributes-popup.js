@@ -1,7 +1,9 @@
 export class EditAttributesPopup extends FormApplication {
 	static get defaultOptions() {
+		const options = super.defaultOptions;
+		options.classes.push(...['madness', 'sheet', 'edit-popup']);
 		return {
-			...super.defaultOptions,
+			...options,
 			title: 'Madness.Label.EditAttributes',
 			template: 'systems/madness/templates/actor/edit-attributes.hbs',
 		};
@@ -10,6 +12,7 @@ export class EditAttributesPopup extends FormApplication {
 	getData(options) {
 		const sheetData = super.getData(options);
 		sheetData.system = this.object.system;
+		sheetData.attributesLabels = CONFIG.Madness.attributes;
 		return sheetData;
 	}
 

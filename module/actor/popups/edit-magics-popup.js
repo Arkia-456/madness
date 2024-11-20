@@ -1,7 +1,9 @@
 export class EditMagicsPopup extends FormApplication {
 	static get defaultOptions() {
+		const options = super.defaultOptions;
+		options.classes.push(...['madness', 'sheet', 'edit-popup']);
 		return {
-			...super.defaultOptions,
+			...options,
 			title: 'Madness.Label.EditMagics',
 			template: 'systems/madness/templates/actor/edit-magics.hbs',
 		};
@@ -10,6 +12,13 @@ export class EditMagicsPopup extends FormApplication {
 	getData(options) {
 		const sheetData = super.getData(options);
 		sheetData.system = this.object.system;
+		sheetData.magics = Object.entries(CONFIG.Madness.magics).reduce(
+			(magics, [id, m]) => {
+				magics[id] = m.label;
+				return magics;
+			},
+			{},
+		);
 		return sheetData;
 	}
 
