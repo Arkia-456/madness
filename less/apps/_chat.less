@@ -1,0 +1,20 @@
+// main: "../madness.less"
+
+@import './_card.less';
+
+.chat-message {
+	background: url('./resources/images/denim075-55.png');
+	background-color: @madness-background-color-secondary;
+	color: white;
+	border-color: #757575;
+
+	&.whisper {
+		background-color: @madness-background-color-secondary;
+		border-color: @madness-highlight-color;
+		box-shadow: 0 0 8px inset var(--color-shadow-primary);
+	}
+
+	* {
+		color: white;
+	}
+}

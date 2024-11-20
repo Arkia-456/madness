@@ -10,6 +10,7 @@ export const Init = {
 		Hooks.once('init', () => {
 			console.log('Madness system | Initializing...');
 			CONFIG.Madness = MadnessConfig;
+			CONFIG.RollTable.resultIcon = 'icons/svg/d20.svg';
 			CONFIG.Token.objectClass = TokenMadness;
 
 			CONFIG.ui.chat = ChatLogMadness;

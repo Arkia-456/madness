@@ -5,6 +5,12 @@ function registerHandlebarsHelpers() {
 
 	Handlebars.registerHelper('equal', (a, b) => a === b);
 
+	Handlebars.registerHelper('notEqual', (a, b) => a !== b);
+
+	Handlebars.registerHelper('stripHTML', (str) =>
+		str.replace(/(<([^>]+)>)/gi, ''),
+	);
+
 	Handlebars.registerHelper('getRollResult', (minMax, attrDice, attributes) => {
 		return createFormula(attrDice, attributes, minMax);
 	});

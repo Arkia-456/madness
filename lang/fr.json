@@ -35,6 +35,7 @@
 		"ChatMessage": {
 			"CriticalFailure": "Echec critique",
 			"CriticalHit": "Coup critique",
+			"CriticalReminder": "Rappel : Lors d'un coup critique, les PM et les munitions ne sont pas déduites et les effets de l'attaque ne s'appliquent pas automatiquement.",
 			"CheckOf": "Test de",
 			"Failure": "Echec",
 			"Success": "Succès"

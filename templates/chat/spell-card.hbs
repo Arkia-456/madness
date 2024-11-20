@@ -1,75 +1,81 @@
 <div class='chat-card item-card'>
-	<div>
-		<img src='{{item.img}}' />
+	<div class='header'>
+		{{#if (notEqual item.img 'icons/svg/item-bag.svg')}}
+			<img src='{{item.img}}' />
+		{{/if}}
 		<h3>{{item.name}}</h3>
 	</div>
-	<p>{{{item.description}}}</p>
+	{{{item.description}}}
 	<div class='magic-icons'>
 		{{#each item.system.requirements}}
 			{{#if id}}
-				<div>
-					<img src='systems/madness/resources/icons/magics/{{id}}.png' />
-				</div>
-				<p>
-					{{localize (concat 'Madness.Magics.' (capitalize id) 'Description')}}
-				</p>
+				<img src='systems/madness/resources/icons/magics/{{id}}.png' />
 			{{/if}}
 		{{/each}}
 	</div>
-	<div>
-		<span>{{localize 'Madness.Item.Range'}}</span>
-		<span>{{item.system.range.value}}</span>
-	</div>
-	<div>
-		<span>{{localize 'Madness.Item.Spell.Cost'}}</span>
-		<span>{{item.cost}}</span>
-	</div>
-	<div>
-		<span>{{localize 'Madness.ChatMessage.CheckOf'}}
-			{{lower 'Madness.Label.Critical'}}</span>
-		<span>{{roll.critOutcome.roll.total}}</span>
-		{{#if roll.critOutcome.isCritical}}
-			<span>
-				{{#if (eq roll.critOutcome.result 'criticalSuccess')}}
-					{{upper 'Madness.ChatMessage.CriticalHit'}}
-					!
-				{{else}}
-					{{upper 'Madness.ChatMessage.CriticalFailure'}}
-					!
-				{{/if}}
-			</span>
-		{{/if}}
-	</div>
-	{{#if roll.outcome}}
-		<div>
-			<span>{{localize 'Madness.Label.Damage'}}</span>
-			<span>{{roll.outcome.total}}</span>
-		</div>
-	{{/if}}
-	<div>
-		<span>{{localize 'Madness.Label.Effects'}}</span>
-		<ul>
-			{{#each item.system.items as |effect i|}}
-				<li>
-					<div>
-						<span>{{name}}</span>
-					</div>
-					<div>
-						<span>{{{system.description}}}</span>
-					</div>
+	<table class='magics'>
+		{{#each item.system.requirements}}
+			{{#if id}}
+				<tr>
+					<td>
+						<img src='systems/madness/resources/icons/magics/{{id}}.png' />
+						{{localize (concat 'Madness.Magics.' (capitalize id))}}
+					</td>
+					<td>
+						{{localize
+							(concat 'Madness.Magics.' (capitalize id) 'Description')
+						}}
+					</td>
+				</tr>
+			{{/if}}
+		{{/each}}
+	</table>
+	<table class='stats'>
+		<tr>
+			<td>{{localize 'Madness.Label.Damage'}}</td>
+			<td>{{localize 'Madness.Item.Spell.Cost'}}</td>
+			<td>{{localize 'Madness.Item.Range'}}</td>
+			<td>{{localize 'Madness.Label.Critical'}}</td>
+		</tr>
+		<tr>
+			<td>{{roll.outcome.total}}</td>
+			<td>{{item.cost}}</td>
+			<td>{{item.system.range.value}}</td>
+			<td>{{roll.critOutcome.roll.total}}</td>
+		</tr>
+	</table>
+	<table class='effects'>
+		<thead>
+			<tr class='table-header'>
+				<td colspan='2'>{{localize 'Madness.Label.Effects'}}</td>
+			</tr>
+		</thead>
+		{{#each item.system.items as |effect i|}}
+			<tr>
+				<td>{{name}}</td>
+				<td>
+					{{stripHTML system.description}}
 					{{#with (lookup @root.item.system.items _id)}}
 						{{#if system.hasStrength}}
-							<div>
-								<span>{{localize 'Madness.Item.Effect.Strength'}}</span>
-								<span>{{system.strength}}</span>
-							</div>
+							{{system.strength}}
 						{{/if}}
 					{{/with}}
-				</li>
-			{{/each}}
-		</ul>
-	</div>
-	<div>
+				</td>
+			</tr>
+		{{/each}}
+	</table>
+	{{#if roll.critOutcome.isCritical}}
+		<p class='critical'>
+			{{#if (eq roll.critOutcome.result 'criticalSuccess')}}
+				{{upper 'Madness.ChatMessage.CriticalHit'}}
+			{{else}}
+				{{upper 'Madness.ChatMessage.CriticalFailure'}}
+			{{/if}}
+			!
+		</p>
+		<p class='reminder'>{{localize 'Madness.ChatMessage.CriticalReminder'}}</p>
+	{{/if}}
+	<div class='actions'>
 		<button data-action='dodge'>{{localize 'Madness.Controls.Dodge'}}</button>
 		<button data-action='parry'>{{localize 'Madness.Controls.Parry'}}</button>
 		<button data-action='take-damage'>
