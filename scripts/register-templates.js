@@ -8,7 +8,7 @@ const templatesPath = 'systems/madness/templates';
 const getPartials = () => {
 	const paths = {};
 	const appPartials = {
-		actor: ['actions', 'character', 'inventory', 'status', 'navbar'],
+		actor: ['actions', 'character', 'inventory', 'notes', 'status', 'navbar'],
 		item: ['effect-line'],
 	};
 	Object.entries(appPartials).forEach(([category, partials]) => {

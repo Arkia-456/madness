@@ -107,6 +107,11 @@ class ActorSheetMadness extends ActorSheet {
 			...otherPassives,
 		};
 
+		// Enriched content
+		const enrichedContent = {};
+		enrichedContent.notes = await TextEditor.enrichHTML(actor.system.notes);
+		sheetData.enrichedContent = enrichedContent;
+
 		return sheetData;
 	}
 
