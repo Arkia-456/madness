@@ -1,76 +1,111 @@
 {{> 'madness.partials.passives'}}
-<div>
-	{{localize 'Madness.Item.Weapon.Modules'}}
-	<ul>
-		<li>
-			<select name='system.modules.module0.id'>
-				<option value=''></option>
-				{{selectOptions
-					modules
-					selected=system.modules.module0.id
-					localize=true
-				}}
-			</select>
-			<label>{{localize 'Madness.Item.Level'}}</label>
+<table>
+	<thead>
+		<tr class='table-header'>
+			<td colspan='4'>{{localize 'Madness.Item.Weapon.Modules'}}</td>
+		</tr>
+		<tr>
+			<td>{{localize 'Madness.Item.Weapon.Module'}}</td>
+			<td>{{localize 'Madness.Item.Level'}}</td>
+			<td>{{localize 'Madness.Item.Weapon.Module'}}</td>
+			<td>{{localize 'Madness.Item.Level'}}</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<select name='system.modules.module0.id'>
+					<option value=''></option>
+					{{selectOptions
+						modules
+						selected=system.modules.module0.id
+						localize=true
+					}}
+				</select>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.modules.module0.value'
+					value='{{system.modules.module0.value}}'
+					data-dtype='number'
+				/>
+			</td>
+			<td>
+				<select name='system.modules.module1.id'>
+					<option value=''></option>
+					{{selectOptions
+						modules
+						selected=system.modules.module1.id
+						localize=true
+					}}
+				</select>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.modules.module1.value'
+					value='{{system.modules.module1.value}}'
+					data-dtype='number'
+				/>
+			</td>
+		</tr>
+	</tbody>
+</table>
+<table>
+	<thead>
+		<tr>
+			{{#if isOwned}}
+				<td>{{localize 'Madness.Item.Weapon.Ammo'}}</td>
+			{{/if}}
+			<td>{{localize 'Madness.Item.Weapon.MaxAmmo'}}</td>
+			<td>{{localize 'Madness.Label.Reloadable'}}</td>
+			<td>{{localize 'Madness.Label.Weight'}}</td>
+			<td>{{localize 'Madness.Item.Range'}}</td>
+		</tr>
+	</thead>
+	<tr>
+		{{#if isOwned}}
+			<td>
+				<input
+					type='number'
+					name='system.ammo.value'
+					value='{{system.ammo.value}}'
+					data-dtype='number'
+				/>
+			</td>
+		{{/if}}
+		<td>
 			<input
 				type='number'
-				name='system.modules.module0.value'
-				value='{{system.modules.module0.value}}'
+				name='system.ammo.max'
+				value='{{system.ammo.max}}'
 				data-dtype='number'
 			/>
-			<select name='system.modules.module1.id'>
-				<option value=''></option>
-				{{selectOptions
-					modules
-					selected=system.modules.module1.id
-					localize=true
-				}}
-			</select>
-			<label>{{localize 'Madness.Item.Level'}}</label>
+		</td>
+		<td>
+			<input
+				type='checkbox'
+				name='system.allowReload'
+				{{checked system.allowReload}}
+			/>
+		</td>
+		<td>
 			<input
 				type='number'
-				name='system.modules.module1.value'
-				value='{{system.modules.module1.value}}'
+				name='system.weight'
+				value='{{system.weight}}'
 				data-dtype='number'
 			/>
-		</li>
-	</ul>
-</div>
-{{#if isOwned}}
-	<div>
-		<label>{{localize 'Madness.Item.Weapon.Ammo'}}</label>
-		<input
-			type='number'
-			name='system.ammo.value'
-			value='{{system.ammo.value}}'
-			data-dtype='number'
-		/>
-	</div>
-{{/if}}
-<div>
-	<label>{{localize 'Madness.Item.Weapon.MaxAmmo'}}</label>
-	<input
-		type='number'
-		name='system.ammo.max'
-		value='{{system.ammo.max}}'
-		data-dtype='number'
-	/>
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Weight'}}</label>
-	<input
-		type='number'
-		name='system.weight'
-		value='{{system.weight}}'
-		data-dtype='number'
-	/>
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Reloadable'}}</label>
-	<input
-		type='checkbox'
-		name='system.allowReload'
-		{{checked system.allowReload}}
-	/>
-</div>
+		</td>
+		<td>
+			<input
+				type='number'
+				name='system.range.value'
+				value='{{system.range.value}}'
+				data-dtype='number'
+			/>
+		</td>
+	</tr>
+</table>
 {{> 'madness.item.skill.details'}}

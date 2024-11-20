@@ -79,6 +79,7 @@
 		"Label": {
 			"Active": "Actif",
 			"Armor": "Armure",
+			"Attributes": "Attributs",
 			"Barrier": "Bouclier",
 			"Character": "Personnage",
 			"Critical": "Critique",
@@ -100,6 +101,7 @@
 			"Immunity": "Immunité",
 			"Inventory": "Inventaire",
 			"MagicSkills": "Compétences magiques",
+			"Magic": "Magie",
 			"Magics": "Magies",
 			"ManaPoints": "Points de mana",
 			"Movement": "Mouvement",
@@ -117,6 +119,7 @@
 			"Slug": "Identifiant",
 			"Stacks": "Cumuls",
 			"Status": "Statut",
+			"StatusEffect": "Effet de statut",
 			"StatusPlural": "Statuts",
 			"Strength": "Puissance",
 			"Weapon": "Arme",
@@ -182,6 +185,7 @@
 			"Weapon": {
 				"Ammo": "Munitions",
 				"MaxAmmo": "Munitions max",
+				"Module": "Module",
 				"Modules": "Modules"
 			}
 		},

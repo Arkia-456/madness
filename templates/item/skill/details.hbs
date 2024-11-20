@@ -1,20 +1,19 @@
-<div>
-	<label>{{localize 'Madness.Item.Range'}}</label>
-	<input
-		type='number'
-		name='system.range.value'
-		value='{{system.range.value}}'
-		data-dtype='number'
-	/>
-	m
-</div>
-<div>
-	<p>{{localize 'Madness.Item.Damage'}}</p>
-	<div class='damage-grid'>
-		{{#each attributes as |attr i|}}
-			<div class='attribute-damage'>
-				<div class='attribute-name'>{{localize attr}}</div>
-				<div>
+<table class='damage-table'>
+	<thead>
+		<tr class='table-header'>
+			<td colspan='6'>{{localize 'Madness.Item.Damage'}}</td>
+		</tr>
+		<tr>
+			{{#each attributes as |attr i|}}
+				<td>{{localize attr}}</td>
+			{{/each}}
+			<td>{{localize 'Madness.Item.Flat'}}</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{{#each attributes as |attr i|}}
+				<td>
 					<input
 						type='number'
 						name='system.damage.{{i}}'
@@ -22,22 +21,19 @@
 						data-dtype='number'
 					/>
 					d
-				</div>
-			</div>
-		{{/each}}
-		<div class='attribute-damage'>
-			<div class='attribute-name'>{{localize 'Madness.Item.Flat'}}</div>
-			<div>
+				</td>
+			{{/each}}
+			<td>
 				<input
 					type='number'
 					name='system.damage.flat'
 					value='{{system.damage.flat}}'
 					data-dtype='number'
 				/>
-			</div>
-		</div>
-	</div>
-</div>
+			</td>
+		</tr>
+	</tbody>
+</table>
 <div class='item-list'>
 	<span>{{localize 'Madness.Label.Effects'}}</span>
 	<a data-action='open-compendium' data-compendium='madness-compendium.effects'>

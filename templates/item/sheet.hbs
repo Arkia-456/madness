@@ -1,21 +1,36 @@
 <form class='{{cssClass}}' autocomplete='off'>
 	<header class='sheet-header'>
 		<img src='{{item._source.img}}' data-edit='img' />
-		{{#if editable}}
-			<input
-				name='name'
-				type='text'
-				value='{{item._source.name}}'
-				placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
-				spellcheck='false'
-			/>
-		{{else}}
-			<span>{{item._source.name}}</span>
-		{{/if}}
+		<div>
+			<div class='decoration'>
+				<div></div>
+				<div></div>
+			</div>
+			<div class='name'>
+				{{#if editable}}
+					<input
+						name='name'
+						type='text'
+						value='{{item._source.name}}'
+						placeholder='{{localize "Madness.Item.NamePlaceholder"}}'
+						spellcheck='false'
+					/>
+				{{else}}
+					<span>{{item._source.name}}</span>
+				{{/if}}
+			</div>
+		</div>
 	</header>
 	<section class='sheet-content'>
+		{{#if (equal item.type 'ethnicity')}}
+			{{#if detailsTemplate}}
+				<div class='details'>
+					{{> (lookup . 'detailsTemplate')}}
+				</div>
+			{{/if}}
+		{{/if}}
 		<div class='description'>
-			<p>{{localize 'Madness.Label.Description'}}</p>
+			<label>{{localize 'Madness.Label.Description'}}</label>
 			{{editor
 				enrichedContent.description
 				target='system.description'
@@ -24,10 +39,12 @@
 				engine='prosemirror'
 			}}
 		</div>
-		{{#if detailsTemplate}}
-			<div class='details'>
-				{{> (lookup . 'detailsTemplate')}}
-			</div>
-		{{/if}}
+		{{#unless (equal item.type 'ethnicity')}}
+			{{#if detailsTemplate}}
+				<div class='details'>
+					{{> (lookup . 'detailsTemplate')}}
+				</div>
+			{{/if}}
+		{{/unless}}
 	</section>
 </form>

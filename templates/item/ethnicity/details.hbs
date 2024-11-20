@@ -1,32 +1,55 @@
-<ul>
-	{{#each system.attributes as |attribute id|}}
-		<li data-attribute='{{id}}'>
-			<span id='{{id}}'>{{id}}</span>
-			<input
-				type='number'
-				name='system.attributes.{{id}}.value'
-				value='{{attribute.value}}'
-				data-dtype='Number'
-			/>
-		</li>
-	{{/each}}
-</ul>
-<div>
-	<label>{{localize 'Madness.Label.HitPoints'}}</label>
-	<input name='system.hp' type='number' value='{{system.hp}}' />
-</div>
-<div>
-	<label>{{localize 'Madness.Label.ManaPoints'}}</label>
-	<input name='system.mp' type='number' value='{{system.mp}}' />
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Armor'}}</label>
-	<input name='system.armor' type='number' value='{{system.armor}}' />
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Immunity'}}</label>
-	<select name='system.immunity'>
-		<option value=''></option>
-		{{selectOptions statusEffects selected=system.immunity localize=true}}
-	</select>
-</div>
+<table class='attributes-table'>
+	<thead>
+		<tr class='table-header'>
+			<td colspan='5'>{{localize 'Madness.Label.Attributes'}}</td>
+		</tr>
+		<tr>
+			{{#each system.attributes as |attribute id|}}
+				<td>{{localize (lookup @root.attributesLabels id)}}</td>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{{#each system.attributes as |attribute id|}}
+				<td data-attribute='{{id}}'>
+					<input
+						type='number'
+						name='system.attributes.{{id}}.value'
+						value='{{attribute.value}}'
+						data-dtype='Number'
+					/>
+				</td>
+			{{/each}}
+		</tr>
+	</tbody>
+</table>
+<table>
+	<thead>
+		<tr>
+			<td>{{localize 'Madness.Label.HitPoints'}}</td>
+			<td>{{localize 'Madness.Label.ManaPoints'}}</td>
+			<td>{{localize 'Madness.Label.Armor'}}</td>
+			<td>{{localize 'Madness.Label.Immunity'}}</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<input name='system.hp' type='number' value='{{system.hp}}' />
+			</td>
+			<td>
+				<input name='system.mp' type='number' value='{{system.mp}}' />
+			</td>
+			<td>
+				<input name='system.armor' type='number' value='{{system.armor}}' />
+			</td>
+			<td>
+				<select name='system.immunity'>
+					<option value=''></option>
+					{{selectOptions statusEffects selected=system.immunity localize=true}}
+				</select>
+			</td>
+		</tr>
+	</tbody>
+</table>

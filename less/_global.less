@@ -7,6 +7,10 @@
 .madness.sheet .window-content {
 	background: white;
 
+	select > * {
+		background-color: white;
+	}
+
 	input:focus,
 	select:focus,
 	textarea:focus {
@@ -22,6 +26,21 @@
 		color: black;
 		border: none;
 		border-radius: 0px;
+	}
+
+	table {
+		thead {
+			tr {
+				background-color: @madness-background-color-secondary;
+				color: white;
+				text-shadow: none;
+				border: none;
+
+				&.table-header td {
+					text-align: center;
+				}
+			}
+		}
 	}
 }
 

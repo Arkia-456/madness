@@ -11,6 +11,7 @@ class EthnicitySheetMadness extends ItemSheetMadness {
 	async getData(options) {
 		return {
 			...(await super.getData(options)),
+			attributesLabels: CONFIG.Madness.attributes,
 			statusEffects: CONFIG.Madness.statusEffects.list,
 		};
 	}

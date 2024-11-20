@@ -1,26 +1,36 @@
-<div>
-	<label>{{localize 'Madness.Equipment.Slot'}}</label>
-	<select name='system.slot'>
-		<option value=''></option>
-		{{selectOptions slots selected=system.slot localize=true}}
-	</select>
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Armor'}}</label>
-	<input
-		type='number'
-		name='system.armor'
-		value='{{system.armor}}'
-		data-dtype='number'
-	/>
-</div>
-<div>
-	<label>{{localize 'Madness.Label.Weight'}}</label>
-	<input
-		type='number'
-		name='system.weight'
-		value='{{system.weight}}'
-		data-dtype='number'
-	/>
-</div>
+<table class='equipment-stats'>
+	<thead>
+		<tr>
+			<td>{{localize 'Madness.Equipment.Slot'}}</td>
+			<td>{{localize 'Madness.Label.Armor'}}</td>
+			<td>{{localize 'Madness.Label.Weight'}}</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<select name='system.slot'>
+					<option value=''></option>
+					{{selectOptions slots selected=system.slot localize=true}}
+				</select>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.armor'
+					value='{{system.armor}}'
+					data-dtype='number'
+				/>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.weight'
+					value='{{system.weight}}'
+					data-dtype='number'
+				/>
+			</td>
+		</tr>
+	</tbody>
+</table>
 {{> 'madness.partials.passives'}}

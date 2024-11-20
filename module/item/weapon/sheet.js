@@ -2,10 +2,10 @@ import { SkillSheetMadness } from '../skill/index.js';
 
 class WeaponSheetMadness extends SkillSheetMadness {
 	static get defaultOptions() {
-		return {
-			...super.defaultOptions,
-			hasDetails: true,
-		};
+		const options = super.defaultOptions;
+		options.classes.push('weapon');
+		options.hasDetails = true;
+		return options;
 	}
 
 	async getData(options) {

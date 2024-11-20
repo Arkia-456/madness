@@ -8,7 +8,7 @@ class ItemSheetMadness extends ItemSheet {
 	static get defaultOptions() {
 		const options = super.defaultOptions;
 		options.classes.push('madness', 'item');
-		options.width = 464;
+		options.width = 536;
 		options.height = 520;
 		options.template = 'systems/madness/templates/item/sheet.hbs';
 		options.dragDrop = [{ dropSelector: '.sheet-content' }];

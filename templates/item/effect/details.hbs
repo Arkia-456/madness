@@ -1,31 +1,58 @@
-<div>
-	<label>{{localize 'Madness.Item.Effect.HasStrength'}}</label>
-	<input
-		type='checkbox'
-		name='system.hasStrength'
-		{{checked system.hasStrength}}
-	/>
-</div>
-<div>
-	{{localize 'Madness.Item.Requirements'}}
-	<ul>
-		{{#each magics as |magic id|}}
-			<li>
-				<label>{{localize magic}}</label>
-				<input
-					type='number'
-					name='system.requirements.{{id}}'
-					value='{{lookup @root.system.requirements id}}'
-					data-dtype='number'
-				/>
-			</li>
-		{{/each}}
-	</ul>
-</div>
-<select name='system.statusEffect'>
-	<option value=''></option>
-	{{selectOptions statusEffects selected=system.statusEffect localize=true}}
-</select>
+<table>
+	<thead>
+		<tr class='table-header'>
+			<td colspan='9'>{{localize 'Madness.Item.Requirements'}}</td>
+		</tr>
+		<tr>
+			{{#each magics as |magic id|}}
+				<td>
+					{{localize magic}}
+				</td>
+			{{/each}}
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			{{#each magics as |magic id|}}
+				<td>
+					<input
+						type='number'
+						name='system.requirements.{{id}}'
+						value='{{lookup @root.system.requirements id}}'
+						data-dtype='number'
+					/>
+				</td>
+			{{/each}}
+		</tr>
+	</tbody>
+</table>
+<table>
+	<thead>
+		<tr>
+			<td>{{localize 'Madness.Item.Effect.HasStrength'}}</td>
+			<td>{{localize 'Madness.Label.StatusEffect'}}</td>
+		</tr>
+	</thead>
+	<tr>
+		<td>
+			<input
+				type='checkbox'
+				name='system.hasStrength'
+				{{checked system.hasStrength}}
+			/>
+		</td>
+		<td>
+			<select name='system.statusEffect'>
+				<option value=''></option>
+				{{selectOptions
+					statusEffects
+					selected=system.statusEffect
+					localize=true
+				}}
+			</select>
+		</td>
+	</tr>
+</table>
 <div>
 	<label>{{localize 'Madness.Label.Slug'}}</label>
 	<input

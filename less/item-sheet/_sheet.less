@@ -1,12 +1,84 @@
 // main: "../madness.less"
 
-.sheet.item {
-	.description {
-		.editor {
-			background: rgba(0, 0, 0, 0.05);
-			border: solid 1px var(--color-border-light-tertiary);
-			border-radius: 3px;
-			padding: 1px 3px;
+@import './_equipment.less';
+@import './_weapon.less';
+
+.sheet.item .window-content {
+	padding: 0px;
+
+	header {
+		display: flex;
+		flex-wrap: nowrap;
+		background-color: @madness-background-color-primary;
+		height: 92px;
+
+		> img {
+			height: 100%;
+			border: none;
+		}
+
+		> div {
+			display: flex;
+			flex-direction: column;
+
+			.decoration {
+				margin: 0px 108px 0 auto;
+				height: 28px;
+
+				div {
+					display: inline-block;
+					background-color: #ffc000;
+					height: 28px;
+					width: 52px;
+					transform: skewX(-20deg);
+
+					&:nth-child(1) {
+						margin-right: 8px;
+					}
+				}
+			}
+
+			.name {
+				background-color: @madness-background-color-secondary;
+				height: 36px;
+				margin-bottom: 28px;
+				margin-right: 8px;
+
+				input {
+					color: white;
+					height: 100%;
+					border: none;
+				}
+			}
+		}
+	}
+
+	.sheet-content {
+		padding: 8px;
+
+		.description {
+			.editor {
+				background: rgba(0, 0, 0, 0.05);
+				border: solid 1px var(--color-border-light-tertiary);
+				border-radius: 3px;
+				padding: 1px 3px;
+			}
+		}
+
+		.details {
+			table {
+				border: none;
+				text-align: center;
+
+				&.attributes-table,
+				&.damage-table {
+					table-layout: fixed;
+				}
+
+				td {
+					padding: 4px;
+				}
+			}
 		}
 	}
 
