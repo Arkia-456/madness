@@ -4,17 +4,30 @@
 @madness-background-color-tertiary: #d6dce5;
 @madness-highlight-color: #ffc000;
 
+body {
+	--color-shadow-primary: @madness-highlight-color;
+	--color-shadow-highlight: @madness-highlight-color;
+	--color-border-highlight-alt: @madness-highlight-color;
+	--color-border-highlight: @madness-highlight-color;
+}
+
+#interface #ui-left #logo {
+	height: auto;
+}
+
+.window-app .window-content {
+	background: white;
+}
+
+a:hover {
+	text-shadow: 0 0 8px @madness-highlight-color;
+}
+
 .madness.sheet .window-content {
 	background: white;
 
 	select > * {
 		background-color: white;
-	}
-
-	input:focus,
-	select:focus,
-	textarea:focus {
-		box-shadow: 0 0 5px @madness-highlight-color;
 	}
 
 	textarea {
