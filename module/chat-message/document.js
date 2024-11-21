@@ -47,11 +47,11 @@ class ChatMessageMadness extends ChatMessage {
 			this.takeDamageFromMessage();
 		};
 
-		handlers['dodge'] = () => {
-			this.dodgeFromMessage();
+		handlers['dodge'] = (event) => {
+			this.dodgeFromMessage({ promptModifiers: event.shiftKey });
 		};
-		handlers['parry'] = () => {
-			this.parryFromMessage();
+		handlers['parry'] = (event) => {
+			this.parryFromMessage({ promptModifiers: event.shiftKey });
 		};
 
 		const cardHandler = async (event) => {
@@ -78,7 +78,7 @@ class ChatMessageMadness extends ChatMessage {
 		return handlers;
 	}
 
-	async dodgeFromMessage() {
+	async dodgeFromMessage({ promptModifiers = false }) {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			displayError('Madness.Message.Error.NoTokenSelected');
@@ -96,7 +96,7 @@ class ChatMessageMadness extends ChatMessage {
 			);
 			if (!confirmDodge) return;
 		}
-		const roll = await token.actor.dodge(token);
+		const roll = await token.actor.dodge(token, { promptModifiers });
 		if (roll.isCritical || roll.result === 'success') return;
 		const damage = this.applyDamageFromMessage(token);
 		await this.toMessage({ type: 'dodge', actor: token.actor, damage });
@@ -144,7 +144,7 @@ class ChatMessageMadness extends ChatMessage {
 		ChatMessageMadness.create(chatData);
 	}
 
-	async parryFromMessage() {
+	async parryFromMessage({ promptModifiers = false }) {
 		const tokens = game.user.getActiveTokens();
 		if (!tokens.length) {
 			displayError('Madness.Message.Error.NoTokenSelected');
@@ -162,9 +162,12 @@ class ChatMessageMadness extends ChatMessage {
 			);
 			if (!confirmParry) return;
 		}
-		const roll = await token.actor.parry(token);
+		const roll = await token.actor.parry(token, { promptModifiers });
 		if (roll.isCritical) return;
-		const damage = this.applyDamageFromMessage(token, { parry: true });
+		const damage = this.applyDamageFromMessage(token, {
+			parry: true,
+			modifiers: roll.modifiers,
+		});
 		await this.toMessage({ type: 'parry', actor: token.actor, damage });
 		await this._removeBuffsAndDebuffs(token.actor);
 	}

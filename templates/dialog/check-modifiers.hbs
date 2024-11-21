@@ -1,0 +1,13 @@
+<form autocomplete='off'>
+	<table>
+		{{#each context.formulaAttributes as |attr id|}}
+			<tr>
+				<td>{{localize (lookup @root.attributes this)}}</td>
+				<td>
+					<input type='number' step='1' name='{{attr}}' />
+				</td>
+			</tr>
+		{{/each}}
+	</table>
+	<button data-action='validate'>Valider</button>
+</form>

@@ -369,7 +369,7 @@ class ActorSheetMadness extends ActorSheet {
 			const spellId = anchor.closest('.spell[data-id]')?.dataset.id;
 			if (spellId) {
 				const spell = this.actor.items.get(spellId);
-				return spell.roll();
+				return spell.roll({ promptModifiers: event.shiftKey });
 			}
 		};
 
@@ -377,7 +377,7 @@ class ActorSheetMadness extends ActorSheet {
 			const weaponId = anchor.closest('.weapon[data-id]')?.dataset.id;
 			if (weaponId) {
 				const weapon = this.actor.items.get(weaponId);
-				return weapon.roll();
+				return weapon.roll({ promptModifiers: event.shiftKey });
 			}
 		};
 

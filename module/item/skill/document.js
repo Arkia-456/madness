@@ -1,5 +1,5 @@
 import { displayError, Formula } from '../../../utils/index.js';
-import { CheckMadness } from '../../system/check.js';
+import { CheckMadness } from '../../system/check/check.js';
 import Tooltip from '../../system/tooltip.js';
 import { ItemMadness } from '../index.js';
 
@@ -186,6 +186,7 @@ class SkillMadness extends ItemMadness {
 		const context = {
 			...options,
 			...this.getContext(),
+			formulaAttributes: ['damage', 'critRate', 'critFailureRate'],
 		};
 		const roll = await CheckMadness.roll(context);
 		if (roll.critOutcome.result === 'success') {

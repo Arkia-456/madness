@@ -1,8 +1,18 @@
-import { Formula } from '../../utils/index.js';
+import { Formula } from '../../../utils/index.js';
+import { CheckModifiersDialogMadness } from './dialog.js';
 
 class CheckMadness {
 	static async _beforeRoll(context = {}) {
 		await CheckMadness._askIncreaseDamageWithMPCost(context);
+		const dialogModifiers = context.promptModifiers
+			? await CheckMadness.askModifiers(context)
+			: {};
+		if (Object.keys(dialogModifiers).length) {
+			context.modifiers = this._mergeModifiers(
+				context.modifiers,
+				dialogModifiers,
+			);
+		}
 	}
 
 	static async roll(context) {
@@ -26,6 +36,25 @@ class CheckMadness {
 			);
 		}
 		return roll;
+	}
+
+	static async askModifiers(context) {
+		const check = {};
+		await new Promise((resolve) => {
+			new CheckModifiersDialogMadness(check, resolve, context).render(true);
+		});
+		return check;
+	}
+
+	static _mergeModifiers(modifiers1 = {}, modifiers2 = {}) {
+		const attributes = [
+			...new Set([...Object.keys(modifiers1), ...Object.keys(modifiers2)]),
+		];
+		return attributes.reduce((modifiers, attr) => {
+			modifiers[attr] =
+				Number(modifiers1[attr] ?? 0) + Number(modifiers2[attr] ?? 0);
+			return modifiers;
+		}, {});
 	}
 
 	static async _askIncreaseDamageWithMPCost(context = {}) {

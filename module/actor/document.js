@@ -6,7 +6,7 @@ import {
 	objectMap,
 } from '../../utils/index.js';
 import { ChatMessageMadness } from '../chat-message/index.js';
-import { CheckMadness } from '../system/check.js';
+import { CheckMadness } from '../system/check/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
@@ -632,15 +632,24 @@ class ActorMadness extends Actor {
 		this.update({ 'system.passives': this.system.passives });
 	}
 
-	async dodge(token) {
+	async dodge(token, options = {}) {
 		const context = {
 			actor: this,
 			rollType: 'dodge',
+			formulaAttributes: ['dodgeRate', 'critRate', 'critFailureRate'],
+			promptModifiers: options.promptModifiers,
 		};
 		const roll = (await CheckMadness.roll(context)).critOutcome;
 		if (!roll.isCritical) {
 			roll.result =
-				roll.roll.total > 100 - this.dodgeRate.total ? 'success' : 'failure';
+				roll.roll.total >
+				100 -
+					Math.min(
+						this.dodgeRate.total + (context.modifiers?.dodgeRate ?? 0),
+						80,
+					)
+					? 'success'
+					: 'failure';
 		}
 		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.dodgeRate.label)}${this.dodgeRate.label.toLowerCase()}`;
 		const flavor = createHTMLElement('h4', [title]).outerHTML;
@@ -662,12 +671,19 @@ class ActorMadness extends Actor {
 		return roll;
 	}
 
-	async parry(token) {
+	async parry(token, options = {}) {
 		const context = {
 			actor: this,
 			rollType: 'parry',
+			formulaAttributes: [
+				'parryDamageReduction',
+				'critRate',
+				'critFailureRate',
+			],
+			promptModifiers: options.promptModifiers,
 		};
 		const roll = (await CheckMadness.roll(context)).critOutcome;
+		if (context.modifiers) roll.modifiers = context.modifiers;
 		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.critRate.label)}${this.critRate.label.toLowerCase()}`;
 		const flavor = createHTMLElement('h4', [title]).outerHTML;
 		const templateData = {
@@ -692,7 +708,10 @@ class ActorMadness extends Actor {
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
 		const outcomeAfterParry = context?.parry
-			? this._applyParryDamageReduction(damage)
+			? this._applyParryDamageReduction(
+					damage,
+					context.modifiers?.parryDamageReduction,
+				)
 			: damage;
 		const outcomeAfterArmor = this._applyArmorDamageReduction(
 			outcomeAfterParry,
@@ -756,8 +775,11 @@ class ActorMadness extends Actor {
 		return { updates, totalApplied };
 	}
 
-	_applyParryDamageReduction(damage) {
-		const parryDamageReduction = this.parryDamageReduction.total ?? 0;
+	_applyParryDamageReduction(damage, modifier = 0) {
+		const parryDamageReduction = Math.min(
+			this.parryDamageReduction.total + modifier ?? 0,
+			80,
+		);
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 
