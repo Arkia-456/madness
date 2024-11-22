@@ -16,6 +16,7 @@ export const MadnessConfig = {
 		str: 'Madness.Attributes.Strength',
 		hp: 'Madness.Attributes.HitPoints',
 		mp: 'Madness.Attributes.ManaPoints',
+		critFailureRate: 'Madness.Attributes.CriticalFailureRate',
 		critRate: 'Madness.Attributes.CriticalRate',
 		dodgeRate: 'Madness.Attributes.DodgeRate',
 		initiative: 'Madness.Attributes.Initiative',
@@ -340,7 +341,7 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Bleed',
 			effects: [
 				{
-					name: 'dot',
+					type: 'damage',
 					applicationTime: 'end',
 					applicationType: 'turn',
 					bypassTempHP: true,
@@ -358,7 +359,9 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Burn',
 			effects: [
 				{
-					name: 'increaseDamageToHealth',
+					type: 'damage',
+					applicationType: 'health',
+					bypassTempHP: true,
 					value: 2,
 				},
 			],
@@ -373,7 +376,8 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Confusion',
 			effects: [
 				{
-					name: 'increaseCriticalFailureRate',
+					type: 'statModifier',
+					target: 'critFailureRate',
 					value: 20,
 				},
 			],
@@ -398,7 +402,8 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Down',
 			effects: [
 				{
-					name: 'preventDodge',
+					type: 'prevent',
+					target: 'dodge',
 				},
 			],
 			name: 'Madness.StatusEffect.Down',
@@ -411,7 +416,8 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Freeze',
 			effects: [
 				{
-					name: 'increaseMaxMoveDistance',
+					type: 'statModifier',
+					target: 'maxMoveDistance',
 					value: -2,
 				},
 			],
@@ -430,7 +436,8 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Poison',
 			effects: [
 				{
-					name: 'increasePrimaryAttribute',
+					type: 'statModifier',
+					target: 'primary',
 					value: -1,
 				},
 			],
@@ -469,10 +476,12 @@ export const MadnessConfig = {
 			],
 			effects: [
 				{
-					name: 'preventDodge',
+					type: 'prevent',
+					target: 'dodge',
 				},
 				{
-					name: 'preventParry',
+					type: 'prevent',
+					target: 'parry',
 				},
 			],
 			name: 'Madness.StatusEffect.Stun',

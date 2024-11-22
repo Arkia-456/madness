@@ -83,7 +83,7 @@ class CombatantMadness extends Combatant {
 
 	_applyDoT(actor, applicationTime) {
 		const filter = (e) =>
-			e.name === 'dot' &&
+			e.type === 'damage' &&
 			e.applicationType === 'turn' &&
 			e.applicationTime === applicationTime;
 		const dotEffects = actor.effects.reduce((arr, actorEffect) => {

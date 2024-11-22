@@ -90,7 +90,9 @@ class ActorMadness extends Actor {
 			return (
 				rate +
 				(effect.system.effects?.reduce((r, e) => {
-					return e.name === 'increaseCriticalFailureRate' ? r + e.value : r;
+					return e.type === 'statModifier' && e.target === 'critFailureRate'
+						? r + e.value
+						: r;
 				}, 0) ?? 0)
 			);
 		}, 0);
@@ -761,7 +763,11 @@ class ActorMadness extends Actor {
 					(effect.system.effects?.reduce((total, e) => {
 						const stacks = effect.system.stacks ?? 1;
 						const value = e.value * stacks;
-						return e.name === 'increaseDamageToHealth' ? total + value : total;
+						return e.type === 'damage' &&
+							e.applicationType === 'health' &&
+							e.bypassTempHP
+							? total + value
+							: total;
 					}, 0) ?? 0)
 				);
 			}, 0);
@@ -916,14 +922,18 @@ class ActorMadness extends Actor {
 
 	get parryEffects() {
 		const effects = this.effects.filter((statusEffect) =>
-			statusEffect.system.effects?.some((e) => e.name === 'preventParry'),
+			statusEffect.system.effects?.some(
+				(e) => e.type === 'prevent' && e.target === 'parry',
+			),
 		);
 		return { canParry: !effects.length, effects: effects };
 	}
 
 	get dodgeEffects() {
 		const effects = this.effects.filter((statusEffect) =>
-			statusEffect.system.effects?.some((e) => e.name === 'preventDodge'),
+			statusEffect.system.effects?.some(
+				(e) => e.type === 'prevent' && e.target === 'dodge',
+			),
 		);
 		return { canDodge: !effects.length, effects: effects };
 	}

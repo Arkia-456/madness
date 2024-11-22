@@ -1,4 +1,6 @@
 export class ActiveEffectMadness extends ActiveEffect {
+	static MODIFIABLE_SYSTEM_ENTRIES = ['attributes', 'secondaryAttributes'];
+
 	/**
 	 * Add some data to status effect system before creating an ActiveEffect instance
 	 * @param {string} statusId the status effect ID
@@ -21,36 +23,48 @@ export class ActiveEffectMadness extends ActiveEffect {
 		return super._fromStatusEffect(statusId, effectData, options);
 	}
 
+	get effects() {
+		return this.system.effects;
+	}
+
+	get slug() {
+		return this.system.slug;
+	}
+
+	get stackable() {
+		return this.system.stackable;
+	}
+
+	get stacks() {
+		return this.system.stacks;
+	}
+
+	/**
+	 * Prepare actor data from status effect
+	 */
 	prepareActorData() {
 		console.log(
-			`Madness system | Actor | ${this.parent.name} | ActiveEffect | ${this.name} | Preparing actor data...`,
+			`Madness system | Actor | ${this.parent.name} | ActiveEffect | ${this.slug} | Preparing actor data...`,
 		);
 		const actor = this.parent;
-		const stacks = this.system.stackable ? this.system.stacks : 1;
-		this.system.effects
-			?.filter((e) => e.name === 'increasePrimaryAttribute')
-			?.forEach((e) => {
-				const primaryAttributes = Object.keys(actor.system.attributes);
-				if (!e.attributes) {
-					primaryAttributes.forEach(
-						(attribute) =>
-							(actor.system.attributes[attribute].effects = stacks * e.value),
-					);
-				} else {
-					e.attributes.forEach(
-						(attribute) =>
-							(actor.system.attributes[attribute].effects = stacks * e.value),
-					);
+		const stacks = this.stackable ? this.stacks : 1;
+
+		this.effects?.forEach((e) => {
+			if (e.type !== 'statModifier') return;
+			const value = stacks * e.value;
+			if (e.target === 'primary') {
+				for (const attr in actor.system.attributes) {
+					actor.system.attributes[attr].effects = value;
 				}
-			});
-		this.system.effects
-			?.filter((e) => e.name === 'increaseMaxMoveDistance')
-			?.forEach((e) => {
-				actor.system.secondaryAttributes.maxMoveDistance.effects =
-					stacks * e.value;
-			});
-		console.log(
-			`Madness system | Actor | ${this.parent.name} ActiveEffect | ${this.name} | Actor data prepared ✅`,
-		);
+			} else {
+				for (const id of ActiveEffectMadness.MODIFIABLE_SYSTEM_ENTRIES) {
+					const target = actor.system[id]?.[e.target];
+					if (target) {
+						target.effects = value;
+						break;
+					}
+				}
+			}
+		});
 	}
 }
