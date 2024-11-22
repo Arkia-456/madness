@@ -65,7 +65,7 @@ class ActorSheetMadness extends ActorSheet {
 					passives: Object.values(i.system.passives).reduce((arr, p) => {
 						arr.push({
 							...p,
-							type: CONFIG.Madness.statusEffects.list[p.passive]
+							type: CONFIG.Madness.statusEffects[p.passive]
 								? 'immunity'
 								: 'modifier',
 						});
@@ -90,8 +90,9 @@ class ActorSheetMadness extends ActorSheet {
 				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
 		);
 		const statusImmunities = objectMap(
-			CONFIG.Madness.statusEffects.list,
-			(label, e) => `Madness.Passives.Immunity.${capitalizeFirstLetter(e)}`,
+			CONFIG.Madness.statusEffects,
+			(statusEffect, id) =>
+				`Madness.Passives.Immunity.${capitalizeFirstLetter(id)}`,
 		);
 		const otherPassives = Object.fromEntries(
 			['armor'].map((p) => [

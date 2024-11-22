@@ -1,4 +1,11 @@
 export class ActiveEffectMadness extends ActiveEffect {
+	/**
+	 * Add some data to status effect system before creating an ActiveEffect instance
+	 * @param {string} statusId the status effect ID
+	 * @param {ActiveEffectData} effectData the status effect data
+	 * @param {DocumentModificationContext} [options] additional options to pass to ActiveEffect instantiation
+	 * @returns {Promise<ActiveEffect>}
+	 */
 	static async _fromStatusEffect(statusId, effectData, options) {
 		effectData.system = {
 			stackable: effectData.stackable,
@@ -16,7 +23,7 @@ export class ActiveEffectMadness extends ActiveEffect {
 
 	prepareActorData() {
 		console.log(
-			`Madness system | Actor | ${this.parent.name} | Preparing actor data...`,
+			`Madness system | Actor | ${this.parent.name} | ActiveEffect | ${this.name} | Preparing actor data...`,
 		);
 		const actor = this.parent;
 		const stacks = this.system.stackable ? this.system.stacks : 1;
@@ -43,7 +50,7 @@ export class ActiveEffectMadness extends ActiveEffect {
 					stacks * e.value;
 			});
 		console.log(
-			`Madness system | Actor | ${this.parent.name} | Actor data prepared ✅`,
+			`Madness system | Actor | ${this.parent.name} ActiveEffect | ${this.name} | Actor data prepared ✅`,
 		);
 	}
 }

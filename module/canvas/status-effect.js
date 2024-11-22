@@ -1,50 +1,31 @@
 import { htmlQueryAll } from '../../utils/index.js';
 
 export class StatusEffects {
+	static EFFECT_CONTROL_CLASS = 'effect-control';
+	static ICONS_PATH = 'systems/madness/resources/icons/status-effects/';
+
+	/**
+	 * Initialize status effects by replacing Foundry VTT's
+	 */
 	static initialize() {
-		CONFIG.statusEffects = Object.entries(
-			CONFIG.Madness.statusEffects.list,
-		).map(([id, name]) => ({
-			id,
-			name,
-			img: `systems/madness/resources/icons/status-effects/${id}.png`,
-			effects: CONFIG.Madness.statusEffects[id]?.effects,
-			durations: CONFIG.Madness.statusEffects[id]?.durations,
-			slug: id,
-			stackable: CONFIG.Madness.statusEffects.stackableEffects.includes(id),
-		}));
-		CONFIG.statusEffects.push({
-			id: 'blind',
-			name: 'EFFECT.StatusBlind',
-			img: 'systems/madness/resources/icons/status-effects/blind.png',
-			slug: 'blind',
-		});
-		CONFIG.statusEffects.push({
-			id: 'burrow',
-			name: 'EFFECT.StatusBurrow',
-			img: 'systems/madness/resources/icons/status-effects/burrow.png',
-			slug: 'burrow',
-		});
-		CONFIG.statusEffects.push({
-			id: 'dead',
-			name: 'EFFECT.StatusDead',
-			img: 'systems/madness/resources/icons/status-effects/dead.png',
-			slug: 'dead',
-		});
-		CONFIG.statusEffects.push({
-			id: 'fly',
-			name: 'EFFECT.StatusFlying',
-			img: 'systems/madness/resources/icons/status-effects/fly.png',
-			slug: 'fly',
-		});
-		CONFIG.statusEffects.push({
-			id: 'invisible',
-			name: 'EFFECT.StatusInvisible',
-			img: 'systems/madness/resources/icons/status-effects/invisible.png',
-			slug: 'invisible',
-		});
+		CONFIG.statusEffects = Object.entries(CONFIG.Madness.statusEffects).map(
+			([id, statusEffect]) => ({
+				id: id,
+				name: statusEffect.name,
+				img: `${StatusEffects.ICONS_PATH}${id}.png`,
+				effects: statusEffect.effects,
+				durations: statusEffect.durations,
+				slug: id,
+				stackable: statusEffect.stackable,
+			}),
+		);
 	}
 
+	/**
+	 * Called during token HUD render
+	 * @param {HTMLElement} html token HUD HTML element
+	 * @param {TokenHUDData} tokenData token data
+	 */
 	static onRenderTokenHUD(html, tokenData) {
 		const token = canvas.tokens.get(tokenData._id);
 		if (!token) return;
@@ -54,48 +35,93 @@ export class StatusEffects {
 			throw new Error('Unexpected error retrieving status effects grid');
 		}
 
-		const statusIcons = iconGrid.querySelectorAll('.effect-control');
+		StatusEffects._replaceIcons(iconGrid, token);
+		StatusEffects._activateListeners(iconGrid);
+	}
+
+	/**
+	 * Wrap icons in div, activate active effects and set stacks badge
+	 * @param {HTMLElement} grid grid in which to replace icons
+	 * @param {Token} token current token
+	 */
+	static _replaceIcons(grid, token) {
+		const statusIcons = grid.querySelectorAll(
+			`.${StatusEffects.EFFECT_CONTROL_CLASS}`,
+		);
 		for (const icon of statusIcons) {
 			const statusId = icon.dataset.statusId;
-			const iconContainer = document.createElement('div');
-			iconContainer.classList.add('effect-control');
-			iconContainer.dataset.statusId = statusId;
-			iconContainer.title = icon.dataset.tooltip ?? '';
-			const newIcon = document.createElement('img');
-			newIcon.src = icon.getAttribute('src');
-			iconContainer.append(newIcon);
-			icon.replaceWith(iconContainer);
+
+			const newIcon = StatusEffects._replaceIcon(icon);
 
 			const affecting = token.actor.effects.find(
 				(e) => e.system.slug === statusId,
 			);
 			if (affecting) {
-				iconContainer.classList.add('active');
+				newIcon.classList.add('active');
 
 				const stacks = affecting.system.stacks;
 				if (stacks > 0) {
-					const badge = document.createElement('i');
-					badge.classList.add('badge');
-					badge.innerHTML = stacks;
-					iconContainer.append(badge);
+					StatusEffects._setIconBadge(newIcon, stacks);
 				}
 			}
 		}
-
-		StatusEffects._activateListeners(iconGrid);
 	}
 
-	static _activateListeners(html) {
-		htmlQueryAll(html, '.effect-control').forEach((control) => {
-			control.addEventListener('click', (event) =>
-				StatusEffects._setStatusValue(control, event),
-			);
-			control.addEventListener('contextmenu', (event) =>
-				StatusEffects._setStatusValue(control, event),
-			);
-		});
+	/**
+	 * Wrap and icon in a div
+	 * @param {HTMLElement} original original icon to replace
+	 * @returns div containing the icon
+	 */
+	static _replaceIcon(original) {
+		const statusId = original.dataset.statusId;
+
+		const iconContainer = document.createElement('div');
+		iconContainer.classList.add(StatusEffects.EFFECT_CONTROL_CLASS);
+		iconContainer.dataset.statusId = statusId;
+		iconContainer.title = original.dataset.tooltip ?? '';
+
+		const newIcon = document.createElement('img');
+		newIcon.src = original.getAttribute('src');
+
+		iconContainer.append(newIcon);
+		original.replaceWith(iconContainer);
+		return iconContainer;
 	}
 
+	/**
+	 * Add a badge to icon
+	 * @param {HTMLElement} icon icon to add the badge to
+	 * @param {string|number} value badge value
+	 */
+	static _setIconBadge(icon, value) {
+		const badge = document.createElement('i');
+		badge.classList.add('badge');
+		badge.innerHTML = value;
+		icon.append(badge);
+	}
+
+	/**
+	 * Activate event listeners which provide interactivity for the icons grid.
+	 * @param {HTMLElement} grid icons grid
+	 */
+	static _activateListeners(grid) {
+		htmlQueryAll(grid, `.${StatusEffects.EFFECT_CONTROL_CLASS}`).forEach(
+			(control) => {
+				control.addEventListener('click', (event) =>
+					StatusEffects._setStatusValue(control, event),
+				);
+				control.addEventListener('contextmenu', (event) =>
+					StatusEffects._setStatusValue(control, event),
+				);
+			},
+		);
+	}
+
+	/**
+	 * A click event handler to increase or decrease status effect
+	 * @param {HTMLElement} control
+	 * @param {MouseEvent} event
+	 */
 	static _setStatusValue(control, event) {
 		event.preventDefault();
 		event.stopPropagation();

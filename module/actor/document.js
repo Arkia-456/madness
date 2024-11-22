@@ -492,7 +492,7 @@ class ActorMadness extends Actor {
 			0,
 		);
 
-		const statusEffects = Object.keys(CONFIG.Madness.statusEffects.list);
+		const statusEffects = Object.keys(CONFIG.Madness.statusEffects);
 		Object.values(this.system.passives).forEach((p) => {
 			if (!p.active) return;
 

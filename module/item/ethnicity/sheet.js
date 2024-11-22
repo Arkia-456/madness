@@ -1,3 +1,4 @@
+import { objectMap } from '../../../utils/index.js';
 import { ItemSheetMadness } from '../index.js';
 
 class EthnicitySheetMadness extends ItemSheetMadness {
@@ -12,7 +13,10 @@ class EthnicitySheetMadness extends ItemSheetMadness {
 		return {
 			...(await super.getData(options)),
 			attributesLabels: CONFIG.Madness.attributes,
-			statusEffects: CONFIG.Madness.statusEffects.list,
+			statusEffects: objectMap(
+				CONFIG.Madness.statusEffects,
+				(statusEffect) => statusEffect.name,
+			),
 		};
 	}
 }

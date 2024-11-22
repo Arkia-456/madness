@@ -38,8 +38,9 @@ class ItemSheetMadness extends ItemSheet {
 				`Madness.Passives.Modifier.${capitalizeFirstLetter(attr)}`,
 		);
 		const statusImmunities = objectMap(
-			CONFIG.Madness.statusEffects.list,
-			(label, e) => `Madness.Passives.Immunity.${capitalizeFirstLetter(e)}`,
+			CONFIG.Madness.statusEffects,
+			(statusEffect, id) =>
+				`Madness.Passives.Immunity.${capitalizeFirstLetter(id)}`,
 		);
 		const otherPassives = Object.fromEntries(
 			['armor'].map((p) => [

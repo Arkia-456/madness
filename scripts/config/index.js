@@ -336,20 +336,6 @@ export const MadnessConfig = {
 	},
 	primaryAttributes: ['agi', 'con', 'dex', 'int', 'str'],
 	statusEffects: {
-		stackableEffects: ['bleed', 'burn', 'freeze', 'poison'],
-		list: {
-			bleed: 'Madness.StatusEffect.Bleed',
-			burn: 'Madness.StatusEffect.Burn',
-			cover: 'Madness.StatusEffect.Cover',
-			confusion: 'Madness.StatusEffect.Confusion',
-			down: 'Madness.StatusEffect.Down',
-			freeze: 'Madness.StatusEffect.Freeze',
-			overweight: 'Madness.StatusEffect.Overweight',
-			poison: 'Madness.StatusEffect.Poison',
-			shock: 'Madness.StatusEffect.Shock',
-			stun: 'Madness.StatusEffect.Stun',
-			void: 'Madness.StatusEffect.Void',
-		},
 		bleed: {
 			description: 'Madness.StatusEffect.Description.Bleed',
 			effects: [
@@ -361,6 +347,12 @@ export const MadnessConfig = {
 					value: 2,
 				},
 			],
+			name: 'Madness.StatusEffect.Bleed',
+			stackable: true,
+		},
+		blind: {
+			description: 'Madness.StatusEffect.Description.Blind',
+			name: 'EFFECT.StatusBlind',
 		},
 		burn: {
 			description: 'Madness.StatusEffect.Description.Burn',
@@ -370,6 +362,12 @@ export const MadnessConfig = {
 					value: 2,
 				},
 			],
+			name: 'Madness.StatusEffect.Burn',
+			stackable: true,
+		},
+		burrow: {
+			description: 'Madness.StatusEffect.Description.Burrow',
+			name: 'EFFECT.StatusBurrow',
 		},
 		confusion: {
 			description: 'Madness.StatusEffect.Description.Confusion',
@@ -386,6 +384,15 @@ export const MadnessConfig = {
 					applicationTime: 'end',
 				},
 			],
+			name: 'Madness.StatusEffect.Confusion',
+		},
+		cover: {
+			description: 'Madness.StatusEffect.Description.Cover',
+			name: 'Madness.StatusEffect.Cover',
+		},
+		dead: {
+			description: 'Madness.StatusEffect.Description.Dead',
+			name: 'EFFECT.StatusDead',
 		},
 		down: {
 			description: 'Madness.StatusEffect.Description.Down',
@@ -394,6 +401,11 @@ export const MadnessConfig = {
 					name: 'preventDodge',
 				},
 			],
+			name: 'Madness.StatusEffect.Down',
+		},
+		fly: {
+			description: 'Madness.StatusEffect.Description.Fly',
+			name: 'EFFECT.StatusFlying',
 		},
 		freeze: {
 			description: 'Madness.StatusEffect.Description.Freeze',
@@ -403,9 +415,16 @@ export const MadnessConfig = {
 					value: -2,
 				},
 			],
+			name: 'Madness.StatusEffect.Freeze',
+			stackable: true,
+		},
+		invisible: {
+			description: 'Madness.StatusEffect.Description.Invisible',
+			name: 'EFFECT.StatusInvisible',
 		},
 		overweight: {
 			description: 'Madness.StatusEffect.Description.Overweight',
+			name: 'Madness.StatusEffect.Overweight',
 		},
 		poison: {
 			description: 'Madness.StatusEffect.Description.Poison',
@@ -415,6 +434,8 @@ export const MadnessConfig = {
 					value: -1,
 				},
 			],
+			name: 'Madness.StatusEffect.Poison',
+			stackable: true,
 		},
 		shock: {
 			description: 'Madness.StatusEffect.Description.Shock',
@@ -430,6 +451,7 @@ export const MadnessConfig = {
 					applicationTime: 'end',
 				},
 			],
+			name: 'Madness.StatusEffect.Shock',
 		},
 		stun: {
 			description: 'Madness.StatusEffect.Description.Stun',
@@ -453,9 +475,11 @@ export const MadnessConfig = {
 					name: 'preventParry',
 				},
 			],
+			name: 'Madness.StatusEffect.Stun',
 		},
 		void: {
 			description: 'Madness.StatusEffect.Description.Void',
+			name: 'Madness.StatusEffect.Void',
 		},
 	},
 };

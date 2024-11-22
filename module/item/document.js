@@ -21,7 +21,7 @@ class ItemMadness extends Item {
 		const secondaryAttributes = Object.keys(CONFIG.Madness.formulas.attributes);
 		const magics = Object.keys(actor.system.magics);
 		const secondaryMagics = Object.keys(CONFIG.Madness.formulas.magics);
-		const statusEffects = Object.keys(CONFIG.Madness.statusEffects.list);
+		const statusEffects = Object.keys(CONFIG.Madness.statusEffects);
 
 		Object.values(this.system.passives).forEach((p) => {
 			if (!p.active) return;
