@@ -9,19 +9,38 @@ import { ChatMessageMadness } from '../chat-message/index.js';
 import { CheckMadness } from '../system/check/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
-class ActorMadness extends Actor {
-	get canUseMagic() {
-		return this.preventMagicUseEffects.length > 0;
+export class ActorMadness extends Actor {
+
+	/* ------------------------------- */
+	/*  Stats                          */
+	/* ------------------------------- */
+
+	get hitPoints() {
+		return this.system.hp;
 	}
 
-	get preventMagicUseEffects() {
-		return this.effects.filter((effect) =>
-			effect.system.effects?.some((e) => e.name === 'cantUseMagic'),
-		);
+	get currentMP() {
+		return this.system.mp.value;
 	}
 
 	get critRate() {
 		return this.system.secondaryAttributes?.critRate;
+	}
+
+	get criticalFailureRateMod() {
+		return Math.max(
+			0,
+			this.effects.reduce((rate, effect) => {
+				return (
+					rate +
+					(effect.system.effects?.reduce((r, e) => {
+						return e.type === 'statModifier' && e.target === 'critFailureRate'
+							? r + e.value
+							: r;
+					}, 0) ?? 0)
+				);
+			}, 0),
+		);
 	}
 
 	get dodgeRate() {
@@ -40,13 +59,9 @@ class ActorMadness extends Actor {
 		return objectMap(this.system.magics, (m) => m.total);
 	}
 
-	get currentMP() {
-		return this.system.mp.value;
-	}
-
-	get hitPoints() {
-		return this.system.hp;
-	}
+	/* ------------------------------- */
+	/*  Items                          */
+	/* ------------------------------- */
 
 	get equipments() {
 		return this.items.filter((i) => i.type === 'equipment');
@@ -64,8 +79,34 @@ class ActorMadness extends Actor {
 		return this.items.filter((i) => i.type === 'weapon');
 	}
 
-	get criticalFailureRateMod() {
-		return Math.max(0, this._getCriticalFailureModEffects());
+	/* ------------------------------- */
+	/*  Effects                        */
+	/* ------------------------------- */
+
+	get parryEffects() {
+		const effects = this.effects.filter((statusEffect) =>
+			statusEffect.system.effects?.some(
+				(e) => e.type === 'prevent' && e.target === 'parry',
+			),
+		);
+		return { canParry: !effects.length, effects: effects };
+	}
+
+	get dodgeEffects() {
+		const effects = this.effects.filter((statusEffect) =>
+			statusEffect.system.effects?.some(
+				(e) => e.type === 'prevent' && e.target === 'dodge',
+			),
+		);
+		return { canDodge: !effects.length, effects: effects };
+	}
+
+	/* ------------------------------- */
+	/*  Other                          */
+	/* ------------------------------- */
+
+	get canUseMagic() {
+		return this.preventMagicUseEffects.length > 0;
 	}
 
 	get firstUpdater() {
@@ -90,6 +131,12 @@ class ActorMadness extends Actor {
 		return firstUpdater ?? null;
 	}
 
+	get preventMagicUseEffects() {
+		return this.effects.filter((effect) =>
+			effect.system.effects?.some((e) => e.name === 'cantUseMagic'),
+		);
+	}
+
 	get weight() {
 		return this.items.reduce((weight, i) => {
 			if (i.system.weight) weight += Number(i.system.weight);
@@ -103,18 +150,9 @@ class ActorMadness extends Actor {
 		);
 	}
 
-	_getCriticalFailureModEffects() {
-		return this.effects.reduce((rate, effect) => {
-			return (
-				rate +
-				(effect.system.effects?.reduce((r, e) => {
-					return e.type === 'statModifier' && e.target === 'critFailureRate'
-						? r + e.value
-						: r;
-				}, 0) ?? 0)
-			);
-		}, 0);
-	}
+	/* ------------------------------- */
+	/*  Static methods                 */
+	/* ------------------------------- */
 
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
@@ -136,6 +174,10 @@ class ActorMadness extends Actor {
 			attribute: 'mp',
 		};
 	}
+
+	/* ------------------------------- */
+	/*  Data preparation               */
+	/* ------------------------------- */
 
 	prepareData() {
 		console.log(`Madness system | Actor | ${this.name} | Preparing data...`);
@@ -526,6 +568,42 @@ class ActorMadness extends Actor {
 		);
 	}
 
+	prepareEmbeddedDocuments() {
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing embedded documents...`,
+		);
+		super.prepareEmbeddedDocuments();
+		this.prepareDataFromItems();
+		this.prepareDataFromEffects();
+		console.log(
+			`Madness system | Actor | ${this.name} | Embedded documents prepared ✅`,
+		);
+	}
+
+	prepareDataFromItems() {
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing data from items...`,
+		);
+		for (const item of this.items) {
+			item.prepareActorData?.();
+		}
+		console.log(
+			`Madness system | Actor | ${this.name} | Data from items prepared ✅`,
+		);
+	}
+
+	prepareDataFromEffects() {
+		console.log(
+			`Madness system | Actor | ${this.name} | Preparing data from effects...`,
+		);
+		for (const effect of this.effects) {
+			effect.prepareActorData?.();
+		}
+		console.log(
+			`Madness system | Actor | ${this.name} | Data from items effects ✅`,
+		);
+	}
+
 	generateAttributeModifier(key, type) {
 		const mod = this.system.attributes[key][type];
 		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
@@ -569,6 +647,10 @@ class ActorMadness extends Actor {
 		);
 	}
 
+	/* ------------------------------- */
+	/*  Methods                        */
+	/* ------------------------------- */
+
 	updateAttributes(attributes) {
 		Object.entries(attributes).forEach(([key, value]) => {
 			this.system.attributes[key].value = value;
@@ -583,42 +665,6 @@ class ActorMadness extends Actor {
 		this.update({ 'system.magics': this.system.magics });
 	}
 
-	prepareEmbeddedDocuments() {
-		console.log(
-			`Madness system | Actor | ${this.name} | Preparing embedded documents...`,
-		);
-		super.prepareEmbeddedDocuments();
-		this.prepareDataFromItems();
-		this.prepareDataFromEffects();
-		console.log(
-			`Madness system | Actor | ${this.name} | Embedded documents prepared ✅`,
-		);
-	}
-
-	prepareDataFromItems() {
-		console.log(
-			`Madness system | Actor | ${this.name} | Preparing data from items...`,
-		);
-		for (const item of this.items) {
-			item.prepareActorData?.();
-		}
-		console.log(
-			`Madness system | Actor | ${this.name} | Data from items prepared ✅`,
-		);
-	}
-
-	prepareDataFromEffects() {
-		console.log(
-			`Madness system | Actor | ${this.name} | Preparing data from effects...`,
-		);
-		for (const effect of this.effects) {
-			effect.prepareActorData?.();
-		}
-		console.log(
-			`Madness system | Actor | ${this.name} | Data from items effects ✅`,
-		);
-	}
-
 	getAttribute(attr) {
 		return this.system.attributes[attr];
 	}
@@ -627,10 +673,44 @@ class ActorMadness extends Actor {
 		return this.system.secondaryAttributes[attr];
 	}
 
-	regenMP() {
-		const manaRegen = this.system.secondaryAttributes.manaRegen.total;
-		this.addMP(manaRegen);
+	async checkWeight() {
+		const isOverweight = this.overweight;
+		await this.toggleStatusEffect('overweight', { active: isOverweight });
+		return !isOverweight;
 	}
+
+	checkWeightWithNewItem(item) {
+		let newWeight = this.weapons.reduce(
+			(weight, w) => (weight += Number(w.system.weight)),
+			Number(item.system.weight),
+		);
+		newWeight += this.equipments.reduce((weight, e) => {
+			return item.type === 'equipment' && e.system.slot === item.system.slot
+				? weight
+				: (weight += Number(e.system.weight));
+		}, 0);
+		return (
+			newWeight <= this.system.secondaryAttributes.maxEquipmentWeight.total
+		);
+	}
+
+	checkWeaponSlots() {
+		return (
+			this.system.secondaryAttributes.inventoryMaxSlots.total >
+			this.weapons.length
+		);
+	}
+
+	createPassive() {
+		const data = { name: null, passive: null, strength: null };
+		const id = foundry.utils.randomID(16);
+		this.system.passives[id] = data;
+		this.update({ 'system.passives': this.system.passives });
+	}
+
+	/* ------------------------------- */
+	/*  MP                             */
+	/* ------------------------------- */
 
 	addMP(mp) {
 		this.update({
@@ -641,15 +721,63 @@ class ActorMadness extends Actor {
 		});
 	}
 
+	checkMP(value) {
+		if (isNaN(value)) throw new Error('Invalid value');
+		return this.currentMP >= value;
+	}
+
+	regenMP() {
+		const manaRegen = this.system.secondaryAttributes.manaRegen.total;
+		this.addMP(manaRegen);
+	}
+
 	removeMP(mp) {
 		this.update({ 'system.mp.value': Math.max(0, this.system.mp.value - mp) });
 	}
 
-	createPassive() {
-		const data = { name: null, passive: null, strength: null };
-		const id = foundry.utils.randomID(16);
-		this.system.passives[id] = data;
-		this.update({ 'system.passives': this.system.passives });
+	/* ------------------------------- */
+	/*  HP                             */
+	/* ------------------------------- */
+
+	addTempHP(value) {
+		if (!value) return;
+		const hitPoints = this.hitPoints;
+		if (!hitPoints) return;
+		if (hitPoints.temp >= value) return;
+		this.update({ 'system.hp.temp': value });
+	}
+
+	/* ------------------------------- */
+	/*  Combat                         */
+	/* ------------------------------- */
+
+	applyDamage(damage = 0, context = {}) {
+		const hitPoints = this.hitPoints;
+		if (!hitPoints) return;
+		const outcomeAfterParry = context?.parry
+			? this._applyParryDamageReduction(
+					damage,
+					context.modifiers?.parryDamageReduction,
+				)
+			: damage;
+		const outcomeAfterArmor = this._applyArmorDamageReduction(
+			outcomeAfterParry,
+			context.passives,
+		);
+		context.passives.forEach((p) => {
+			if (p.slug && CONFIG.statusEffects.some((e) => e.id === p.slug)) {
+				this.increaseStatusEffect(p.slug);
+			}
+		});
+		const damageResult = this._calculateHealthDelta(
+			hitPoints,
+			outcomeAfterArmor,
+			context,
+		);
+		if (damageResult.totalApplied !== 0) {
+			this.update(damageResult.updates);
+		}
+		return damageResult.totalApplied;
 	}
 
 	async dodge(token, options = {}) {
@@ -724,35 +852,6 @@ class ActorMadness extends Actor {
 		return roll;
 	}
 
-	applyDamage(damage = 0, context = {}) {
-		const hitPoints = this.hitPoints;
-		if (!hitPoints) return;
-		const outcomeAfterParry = context?.parry
-			? this._applyParryDamageReduction(
-					damage,
-					context.modifiers?.parryDamageReduction,
-				)
-			: damage;
-		const outcomeAfterArmor = this._applyArmorDamageReduction(
-			outcomeAfterParry,
-			context.passives,
-		);
-		context.passives.forEach((p) => {
-			if (p.slug && CONFIG.statusEffects.some((e) => e.id === p.slug)) {
-				this.increaseStatusEffect(p.slug);
-			}
-		});
-		const damageResult = this._calculateHealthDelta(
-			hitPoints,
-			outcomeAfterArmor,
-			context,
-		);
-		if (damageResult.totalApplied !== 0) {
-			this.update(damageResult.updates);
-		}
-		return damageResult.totalApplied;
-	}
-
 	_calculateHealthDelta(hp, delta, context) {
 		const updates = {};
 		if (hp.max === 0) return { updates, totalApplied: 0 };
@@ -814,41 +913,9 @@ class ActorMadness extends Actor {
 		return damage > 0 ? Math.max(1, damage - this.system.armor.total) : damage;
 	}
 
-	addTempHP(value) {
-		if (!value) return;
-		const hitPoints = this.hitPoints;
-		if (!hitPoints) return;
-		if (hitPoints.temp >= value) return;
-		this.update({ 'system.hp.temp': value });
-	}
-
-	async checkWeight() {
-		const isOverweight = this.overweight;
-		await this.toggleStatusEffect('overweight', { active: isOverweight });
-		return !isOverweight;
-	}
-
-	checkWeightWithNewItem(item) {
-		let newWeight = this.weapons.reduce(
-			(weight, w) => (weight += Number(w.system.weight)),
-			Number(item.system.weight),
-		);
-		newWeight += this.equipments.reduce((weight, e) => {
-			return item.type === 'equipment' && e.system.slot === item.system.slot
-				? weight
-				: (weight += Number(e.system.weight));
-		}, 0);
-		return (
-			newWeight <= this.system.secondaryAttributes.maxEquipmentWeight.total
-		);
-	}
-
-	checkWeaponSlots() {
-		return (
-			this.system.secondaryAttributes.inventoryMaxSlots.total >
-			this.weapons.length
-		);
-	}
+	/* ------------------------------- */
+	/*  Status effects                 */
+	/* ------------------------------- */
 
 	async decreaseStatusEffect(statusId) {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
@@ -932,29 +999,4 @@ class ActorMadness extends Actor {
 			['system.durations']: durations,
 		});
 	}
-
-	checkMP(value) {
-		if (isNaN(value)) throw new Error('Invalid value');
-		return this.currentMP >= value;
-	}
-
-	get parryEffects() {
-		const effects = this.effects.filter((statusEffect) =>
-			statusEffect.system.effects?.some(
-				(e) => e.type === 'prevent' && e.target === 'parry',
-			),
-		);
-		return { canParry: !effects.length, effects: effects };
-	}
-
-	get dodgeEffects() {
-		const effects = this.effects.filter((statusEffect) =>
-			statusEffect.system.effects?.some(
-				(e) => e.type === 'prevent' && e.target === 'dodge',
-			),
-		);
-		return { canDodge: !effects.length, effects: effects };
-	}
 }
-
-export { ActorMadness };
