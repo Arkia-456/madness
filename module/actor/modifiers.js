@@ -47,13 +47,6 @@ export class Attribute {
 		);
 	}
 
-	generateTooltip(html, template, querySelector) {
-		new Tooltip({ rendered: template, item: this }).appendTo(
-			html,
-			querySelector,
-		);
-	}
-
 	async roll(rollFormula = '1d@value') {
 		const rollData = { value: this.total };
 		const roll = await new Roll(rollFormula, rollData).roll();

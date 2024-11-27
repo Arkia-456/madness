@@ -10,6 +10,16 @@ import { CheckMadness } from '../system/check/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 class ActorMadness extends Actor {
+	get canUseMagic() {
+		return this.preventMagicUseEffects.length > 0;
+	}
+
+	get preventMagicUseEffects() {
+		return this.effects.filter((effect) =>
+			effect.system.effects?.some((e) => e.name === 'cantUseMagic'),
+		);
+	}
+
 	get critRate() {
 		return this.system.secondaryAttributes?.critRate;
 	}
@@ -40,6 +50,14 @@ class ActorMadness extends Actor {
 
 	get equipments() {
 		return this.items.filter((i) => i.type === 'equipment');
+	}
+
+	get genericItems() {
+		return this.items.filter((i) => i.type === 'generic');
+	}
+
+	get spells() {
+		return this.items.filter((i) => i.type === 'spell');
 	}
 
 	get weapons() {

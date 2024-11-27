@@ -10,10 +10,11 @@ export class EditAttributesPopup extends FormApplication {
 	}
 
 	getData(options) {
-		const sheetData = super.getData(options);
-		sheetData.system = this.object.system;
-		sheetData.attributesLabels = CONFIG.Madness.attributes;
-		return sheetData;
+		return {
+			...super.getData(options),
+			attributesLabels: CONFIG.Madness.attributes,
+			system: this.object.system,
+		};
 	}
 
 	async _updateObject(_event, formData) {

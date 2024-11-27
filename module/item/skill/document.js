@@ -130,10 +130,6 @@ class SkillMadness extends ItemMadness {
 		}
 	}
 
-	generateTooltip(html, templatePath, querySelector) {
-		new Tooltip({ templatePath, item: this }).appendTo(html, querySelector);
-	}
-
 	updateItems(items) {
 		return this.update({ 'system.items': items });
 	}

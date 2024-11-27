@@ -5,6 +5,15 @@ export default class Tooltip {
 		this.rendered = rendered;
 	}
 
+	static generate(
+		item,
+		{ templatePath = '', rendered = '' } = {},
+		html,
+		querySelector,
+	) {
+		new this({ templatePath, rendered, item }).appendTo(html, querySelector);
+	}
+
 	async appendTo(html, querySelector) {
 		if (!this.rendered) {
 			await this.render();
