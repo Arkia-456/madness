@@ -890,7 +890,7 @@ export class ActorMadness extends Actor {
 		});
 		const damageResult = this._calculateHealthDelta(
 			hitPoints,
-			outcomeAfterArmor,
+			Math.max(1, outcomeAfterArmor),
 			context,
 		);
 		if (damageResult.totalApplied !== 0) {
@@ -1025,11 +1025,11 @@ export class ActorMadness extends Actor {
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 
-	_applyArmorDamageReduction(damage, passives = []) {
-		if (passives.some((p) => p.name === 'ignoreArmor')) {
+	_applyArmorDamageReduction(damage, incomingPassives = []) {
+		if (incomingPassives.some((p) => p.name === 'ignoreArmor')) {
 			return damage;
 		}
-		return damage > 0 ? Math.max(1, damage - this.system.armor.total) : damage;
+		return Math.max(0, damage - this.system.armor.total);
 	}
 
 	/* ------------------------------- */
