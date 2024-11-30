@@ -935,7 +935,7 @@ export class ActorMadness extends Actor {
 			? CONFIG.Madness.default.minimumDamage
 			: damage;
 		context.passives.forEach((p) => {
-			if (p.slug && CONFIG.statusEffects.some((e) => e.id === p.slug)) {
+			if (p.slug && CONFIG.Madness.statusEffects[p.slug]?.target !== 'self') {
 				this.increaseStatusEffect(p.slug);
 			}
 		});

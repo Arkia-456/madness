@@ -52,6 +52,17 @@ class SkillMadness extends ItemMadness {
 		return this.getPassiveModifier('increaseRange');
 	}
 
+	get statusEffects() {
+		return Object.values(this.system.items ?? []).reduce((arr, itemEffect) => {
+			const statusEffectSlug = itemEffect.system.statusEffect;
+			if (statusEffectSlug) {
+				const statusEffect = CONFIG.Madness.statusEffects[statusEffectSlug];
+				if (statusEffect) arr.push({ slug: statusEffectSlug, ...statusEffect });
+			}
+			return arr;
+		}, []);
+	}
+
 	get parryEffects() {
 		const effects = Object.values(this.system.items ?? []).filter(
 			(itemEffect) => {
@@ -134,15 +145,21 @@ class SkillMadness extends ItemMadness {
 		return this.update({ 'system.items': items });
 	}
 
-	applyEffects(actor = this.actor) {
+	async applyEffects(actor = this.actor) {
 		if (this.passives.some((p) => p.name === 'removeStatusEffects')) {
 			const actorStatusEffects = actor.effects;
 			if (actorStatusEffects) {
-				return actor.toggleStatusEffects(
+				await actor.toggleStatusEffects(
 					actorStatusEffects.map((e) => e.system.slug),
 				);
 			}
 		}
+		await actor.toggleStatusEffects(
+			this.statusEffects.reduce((effects, statusEffect) => {
+				if (statusEffect.target === 'self') effects.push(statusEffect.slug);
+				return effects;
+			}, []),
+		);
 	}
 
 	async applyBuffs(actor = this.actor) {

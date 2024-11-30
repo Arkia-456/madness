@@ -490,6 +490,7 @@ export const MadnessConfig = {
 		void: {
 			description: 'Madness.StatusEffect.Description.Void',
 			name: 'Madness.StatusEffect.Void',
+			target: 'self',
 		},
 	},
 };
