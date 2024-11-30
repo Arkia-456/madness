@@ -29,6 +29,7 @@ export const MadnessConfig = {
 	},
 	default: {
 		criticalFailureRate: 5,
+		minimumDamage: 1,
 		rollFormula: '1d100',
 		weaponMaxSlots: 3,
 	},

@@ -931,6 +931,9 @@ export class ActorMadness extends Actor {
 			outcomeAfterParry,
 			context.passives,
 		);
+		const minimumDamage = damage
+			? CONFIG.Madness.default.minimumDamage
+			: damage;
 		context.passives.forEach((p) => {
 			if (p.slug && CONFIG.statusEffects.some((e) => e.id === p.slug)) {
 				this.increaseStatusEffect(p.slug);
@@ -938,7 +941,7 @@ export class ActorMadness extends Actor {
 		});
 		const damageResult = this._calculateHealthDelta(
 			hitPoints,
-			Math.max(1, outcomeAfterArmor),
+			Math.max(minimumDamage, outcomeAfterArmor),
 			context,
 		);
 		if (damageResult.totalApplied !== 0) {
