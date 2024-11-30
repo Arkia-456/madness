@@ -306,7 +306,7 @@ export class ActorMadness extends Actor {
 	 */
 	_prepareArmor() {
 		const armorModifiers = [
-			this.generateModifier(
+			this._generateModifier(
 				this.equipments.reduce(
 					(armor, e) => (armor += Number(e.system.armor)),
 					0,
@@ -314,7 +314,7 @@ export class ActorMadness extends Actor {
 				'Armor',
 				'equipments',
 			),
-			this.generateModifier(
+			this._generateModifier(
 				this.weapons.reduce(
 					(armor, w) =>
 						(armor += Number(w.getPassiveModifier('increaseArmor'))),
@@ -328,7 +328,7 @@ export class ActorMadness extends Actor {
 		const armor = this.system.armor;
 		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 			if (armor[type]) {
-				armorModifiers.push(this.generateArmorModifier(type));
+				armorModifiers.push(this._generateArmorModifier(type));
 			}
 		});
 
@@ -337,7 +337,7 @@ export class ActorMadness extends Actor {
 
 			if (p.passive === 'armor') {
 				armorModifiers.push(
-					this.generateModifier(
+					this._generateModifier(
 						p.strength,
 						capitalizeFirstLetter(p.passive),
 						'personalPassives',
@@ -375,7 +375,7 @@ export class ActorMadness extends Actor {
 			const modifiers = [];
 			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 				if (value[type]) {
-					modifiers.push(this.generateAttributeModifier(key, type));
+					modifiers.push(this._generateAttributeModifier(key, type));
 				}
 			});
 
@@ -384,7 +384,7 @@ export class ActorMadness extends Actor {
 
 				if (p.passive === key) {
 					modifiers.push(
-						this.generateModifier(
+						this._generateModifier(
 							p.strength,
 							capitalizeFirstLetter(p.passive),
 							'personalPassives',
@@ -411,7 +411,7 @@ export class ActorMadness extends Actor {
 		const hpModifiers = [];
 		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 			if (hitPoints[type]) {
-				hpModifiers.push(this.generateHPModifier(type));
+				hpModifiers.push(this._generateHPModifier(type));
 			}
 		});
 
@@ -420,7 +420,7 @@ export class ActorMadness extends Actor {
 
 			if (p.passive === 'hp') {
 				hpModifiers.push(
-					this.generateModifier(
+					this._generateModifier(
 						p.strength,
 						p.passive.toUpperCase(),
 						'personalPassives',
@@ -482,7 +482,7 @@ export class ActorMadness extends Actor {
 			const modifiers = [];
 			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 				if (value[type]) {
-					modifiers.push(this.generateMagicModifier(key, type));
+					modifiers.push(this._generateMagicModifier(key, type));
 				}
 			});
 
@@ -491,7 +491,7 @@ export class ActorMadness extends Actor {
 
 				if (p.passive === key) {
 					modifiers.push(
-						this.generateModifier(
+						this._generateModifier(
 							p.strength,
 							capitalizeFirstLetter(p.passive),
 							'personalPassives',
@@ -522,7 +522,7 @@ export class ActorMadness extends Actor {
 		const mpModifiers = [];
 		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 			if (manaPoints[type]) {
-				mpModifiers.push(this.generateMPModifier(type));
+				mpModifiers.push(this._generateMPModifier(type));
 			}
 		});
 
@@ -531,7 +531,7 @@ export class ActorMadness extends Actor {
 
 			if (p.passive === 'mp') {
 				mpModifiers.push(
-					this.generateModifier(
+					this._generateModifier(
 						p.strength,
 						p.passive.toUpperCase(),
 						'personalPassives',
@@ -572,7 +572,7 @@ export class ActorMadness extends Actor {
 				const modifiers = [];
 				ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 					if (this.system.secondaryAttributes[key]?.[type]) {
-						modifiers.push(this.generateSecondaryAttributeModifier(key, type));
+						modifiers.push(this._generateSecondaryAttributeModifier(key, type));
 					}
 				});
 
@@ -581,7 +581,7 @@ export class ActorMadness extends Actor {
 
 					if (p.passive === key) {
 						modifiers.push(
-							this.generateModifier(
+							this._generateModifier(
 								p.strength,
 								capitalizeFirstLetter(p.passive),
 								'personalPassives',
@@ -617,7 +617,7 @@ export class ActorMadness extends Actor {
 			const modifiers = [];
 			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 				if (this.system.secondaryMagics[key]?.[type]) {
-					modifiers.push(this.generateSecondaryMagicModifier(key, type));
+					modifiers.push(this._generateSecondaryMagicModifier(key, type));
 				}
 			});
 
@@ -626,7 +626,7 @@ export class ActorMadness extends Actor {
 
 				if (p.passive === key) {
 					modifiers.push(
-						this.generateModifier(
+						this._generateModifier(
 							p.strength,
 							capitalizeFirstLetter(p.passive),
 							'personalPassives',
@@ -707,42 +707,42 @@ export class ActorMadness extends Actor {
 		}
 	}
 
-	generateAttributeModifier(key, type) {
+	_generateAttributeModifier(key, type) {
 		const mod = this.system.attributes[key][type];
-		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+		return this._generateModifier(mod, capitalizeFirstLetter(key), type);
 	}
 
-	generateHPModifier(type) {
+	_generateHPModifier(type) {
 		const mod = this.system.hp[type];
-		return this.generateModifier(mod, 'HP', type);
+		return this._generateModifier(mod, 'HP', type);
 	}
 
-	generateSecondaryAttributeModifier(key, type) {
+	_generateSecondaryAttributeModifier(key, type) {
 		const mod = this.system.secondaryAttributes[key][type];
-		return this.generateModifier(mod, key, type);
+		return this._generateModifier(mod, key, type);
 	}
 
-	generateMagicModifier(key, type) {
+	_generateMagicModifier(key, type) {
 		const mod = this.system.magics[key][type];
-		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+		return this._generateModifier(mod, capitalizeFirstLetter(key), type);
 	}
 
-	generateSecondaryMagicModifier(key, type) {
+	_generateSecondaryMagicModifier(key, type) {
 		const mod = this.system.secondaryMagics[key][type];
-		return this.generateModifier(mod, capitalizeFirstLetter(key), type);
+		return this._generateModifier(mod, capitalizeFirstLetter(key), type);
 	}
 
-	generateMPModifier(type) {
+	_generateMPModifier(type) {
 		const mod = this.system.mp[type];
-		return this.generateModifier(mod, 'MP', type);
+		return this._generateModifier(mod, 'MP', type);
 	}
 
-	generateArmorModifier(type) {
+	_generateArmorModifier(type) {
 		const mod = this.system.armor[type];
-		return this.generateModifier(mod, 'Armor', type);
+		return this._generateModifier(mod, 'Armor', type);
 	}
 
-	generateModifier(mod, key, type) {
+	_generateModifier(mod, key, type) {
 		return new ModifierMadness(
 			`Madness.${capitalizeFirstLetter(type)}${key}`,
 			capitalizeFirstLetter(type),
