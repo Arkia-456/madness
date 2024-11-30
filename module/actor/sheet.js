@@ -1,10 +1,13 @@
 import {
 	capitalizeFirstLetter,
+	createHTMLElement,
 	displayWarning,
+	elide,
 	fontAwesomeIcon,
 	objectMap,
 	uncapitalizeFirstLetter,
 } from '../../utils/index.js';
+import { ChatMessageMadness } from '../chat-message/document.js';
 import Tooltip from '../system/tooltip.js';
 import { EditAttributesPopup } from './popups/edit-attributes-popup.js';
 import { EditMagicsPopup } from './popups/edit-magics-popup.js';
@@ -421,17 +424,41 @@ class ActorSheetMadness extends ActorSheet {
 		}
 	}
 
-	_onClickRollAttribute(anchor) {
-		let id = anchor.closest('[data-attribute]')?.dataset.attribute;
-		if (id) {
-			this.actor.getAttribute(id)?.roll();
-		} else {
-			id = anchor.closest('[data-secondary-attribute]')?.dataset
-				.secondaryAttribute;
-			this.actor
-				.getSecondaryAttribute(id)
-				?.roll(CONFIG.Madness.formulas.rolls[id]);
+	async _onClickRollAttribute(anchor) {
+		const primaryAttributeAnchor = anchor.closest('[data-attribute]');
+		const id = primaryAttributeAnchor
+			? primaryAttributeAnchor.dataset.attribute
+			: anchor.closest('[data-secondary-attribute]')?.dataset
+					.secondaryAttribute;
+		const { label, roll: rollPromise } = primaryAttributeAnchor
+			? this._rollPrimaryAttribute(id)
+			: this._rollSecondaryAttribute(id);
+
+		const roll = await rollPromise;
+		if (roll) {
+			const speaker = ChatMessageMadness.getSpeaker({
+				actor: this.actor,
+				token: this.actor.getActiveTokens(true, true)[0],
+			});
+			const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), label)}${label.toLowerCase()}`;
+			const flavor = createHTMLElement('h4', [title]).outerHTML;
+			roll.toMessage({ speaker, flavor });
 		}
+	}
+
+	_rollPrimaryAttribute(id) {
+		const attribute = this.actor.getAttribute(id);
+		if (!attribute) throw new Error(`No attribute with id ${id}`);
+		return { label: attribute.label, roll: attribute.roll() };
+	}
+
+	_rollSecondaryAttribute(id) {
+		const attribute = this.actor.getSecondaryAttribute(id);
+		if (!attribute) throw new Error(`No secondary attribute with id ${id}`);
+		return {
+			label: attribute.label,
+			roll: attribute.roll(CONFIG.Madness.formulas.rolls[id]),
+		};
 	}
 
 	/**

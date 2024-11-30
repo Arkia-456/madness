@@ -1,7 +1,3 @@
-import { createHTMLElement, elide } from '../../utils/index.js';
-import { ChatMessageMadness } from '../chat-message/index.js';
-import Tooltip from '../system/tooltip.js';
-
 export class ModifierMadness {
 	constructor(...args) {
 		const params = {
@@ -47,16 +43,8 @@ export class Attribute {
 		);
 	}
 
-	async roll(rollFormula = '1d@value') {
+	roll(rollFormula = '1d@value') {
 		const rollData = { value: this.total };
-		const roll = await new Roll(rollFormula, rollData).roll();
-		const token = this.actor.getActiveTokens(true, true)[0];
-		const speaker = ChatMessageMadness.getSpeaker({
-			actor: this.actor,
-			token: token,
-		});
-		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.label)}${this.label.toLowerCase()}`;
-		const flavor = createHTMLElement('h4', [title]).outerHTML;
-		return roll.toMessage({ speaker, flavor });
+		return new Roll(rollFormula, rollData).roll();
 	}
 }
