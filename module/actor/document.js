@@ -151,10 +151,29 @@ export class ActorMadness extends Actor {
 		);
 	}
 
+	/**
+	 * Get an attribute by its slug
+	 * @param {string} slug attribute slug
+	 * @returns {Attribute}
+	 */
+	getAttribute(slug) {
+		return this.system.attributes[slug];
+	}
+
+	/**
+	 * Get a secondary attribute by its slug
+	 * @param {string} slug attribute slug
+	 * @returns {Attribute}
+	 */
+	getSecondaryAttribute(slug) {
+		return this.system.secondaryAttributes[slug];
+	}
+
 	/* ------------------------------- */
 	/*  Static methods                 */
 	/* ------------------------------- */
 
+	/** @inheritdoc */
 	static async createDocuments(data, operation) {
 		const sources = data.map((d) =>
 			d instanceof ActorMadness ? d.toObject() : d,
@@ -164,6 +183,10 @@ export class ActorMadness extends Actor {
 		return super.createDocuments(sources, operation);
 	}
 
+	/**
+	 * Prepare default prototype token data
+	 * @param {object} source document data
+	 */
 	static _preparePrototypeToken(source) {
 		const merged = foundry.utils.mergeObject(source, { prototypeToken: {} });
 		merged.prototypeToken.actorLink = source.type === 'character';
@@ -180,6 +203,11 @@ export class ActorMadness extends Actor {
 	/*  Checks                         */
 	/* ------------------------------- */
 
+	/**
+	 * Check if actor is immuned to status effect
+	 * @param {string} statusId status effect ID
+	 * @returns {boolean} `true` if actor is immuned, `false` otherwise
+	 */
 	isImmune(statusId) {
 		return this.system.immunities.includes(statusId);
 	}
@@ -754,6 +782,10 @@ export class ActorMadness extends Actor {
 	/*  Methods                        */
 	/* ------------------------------- */
 
+	/**
+	 * Update actor attributes
+	 * @param {object} attributes attributes to update, attribute's slug as key
+	 */
 	updateAttributes(attributes) {
 		Object.entries(attributes).forEach(([key, value]) => {
 			this.system.attributes[key].value = value;
@@ -761,6 +793,10 @@ export class ActorMadness extends Actor {
 		this.update({ 'system.attributes': this.system.attributes });
 	}
 
+	/**
+	 * Update actor magics
+	 * @param {object} magics magics to update, magic's slug as key
+	 */
 	updateMagics(magics) {
 		Object.entries(magics).forEach(([key, value]) => {
 			this.system.magics[key].value = value;
@@ -768,20 +804,21 @@ export class ActorMadness extends Actor {
 		this.update({ 'system.magics': this.system.magics });
 	}
 
-	getAttribute(attr) {
-		return this.system.attributes[attr];
-	}
-
-	getSecondaryAttribute(attr) {
-		return this.system.secondaryAttributes[attr];
-	}
-
+	/**
+	 * Check actor's weight, toggle status effect on if overweight, off otherwise
+	 * @returns {boolean} `true` if actor isn't overweight, `false` otherwise
+	 */
 	async checkWeight() {
 		const isOverweight = this.overweight;
 		await this.toggleStatusEffect('overweight', { active: isOverweight });
 		return !isOverweight;
 	}
 
+	/**
+	 * Check actor's weight with new item
+	 * @param {ItemMadness} item new item added to actor
+	 * @returns {boolean} `true` if actor isn't overweight, `false` otherwise
+	 */
 	checkWeightWithNewItem(item) {
 		let newWeight = this.weapons.reduce(
 			(weight, w) => (weight += Number(w.system.weight)),
@@ -797,6 +834,10 @@ export class ActorMadness extends Actor {
 		);
 	}
 
+	/**
+	 * Check actor's weapon slots
+	 * @returns {boolean} `true` if remaining available slots, `false` otherwise
+	 */
 	checkWeaponSlots() {
 		return (
 			this.system.secondaryAttributes.inventoryMaxSlots.total >
@@ -804,6 +845,9 @@ export class ActorMadness extends Actor {
 		);
 	}
 
+	/**
+	 * Add a new empty passive to actor
+	 */
 	createPassive() {
 		const data = { name: null, passive: null, strength: null };
 		const id = foundry.utils.randomID(16);
@@ -858,6 +902,10 @@ export class ActorMadness extends Actor {
 	/*  HP                             */
 	/* ------------------------------- */
 
+	/**
+	 * Add temporary HP
+	 * @param {number} value temporary HP value to add
+	 */
 	addTempHP(value) {
 		if (!value) return;
 		const hitPoints = this.hitPoints;
@@ -1038,7 +1086,7 @@ export class ActorMadness extends Actor {
 
 	/**
 	 * If stackable, decrease stacks of a status effect and toggle off if not stackable or stacks equals 0
-	 * @param {string} statusId stats effect ID
+	 * @param {string} statusId status effect ID
 	 * @returns {Promise<ActiveEffectMadness|boolean|undefined>} updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s.
 	 * @see Actor#toggleStatusEffect for return values
 	 */
@@ -1061,7 +1109,7 @@ export class ActorMadness extends Actor {
 
 	/**
 	 * Toggle on and, if stackable, increase stacks of a status effect
-	 * @param {string} statusId stats effect ID
+	 * @param {string} statusId status effect ID
 	 * @returns {Promise<ActiveEffectMadness|boolean|undefined>} updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s. `undefined` if actor is immune
 	 * @see Actor#toggleStatusEffect for return values
 	 */
