@@ -72,6 +72,10 @@ export class ActiveEffectMadness extends ActiveEffect {
 				}
 			}
 		});
+
+		console.log(
+			`Madness system | Actor | ${this.parent.name} | ActiveEffect | ${this.slug} | Actor data prepared ✅`,
+		);
 	}
 
 	/**

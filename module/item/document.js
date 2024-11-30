@@ -1,16 +1,16 @@
 import { ChatMessageMadness } from '../chat-message/index.js';
-import { Formula } from '../../utils/index.js';
+import { capitalizeFirstLetter, Formula } from '../../utils/index.js';
 
 class ItemMadness extends Item {
 	prepareActorData() {
 		console.log(
-			`Madness system | Actor | ${this.actor.name} | Equipment | ${this.name} | Preparing actor data...`,
+			`Madness system | Actor | ${this.actor.name} | ${capitalizeFirstLetter(this.type)} | ${this.name} | Preparing actor data...`,
 		);
 
 		if (this.system.passives) this._preparePassives();
 
 		console.log(
-			`Madness system | Actor | ${this.actor.name} | Equipment | ${this.name} | Actor data prepared ✅`,
+			`Madness system | Actor | ${this.actor.name} | ${capitalizeFirstLetter(this.type)} | ${this.name} | Actor data prepared ✅`,
 		);
 	}
 

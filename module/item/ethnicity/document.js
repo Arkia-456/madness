@@ -3,7 +3,7 @@ import { ItemMadness } from '../index.js';
 class EthnicityMadness extends ItemMadness {
 	prepareActorData() {
 		console.log(
-			`Madness system | Actor | ${this.actor.name} | Preparing actor data...`,
+			`Madness system | Actor | ${this.actor.name} | Ethnicity | Preparing actor data...`,
 		);
 		const actor = this.actor;
 		actor.ethnicity = this;
@@ -18,7 +18,7 @@ class EthnicityMadness extends ItemMadness {
 		}
 
 		console.log(
-			`Madness system | Actor | ${this.actor.name} | Actor data prepared ✅`,
+			`Madness system | Actor | ${this.actor.name} | Ethnicity | Actor data prepared ✅`,
 		);
 	}
 }

@@ -10,6 +10,7 @@ import { CheckMadness } from '../system/check/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
 export class ActorMadness extends Actor {
+	static MODIFIERS_SOURCES = ['ethnicity', 'effects', 'passives'];
 
 	/* ------------------------------- */
 	/*  Stats                          */
@@ -187,6 +188,7 @@ export class ActorMadness extends Actor {
 	/*  Data preparation               */
 	/* ------------------------------- */
 
+	/** @inheritdoc */
 	prepareData() {
 		console.log(`Madness system | Actor | ${this.name} | Preparing data...`);
 		super.prepareData();
@@ -197,40 +199,55 @@ export class ActorMadness extends Actor {
 		console.log(`Madness system | Actor | ${this.name} | Data prepared ✅`);
 	}
 
+	/** @inheritdoc */
 	prepareBaseData() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing base data...`,
 		);
 		super.prepareBaseData();
 
-		// Data properties from items
+		this._initEthnicity();
+		this._initSecondaryAttributes();
+		this._initSecondaryMagics();
+		this._initArmor();
+		this._initImmunities();
+		this._initPassives();
+
+		console.log(
+			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
+		);
+	}
+
+	/**
+	 * Initialize armor
+	 */
+	_initArmor() {
+		this.system.armor = {};
+	}
+
+	/**
+	 * Initialize ethnicity and its attributes values
+	 */
+	_initEthnicity() {
 		this.ethnicity = null;
 
-		// Attributes
 		const attributes = this.system.attributes;
 		Object.entries(attributes).forEach(([key, value]) => {
 			value.ethnicity = 0;
 		});
+	}
 
-		// Init secondary attributes
-		this.system.secondaryAttributes = {};
-		Object.keys(CONFIG.Madness.formulas.attributes).forEach(
-			(key) => (this.system.secondaryAttributes[key] = {}),
-		);
-
-		// Init secondary magics
-		this.system.secondaryMagics = {};
-		Object.keys(CONFIG.Madness.formulas.magics).forEach(
-			(key) => (this.system.secondaryMagics[key] = {}),
-		);
-
-		// Init armor
-		this.system.armor = {};
-
-		// Init immunities
+	/**
+	 * Initialize immunities
+	 */
+	_initImmunities() {
 		this.system.immunities = [];
+	}
 
-		// Init passives
+	/**
+	 * Initialize passives
+	 */
+	_initPassives() {
 		const attr = {
 			attributes: Object.keys(this.system.attributes),
 			secondaryAttributes: Object.keys(CONFIG.Madness.formulas.attributes),
@@ -244,26 +261,119 @@ export class ActorMadness extends Actor {
 				}
 			});
 		});
+	}
 
-		console.log(
-			`Madness system | Actor | ${this.name} | Base data prepared ✅`,
+	/**
+	 * Initialize secondary attributes
+	 */
+	_initSecondaryAttributes() {
+		this.system.secondaryAttributes = {};
+		Object.keys(CONFIG.Madness.formulas.attributes).forEach(
+			(key) => (this.system.secondaryAttributes[key] = {}),
 		);
 	}
 
+	/**
+	 * Initialize secondary magics
+	 */
+	_initSecondaryMagics() {
+		this.system.secondaryMagics = {};
+		Object.keys(CONFIG.Madness.formulas.magics).forEach(
+			(key) => (this.system.secondaryMagics[key] = {}),
+		);
+	}
+
+	/** @inheritdoc */
 	prepareDerivedData() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing derived data...`,
 		);
 		super.prepareDerivedData();
 
-		const system = this.system;
+		this._prepareAttributes();
+		this._prepareMagics();
+		this._prepareArmor();
+		this._prepareWeight();
+		this._prepareImmunities();
 
-		// Attributes modifiers from items
+		console.log(
+			`Madness system | Actor | ${this.name} | Derived data prepared ✅`,
+		);
+	}
 
-		const modifierTypes = ['ethnicity', 'effects', 'passives'];
-		Object.entries(system.attributes).forEach(([key, value]) => {
+	/**
+	 * Prepare armor derived data: modifiers and total
+	 */
+	_prepareArmor() {
+		const armorModifiers = [
+			this.generateModifier(
+				this.equipments.reduce(
+					(armor, e) => (armor += Number(e.system.armor)),
+					0,
+				),
+				'Armor',
+				'equipments',
+			),
+			this.generateModifier(
+				this.weapons.reduce(
+					(armor, w) =>
+						(armor += Number(w.getPassiveModifier('increaseArmor'))),
+					0,
+				),
+				'Armor',
+				'weapons',
+			),
+		];
+
+		const armor = this.system.armor;
+		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
+			if (armor[type]) {
+				armorModifiers.push(this.generateArmorModifier(type));
+			}
+		});
+
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (p.passive === 'armor') {
+				armorModifiers.push(
+					this.generateModifier(
+						p.strength,
+						capitalizeFirstLetter(p.passive),
+						'personalPassives',
+					),
+				);
+			}
+		});
+
+		const armorStat = foundry.utils.mergeObject(
+			new Attribute(this, {
+				label: 'armor',
+				modifiers: armorModifiers,
+			}),
+			{ overwrite: false },
+		);
+		armorStat.total = Math.max(0, armorStat.totalModifier);
+		this.system.armor = armorStat;
+	}
+
+	/**
+	 * Prepare attributes derived data: modifiers, HP, MP and secondary attributes
+	 */
+	_prepareAttributes() {
+		this._prepareAttributesModifiers();
+		this._prepareHP();
+		this._prepareMP();
+		this._prepareSecondaryAttributes();
+	}
+
+	/**
+	 * Prepare attributes modifiers and totals
+	 */
+	_prepareAttributesModifiers() {
+		Object.entries(this.system.attributes).forEach(([key, value]) => {
 			const modifiers = [];
-			modifierTypes.forEach((type) => {
+			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 				if (value[type]) {
 					modifiers.push(this.generateAttributeModifier(key, type));
 				}
@@ -289,18 +399,17 @@ export class ActorMadness extends Actor {
 				{ overwrite: false },
 			);
 			stat.total = Math.max(0, stat.totalModifier + stat.value);
-			system.attributes[key] = stat;
+			this.system.attributes[key] = stat;
 		});
+	}
 
-		const totals = {};
-		Object.entries(system.attributes).forEach(
-			([key, value]) => (totals[key] = value.total),
-		);
-
-		// Calculate HP and MP
-		const hitPoints = system.hp;
+	/**
+	 * Prepare HP
+	 */
+	_prepareHP() {
+		const hitPoints = this.system.hp;
 		const hpModifiers = [];
-		modifierTypes.forEach((type) => {
+		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 			if (hitPoints[type]) {
 				hpModifiers.push(this.generateHPModifier(type));
 			}
@@ -330,7 +439,7 @@ export class ActorMadness extends Actor {
 		hpStat.max = Math.max(
 			0,
 			new Formula(CONFIG.Madness.formulas.hp).evaluate({
-				...totals,
+				...this.attributesTotals,
 				base: baseHP,
 			})?.evaluated,
 		);
@@ -340,95 +449,38 @@ export class ActorMadness extends Actor {
 			}
 		}
 		hpStat.value = Math.min(hpStat.value, hpStat.max);
-		system.hp = hpStat;
+		this.system.hp = hpStat;
+	}
 
-		const manaPoints = system.mp;
-		const mpModifiers = [];
-		modifierTypes.forEach((type) => {
-			if (manaPoints[type]) {
-				mpModifiers.push(this.generateMPModifier(type));
-			}
-		});
-
+	/**
+	 * Prepare immunities
+	 */
+	_prepareImmunities() {
+		const statusEffects = Object.keys(CONFIG.Madness.statusEffects);
 		Object.values(this.system.passives).forEach((p) => {
 			if (!p.active) return;
 
-			if (p.passive === 'mp') {
-				mpModifiers.push(
-					this.generateModifier(
-						p.strength,
-						p.passive.toUpperCase(),
-						'personalPassives',
-					),
-				);
+			if (statusEffects.includes(p.passive)) {
+				this.system.immunities.push(p.passive);
 			}
 		});
+	}
 
-		const mpStat = foundry.utils.mergeObject(
-			new Attribute(this, { label: 'mp', modifiers: mpModifiers }),
-			manaPoints,
-			{ overwrite: false },
-		);
-		const baseMP =
-			(this.ethnicity?.system.mp ?? 15) + (mpStat.totalModifier ?? 0);
-		mpStat.max = Math.max(
-			0,
-			new Formula(CONFIG.Madness.formulas.mp).evaluate({
-				...totals,
-				base: baseMP,
-			})?.evaluated,
-		);
-		if (game.user === this.firstUpdater) {
-			if (mpStat.value > mpStat.max) {
-				this.update({ 'system.mp.value': mpStat.max });
-			}
-		}
-		mpStat.value = Math.min(mpStat.value, mpStat.max);
-		system.mp = mpStat;
+	/**
+	 * Prepare magics derived data: modifiers and secondary magics
+	 */
+	_prepareMagics() {
+		this._prepareMagicsModifiers();
+		this._prepareSecondaryMagics();
+	}
 
-		// Secondary attributes
-		Object.entries(CONFIG.Madness.formulas.attributes).forEach(
-			([key, value]) => {
-				const modifiers = [];
-				modifierTypes.forEach((type) => {
-					if (system.secondaryAttributes[key]?.[type]) {
-						modifiers.push(this.generateSecondaryAttributeModifier(key, type));
-					}
-				});
-
-				Object.values(this.system.passives).forEach((p) => {
-					if (!p.active) return;
-
-					if (p.passive === key) {
-						modifiers.push(
-							this.generateModifier(
-								p.strength,
-								capitalizeFirstLetter(p.passive),
-								'personalPassives',
-							),
-						);
-					}
-				});
-
-				const stat = foundry.utils.mergeObject(
-					new Attribute(this, { label: key, modifiers: modifiers }),
-					{ value: new Formula(value).evaluate(totals)?.evaluated },
-					{ overwrite: false },
-				);
-				stat.total = Math.max(0, stat.totalModifier + stat.value);
-				system.secondaryAttributes[key] = stat;
-			},
-		);
-
-		const rollableSecondaryAttributes = ['critRate', 'dodgeRate', 'initiative'];
-		rollableSecondaryAttributes.forEach(
-			(attr) => (system.secondaryAttributes[attr].rollable = true),
-		);
-
-		// Magics modifiers
-		Object.entries(system.magics).forEach(([key, value]) => {
+	/**
+	 * Prepare magics modifiers and totals
+	 */
+	_prepareMagicsModifiers() {
+		Object.entries(this.system.magics).forEach(([key, value]) => {
 			const modifiers = [];
-			modifierTypes.forEach((type) => {
+			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
 				if (value[type]) {
 					modifiers.push(this.generateMagicModifier(key, type));
 				}
@@ -458,18 +510,113 @@ export class ActorMadness extends Actor {
 				{ overwrite: false },
 			);
 			stat.total = Math.max(stat.totalModifier + stat.value, 0);
-			system.magics[key] = stat;
+			this.system.magics[key] = stat;
+		});
+	}
+
+	/**
+	 * Prepare MP
+	 */
+	_prepareMP() {
+		const manaPoints = this.system.mp;
+		const mpModifiers = [];
+		ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
+			if (manaPoints[type]) {
+				mpModifiers.push(this.generateMPModifier(type));
+			}
 		});
 
-		const magicTotals = {};
-		Object.entries(system.magics).forEach(
-			([key, value]) => (magicTotals[key] = value.total),
+		Object.values(this.system.passives).forEach((p) => {
+			if (!p.active) return;
+
+			if (p.passive === 'mp') {
+				mpModifiers.push(
+					this.generateModifier(
+						p.strength,
+						p.passive.toUpperCase(),
+						'personalPassives',
+					),
+				);
+			}
+		});
+
+		const mpStat = foundry.utils.mergeObject(
+			new Attribute(this, { label: 'mp', modifiers: mpModifiers }),
+			manaPoints,
+			{ overwrite: false },
+		);
+		const baseMP =
+			(this.ethnicity?.system.mp ?? 15) + (mpStat.totalModifier ?? 0);
+		mpStat.max = Math.max(
+			0,
+			new Formula(CONFIG.Madness.formulas.mp).evaluate({
+				...this.attributesTotals,
+				base: baseMP,
+			})?.evaluated,
+		);
+		if (game.user === this.firstUpdater) {
+			if (mpStat.value > mpStat.max) {
+				this.update({ 'system.mp.value': mpStat.max });
+			}
+		}
+		mpStat.value = Math.min(mpStat.value, mpStat.max);
+		this.system.mp = mpStat;
+	}
+
+	/**
+	 * Prepare secondary attributes: modifiers and totals
+	 */
+	_prepareSecondaryAttributes() {
+		Object.entries(CONFIG.Madness.formulas.attributes).forEach(
+			([key, value]) => {
+				const modifiers = [];
+				ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
+					if (this.system.secondaryAttributes[key]?.[type]) {
+						modifiers.push(this.generateSecondaryAttributeModifier(key, type));
+					}
+				});
+
+				Object.values(this.system.passives).forEach((p) => {
+					if (!p.active) return;
+
+					if (p.passive === key) {
+						modifiers.push(
+							this.generateModifier(
+								p.strength,
+								capitalizeFirstLetter(p.passive),
+								'personalPassives',
+							),
+						);
+					}
+				});
+
+				const stat = foundry.utils.mergeObject(
+					new Attribute(this, { label: key, modifiers: modifiers }),
+					{
+						value: new Formula(value).evaluate(this.attributesTotals)
+							?.evaluated,
+					},
+					{ overwrite: false },
+				);
+				stat.total = Math.max(0, stat.totalModifier + stat.value);
+				this.system.secondaryAttributes[key] = stat;
+			},
 		);
 
+		const rollableSecondaryAttributes = ['critRate', 'dodgeRate', 'initiative'];
+		rollableSecondaryAttributes.forEach(
+			(attr) => (this.system.secondaryAttributes[attr].rollable = true),
+		);
+	}
+
+	/**
+	 * Prepare secondary magics: modifiers and totals
+	 */
+	_prepareSecondaryMagics() {
 		Object.entries(CONFIG.Madness.formulas.magics).forEach(([key, value]) => {
 			const modifiers = [];
-			modifierTypes.forEach((type) => {
-				if (system.secondaryMagics[key]?.[type]) {
+			ActorMadness.MODIFIERS_SOURCES.forEach((type) => {
+				if (this.system.secondaryMagics[key]?.[type]) {
 					modifiers.push(this.generateSecondaryMagicModifier(key, type));
 				}
 			});
@@ -494,88 +641,28 @@ export class ActorMadness extends Actor {
 					label: key,
 					modifiers: modifiers,
 				}),
-				{ value: new Formula(value).evaluate(magicTotals)?.evaluated },
+				{ value: new Formula(value).evaluate(this.magicsTotals)?.evaluated },
 				{ overwrite: false },
 			);
 			stat.total = Math.max(0, stat.totalModifier + stat.value);
-			system.secondaryMagics[key] = stat;
+			this.system.secondaryMagics[key] = stat;
 		});
+	}
 
-		// Armor
-		const armorModifiers = [
-			this.generateModifier(
-				this.equipments.reduce(
-					(armor, e) => (armor += Number(e.system.armor)),
-					0,
-				),
-				'Armor',
-				'equipments',
-			),
-			this.generateModifier(
-				this.weapons.reduce(
-					(armor, w) =>
-						(armor += Number(w.getPassiveModifier('increaseArmor'))),
-					0,
-				),
-				'Armor',
-				'weapons',
-			),
-		];
-
-		const armor = system.armor;
-		modifierTypes.forEach((type) => {
-			if (armor[type]) {
-				armorModifiers.push(this.generateArmorModifier(type));
-			}
-		});
-
-		Object.values(this.system.passives).forEach((p) => {
-			if (!p.active) return;
-
-			if (p.passive === 'armor') {
-				armorModifiers.push(
-					this.generateModifier(
-						p.strength,
-						capitalizeFirstLetter(p.passive),
-						'personalPassives',
-					),
-				);
-			}
-		});
-
-		const armorStat = foundry.utils.mergeObject(
-			new Attribute(this, {
-				label: 'armor',
-				modifiers: armorModifiers,
-			}),
-			{ overwrite: false },
-		);
-		armorStat.total = Math.max(0, armorStat.totalModifier);
-		system.armor = armorStat;
-
-		// Weight
+	/**
+	 * Prepare weight
+	 */
+	_prepareWeight() {
 		const equipments = this.items.filter(
 			(i) => i.type === 'equipment' || i.type === 'weapon',
 		);
-		system.currentEquipmentWeight = equipments.reduce(
+		this.system.currentEquipmentWeight = equipments.reduce(
 			(weight, e) => (weight += Number(e.system.weight)),
 			0,
 		);
-
-		const statusEffects = Object.keys(CONFIG.Madness.statusEffects);
-		Object.values(this.system.passives).forEach((p) => {
-			if (!p.active) return;
-
-			if (statusEffects.includes(p.passive)) {
-				this.system.immunities.push(p.passive);
-			}
-		});
-
-		console.log(
-			`Madness system | Actor | ${this.name} | Derived data prepared ✅`,
-		);
 	}
 
+	/** @inheritdoc */
 	prepareEmbeddedDocuments() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing embedded documents...`,
@@ -588,28 +675,36 @@ export class ActorMadness extends Actor {
 		);
 	}
 
+	/**
+	 * Prepare data from items
+	 */
 	prepareDataFromItems() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing data from items...`,
 		);
-		for (const item of this.items) {
-			item.prepareActorData?.();
-		}
+		this._prepareDataFrom(this.items);
 		console.log(
 			`Madness system | Actor | ${this.name} | Data from items prepared ✅`,
 		);
 	}
 
+	/**
+	 * Prepare data from effects
+	 */
 	prepareDataFromEffects() {
 		console.log(
 			`Madness system | Actor | ${this.name} | Preparing data from effects...`,
 		);
-		for (const effect of this.effects) {
-			effect.prepareActorData?.();
-		}
+		this._prepareDataFrom(this.effects);
 		console.log(
-			`Madness system | Actor | ${this.name} | Data from items effects ✅`,
+			`Madness system | Actor | ${this.name} | Data from effects prepared ✅`,
 		);
+	}
+
+	_prepareDataFrom(document) {
+		for (const d of document) {
+			d.prepareActorData?.();
+		}
 	}
 
 	generateAttributeModifier(key, type) {
