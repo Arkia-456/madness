@@ -915,6 +915,12 @@ export class ActorMadness extends Actor {
 	/*  Combat                         */
 	/* ------------------------------- */
 
+	/**
+	 * Apply damage to actor
+	 * @param {number} damage damage to apply
+	 * @param {object} context context options which modify damage application
+	 * @returns {number|undefined} total damage applied or `undefined` if actor has no HP
+	 */
 	applyDamage(damage = 0, context = {}) {
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
@@ -944,6 +950,12 @@ export class ActorMadness extends Actor {
 		return damageResult.totalApplied;
 	}
 
+	/**
+	 * Roll dodge rate and critical rate and send result to chat
+	 * @param {TokenMadness} token the selected actor token
+	 * @param {object} options options which modify action
+	 * @returns {Promise<{roll: Roll, result: string, isCritical: boolean}>}
+	 */
 	async dodge(token, options = {}) {
 		const context = {
 			actor: this,
@@ -983,6 +995,12 @@ export class ActorMadness extends Actor {
 		return roll;
 	}
 
+	/**
+	 * Roll critical rate and send result to chat
+	 * @param {TokenMadness} token the selected actor token
+	 * @param {object} options options which modify action
+	 * @returns {Promise<{roll: Roll, result: string, isCritical: boolean}>}
+	 */
 	async parry(token, options = {}) {
 		const context = {
 			actor: this,
@@ -1016,6 +1034,13 @@ export class ActorMadness extends Actor {
 		return roll;
 	}
 
+	/**
+	 * Calculate amount to apply to HP and temporary HP
+	 * @param {Attribute} hp actor's HP
+	 * @param {number} delta damage amount to apply to HP
+	 * @param {object} context context options which application
+	 * @returns actor's system updated and total damage applied
+	 */
 	_calculateHealthDelta(hp, delta, context) {
 		const updates = {};
 		if (hp.max === 0) return { updates, totalApplied: 0 };
@@ -1062,6 +1087,12 @@ export class ActorMadness extends Actor {
 		return { updates, totalApplied };
 	}
 
+	/**
+	 * Calculate remaining damage after parry reduction
+	 * @param {number} damage incoming damage
+	 * @param {number} modifier parry damage reduction modifier
+	 * @returns {number} damage after parry reduction
+	 */
 	_applyParryDamageReduction(damage, modifier = 0) {
 		const parryDamageReduction = Math.min(
 			this.parryDamageReduction.total + modifier ?? 0,
@@ -1070,6 +1101,12 @@ export class ActorMadness extends Actor {
 		return Math.ceil(((100 - parryDamageReduction) * damage) / 100);
 	}
 
+	/**
+	 * Calculate remaining damage after armor reduction
+	 * @param {number} damage incoming damage
+	 * @param {Array<object>} incomingPassives pssives from attack
+	 * @returns {number} damage after armor reduction
+	 */
 	_applyArmorDamageReduction(damage, incomingPassives = []) {
 		if (incomingPassives.some((p) => p.name === 'ignoreArmor')) {
 			return damage;
