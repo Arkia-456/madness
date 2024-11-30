@@ -25,7 +25,7 @@ class CheckModifiersDialogMadness extends FormApplication {
 			attributes: {
 				...CONFIG.Madness.attributes,
 				critFailureRate: 'Madness.Attributes.CriticalFailureRate',
-				damage: 'Madness.Label.Damage',
+				damage: 'Madness.Label.DamagePlural',
 			},
 		};
 	}

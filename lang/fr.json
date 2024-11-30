@@ -1,10 +1,9 @@
 {
 	"Madness": {
 		"Actions": {
-			"ParryPast": "A paré",
-			"DodgePast": "A esquivé",
-			"TakePast": "A subi",
-			"TriedToDodge": "A tenté d'esquiver"
+			"Parry": "Pare",
+			"Take": "Subit",
+			"TryToDodge": "Tente d'esquiver"
 		},
 		"Attributes": {
 			"Agility": "Agilité",
@@ -39,6 +38,7 @@
 			"CriticalReminder": "Rappel : Lors d'un coup critique, les PM et les munitions ne sont pas déduites et les effets de l'attaque ne s'appliquent pas automatiquement.",
 			"CheckOf": "Test de",
 			"Failure": "Echec",
+			"Result": "Résultat",
 			"Success": "Succès"
 		},
 		"Controls": {
@@ -88,8 +88,10 @@
 			"Critical": "Critique",
 			"CriticalFailureScore": "Score d'échec critique",
 			"CriticalSuccessScore": "Score de succès critique",
-			"Damage": "Dégâts",
+			"Damage": "Dégât",
+			"DamagePlural": "Dégâts",
 			"Description": "Description",
+			"Dodge": "Esquive",
 			"Duration": "Durée",
 			"EditAttributes": "Editer les attributs",
 			"EditMagics": "Editer les magies",

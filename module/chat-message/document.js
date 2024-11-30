@@ -1,6 +1,7 @@
 import {
 	capitalizeFirstLetter,
 	displayError,
+	elide,
 	uncapitalizeFirstLetter,
 } from '../../utils/index.js';
 
@@ -40,18 +41,22 @@ class ChatMessageMadness extends ChatMessage {
 		return $html;
 	}
 
+	/* ------------------------------- */
+	/*  Event listeners                */
+	/* ------------------------------- */
+
 	activateClickListener(html) {
 		const handlers = {};
 
 		handlers['take-damage'] = () => {
-			this.takeDamageFromMessage();
+			this._onClickApplyDamage();
 		};
 
 		handlers['dodge'] = (event) => {
-			this.dodgeFromMessage({ promptModifiers: event.shiftKey });
+			this._onClickDodge({ promptModifiers: event.shiftKey });
 		};
 		handlers['parry'] = (event) => {
-			this.parryFromMessage({ promptModifiers: event.shiftKey });
+			this._onClickParry({ promptModifiers: event.shiftKey });
 		};
 
 		const cardHandler = async (event) => {
@@ -78,98 +83,113 @@ class ChatMessageMadness extends ChatMessage {
 		return handlers;
 	}
 
-	async dodgeFromMessage({ promptModifiers = false }) {
-		const tokens = game.user.getActiveTokens();
-		if (!tokens.length) {
+	/* ------------------------------- */
+	/*  Click handlers                 */
+	/* ------------------------------- */
+
+	async _onClickDodge({ promptModifiers = false }) {
+		const token = game.user.activeToken;
+		if (!token) {
 			displayError('Madness.Message.Error.NoTokenSelected');
 			return;
 		}
-		const token = tokens[0];
+
+		const { canDodge, effects } = this._checkCanDodge(token);
+		if (!canDodge && !(await this._confirmDodge(effects))) {
+			return;
+		}
+
+		const roll = await token.actor.dodge({ promptModifiers });
+
+		let damage;
+		if (!roll.isCritical && roll.result !== 'success') {
+			damage = this._applyDamageFromMessage(token);
+		}
+		await this.toMessage({ type: 'dodge', actor: token.actor, damage, roll });
+		await this._decreaseBuffsAndDebuffs(token.actor);
+	}
+
+	/**
+	 * Check if the attack is dodgeable
+	 * @param {TokenMadness} token the token trying to dodge
+	 * @returns {{canDodge: boolean, effects: Array<Array<ActiveEffectMadness|EffectMadness>>}} boolean to indicate if attack is dodgeable and array of effects preventing dodge
+	 */
+	_checkCanDodge(token) {
 		const { canDodge: actorCanDodge, effects: actorCantDodgeEffects } =
 			token.actor.dodgeEffects;
 		const { canDodge: itemCanDodge, effects: itemCantDodgeEffects } =
 			this.item.dodgeEffects;
-		if (!actorCanDodge || !itemCanDodge) {
-			const confirmDodge = await this._displayCantDodgeConfirmDialog(
-				actorCantDodgeEffects,
-				itemCantDodgeEffects,
-			);
-			if (!confirmDodge) return;
-		}
-		const roll = await token.actor.dodge(token, { promptModifiers });
-		if (roll.isCritical || roll.result === 'success') return;
-		const damage = this.applyDamageFromMessage(token);
-		await this.toMessage({ type: 'dodge', actor: token.actor, damage });
-		await this._removeBuffsAndDebuffs(token.actor);
+		return {
+			canDodge: actorCanDodge && itemCanDodge,
+			effects: [actorCantDodgeEffects, itemCantDodgeEffects],
+		};
 	}
 
-	async toMessage(options) {
-		const { actor, type, damage } = options;
-		const template = 'systems/madness/templates/chat/defense-card.hbs';
-		let actionTranslation = '';
-		switch (type) {
-			case 'dodge':
-				actionTranslation = game.i18n
-					.localize('Madness.Actions.TriedToDodge')
-					?.toLowerCase();
-				break;
-			case 'parry':
-				actionTranslation = game.i18n
-					.localize('Madness.Actions.ParryPast')
-					?.toLowerCase();
-				break;
-			default:
-				break;
-		}
-		const andTranslation = game.i18n
-			.localize('Madness.Dialog.And')
-			?.toLowerCase();
-		const tookTranslation = game.i18n
-			.localize('Madness.Actions.TakePast')
-			?.toLowerCase();
-		const damageTranslation = game.i18n
-			.localize('Madness.Label.Damage')
-			?.toLowerCase();
-		const message = `${actor.name} ${actionTranslation} ${actionTranslation ? `${andTranslation} ` : ''}${tookTranslation} ${damage ?? 0} ${damageTranslation}.`;
-		const templateData = {
-			message,
-		};
-		const chatData = {
-			speaker: ChatMessageMadness.getSpeaker({
-				actor: actor,
-				token: actor.token,
-			}),
-			content: await renderTemplate(template, templateData),
-		};
-		ChatMessageMadness.create(chatData);
+	/**
+	 * Display confirm dialog to ask user if he wants to dodge anyway
+	 * @param {Array<Array<ActiveEffectMadness|EffectMadness>>} effects effects preventing dodge
+	 * @returns `true` if user confirm dodge, `false` otherwise
+	 */
+	_confirmDodge([actorCantDodgeEffects, itemCantDodgeEffects]) {
+		return this._displayCantParryOrDodgeConfirmDialog(
+			'dodge',
+			actorCantDodgeEffects,
+			itemCantDodgeEffects,
+		);
 	}
 
-	async parryFromMessage({ promptModifiers = false }) {
-		const tokens = game.user.getActiveTokens();
-		if (!tokens.length) {
+	async _onClickParry({ promptModifiers = false }) {
+		const token = game.user.activeToken;
+		if (!token) {
 			displayError('Madness.Message.Error.NoTokenSelected');
 			return;
 		}
-		const token = tokens[0];
+
+		const { canParry, effects } = this._checkCanParry(token);
+		if (!canParry && !(await this._confirmParry(effects))) {
+			return;
+		}
+
+		const roll = await token.actor.parry({ promptModifiers });
+
+		let damage;
+		if (!roll.isCritical) {
+			damage = this._applyDamageFromMessage(token, {
+				parry: true,
+				modifiers: roll.modifiers,
+			});
+		}
+		await this.toMessage({ type: 'parry', actor: token.actor, damage, roll });
+		await this._decreaseBuffsAndDebuffs(token.actor);
+	}
+
+	/**
+	 * Check if the attack is parryable
+	 * @param {TokenMadness} token the token trying to parry
+	 * @returns {{canDodge: boolean, effects: Array<Array<ActiveEffectMadness|EffectMadness>>}} boolean to indicate if attack is parryable and array of effects preventing parry
+	 */
+	_checkCanParry(token) {
 		const { canParry: actorCanParry, effects: actorCantParryEffects } =
 			token.actor.parryEffects;
 		const { canParry: itemCanParry, effects: itemCantParryEffects } =
 			this.item.parryEffects;
-		if (!actorCanParry || !itemCanParry) {
-			const confirmParry = await this._displayCantParryConfirmDialog(
-				actorCantParryEffects,
-				itemCantParryEffects,
-			);
-			if (!confirmParry) return;
-		}
-		const roll = await token.actor.parry(token, { promptModifiers });
-		if (roll.isCritical) return;
-		const damage = this.applyDamageFromMessage(token, {
-			parry: true,
-			modifiers: roll.modifiers,
-		});
-		await this.toMessage({ type: 'parry', actor: token.actor, damage });
-		await this._removeBuffsAndDebuffs(token.actor);
+		return {
+			canParry: actorCanParry && itemCanParry,
+			effects: [actorCantParryEffects, itemCantParryEffects],
+		};
+	}
+
+	/**
+	 * Display confirm dialog to ask user if he wants to parry anyway
+	 * @param {Array<Array<ActiveEffectMadness|EffectMadness>>} effects effects preventing parry
+	 * @returns `true` if user confirm parry, `false` otherwise
+	 */
+	_confirmParry([actorCantParryEffects, itemCantParryEffects]) {
+		return this._displayCantParryOrDodgeConfirmDialog(
+			'parry',
+			actorCantParryEffects,
+			itemCantParryEffects,
+		);
 	}
 
 	_displayCantParryOrDodgeConfirmDialog(
@@ -225,22 +245,6 @@ class ChatMessageMadness extends ChatMessage {
 		return this._displayConfirmDialog({ content });
 	}
 
-	_displayCantParryConfirmDialog(actorEffects, itemEffects) {
-		return this._displayCantParryOrDodgeConfirmDialog(
-			'parry',
-			actorEffects,
-			itemEffects,
-		);
-	}
-
-	_displayCantDodgeConfirmDialog(actorEffects, itemEffects) {
-		return this._displayCantParryOrDodgeConfirmDialog(
-			'dodge',
-			actorEffects,
-			itemEffects,
-		);
-	}
-
 	_displayConfirmDialog({ title, content }) {
 		const confirmDialogTitle =
 			title ?? game.i18n.localize('Madness.Dialog.Confirm');
@@ -251,19 +255,24 @@ class ChatMessageMadness extends ChatMessage {
 		});
 	}
 
-	async takeDamageFromMessage() {
-		const tokens = game.user.getActiveTokens();
-		if (!tokens.length) {
+	async _onClickApplyDamage() {
+		const token = game.user.activeToken;
+		if (!token) {
 			displayError('Madness.Message.Error.NoTokenSelected');
 			return;
 		}
-		const token = tokens[0];
-		const damage = this.applyDamageFromMessage(token);
+		const damage = this._applyDamageFromMessage(token);
 		await this.toMessage({ actor: token.actor, damage });
-		await this._removeBuffsAndDebuffs(token.actor);
+		await this._decreaseBuffsAndDebuffs(token.actor);
 	}
 
-	applyDamageFromMessage(token, options) {
+	/**
+	 * Apply damage to actor based on message data
+	 * @param {TokenMadness} token token to which apply damage
+	 * @param {object} options options which modify damage application
+	 * @returns {number|undefined} total damage applied or `undefined` if actor has no HP
+	 */
+	_applyDamageFromMessage(token, options) {
 		const context = this.flags.madness?.context ?? {};
 		const outcome = context.outcome?.total ?? 0;
 		const passives = context.passives;
@@ -284,7 +293,68 @@ class ChatMessageMadness extends ChatMessage {
 		});
 	}
 
-	_removeBuffsAndDebuffs(actor) {
+	/**
+	 * Create a new chat message based on user action
+	 * @param {object} options message options
+	 */
+	async toMessage(options) {
+		const { actor, type, damage, roll } = options;
+		const template = 'systems/madness/templates/chat/defense-card.hbs';
+		let actionTranslation = '';
+		let resultMessage = '';
+		switch (type) {
+			case 'dodge': {
+				actionTranslation = game.i18n
+					.localize('Madness.Actions.TryToDodge')
+					?.toLowerCase();
+				const dodgeLabel = game.i18n.localize('Madness.Label.Dodge');
+				resultMessage = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), dodgeLabel)}${dodgeLabel.toLowerCase()}`;
+				break;
+			}
+			case 'parry': {
+				actionTranslation = game.i18n
+					.localize('Madness.Actions.Parry')
+					?.toLowerCase();
+				const criticalLabel = game.i18n.localize('Madness.Label.Critical');
+				resultMessage = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), criticalLabel)}${criticalLabel.toLowerCase()}`;
+				break;
+			}
+			default:
+				break;
+		}
+		const takeTranslation = game.i18n
+			.localize('Madness.Actions.Take')
+			?.toLowerCase();
+		const damageTranslation = game.i18n
+			.localize(`Madness.Label.Damage${(damage ?? 0) > 1 ? 'Plural' : ''}`)
+			?.toLowerCase();
+		const actionMessage = actionTranslation
+			? `${actor.name} ${actionTranslation}.`
+			: '';
+		const message = `${actor.name} ${takeTranslation} ${damage ?? 0} ${damageTranslation}.`;
+		const templateData = {
+			type,
+			roll,
+			actionMessage,
+			resultMessage,
+			message,
+		};
+		const chatData = {
+			speaker: ChatMessageMadness.getSpeaker({
+				actor: actor,
+				token: actor.token,
+			}),
+			content: await renderTemplate(template, templateData),
+		};
+		ChatMessageMadness.create(chatData);
+	}
+
+	/**
+	 * Decrease actor active effects after receiving attack
+	 * @param {ActorMadness} actor actor from which remove buffs and debuffs
+	 * @returns {Promise<Array<ActiveEffectMadness|boolean|undefined>>} array of updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s
+	 */
+	_decreaseBuffsAndDebuffs(actor) {
 		const durationFilter = (d) =>
 			d.type === 'action' && d.actionOrigin === 'other';
 		const effectsToRemove = actor.effects.filter((e) =>

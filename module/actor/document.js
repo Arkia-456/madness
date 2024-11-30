@@ -1,11 +1,8 @@
 import {
 	Formula,
 	capitalizeFirstLetter,
-	createHTMLElement,
-	elide,
 	objectMap,
 } from '../../utils/index.js';
-import { ChatMessageMadness } from '../chat-message/index.js';
 import { CheckMadness } from '../system/check/check.js';
 import { ModifierMadness, Attribute } from './modifiers.js';
 
@@ -952,11 +949,10 @@ export class ActorMadness extends Actor {
 
 	/**
 	 * Roll dodge rate and critical rate and send result to chat
-	 * @param {TokenMadness} token the selected actor token
 	 * @param {object} options options which modify action
 	 * @returns {Promise<{roll: Roll, result: string, isCritical: boolean}>}
 	 */
-	async dodge(token, options = {}) {
+	async dodge(options = {}) {
 		const context = {
 			actor: this,
 			rollType: 'dodge',
@@ -975,33 +971,15 @@ export class ActorMadness extends Actor {
 					? 'success'
 					: 'failure';
 		}
-		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.dodgeRate.label)}${this.dodgeRate.label.toLowerCase()}`;
-		const flavor = createHTMLElement('h4', [title]).outerHTML;
-		const templateData = {
-			roll,
-		};
-		const chatData = {
-			speaker: ChatMessageMadness.getSpeaker({
-				actor: this,
-				token,
-			}),
-			content: await renderTemplate(
-				'systems/madness/templates/chat/dodge-card.hbs',
-				templateData,
-			),
-			flavor,
-		};
-		ChatMessageMadness.create(chatData);
 		return roll;
 	}
 
 	/**
 	 * Roll critical rate and send result to chat
-	 * @param {TokenMadness} token the selected actor token
 	 * @param {object} options options which modify action
 	 * @returns {Promise<{roll: Roll, result: string, isCritical: boolean}>}
 	 */
-	async parry(token, options = {}) {
+	async parry(options = {}) {
 		const context = {
 			actor: this,
 			rollType: 'parry',
@@ -1014,23 +992,6 @@ export class ActorMadness extends Actor {
 		};
 		const roll = (await CheckMadness.roll(context)).critOutcome;
 		if (context.modifiers) roll.modifiers = context.modifiers;
-		const title = `${elide(game.i18n.localize('Madness.ChatMessage.CheckOf'), this.critRate.label)}${this.critRate.label.toLowerCase()}`;
-		const flavor = createHTMLElement('h4', [title]).outerHTML;
-		const templateData = {
-			roll,
-		};
-		const chatData = {
-			speaker: ChatMessageMadness.getSpeaker({
-				actor: this,
-				token,
-			}),
-			content: await renderTemplate(
-				'systems/madness/templates/chat/parry-card.hbs',
-				templateData,
-			),
-			flavor,
-		};
-		ChatMessageMadness.create(chatData);
 		return roll;
 	}
 

@@ -1,5 +1,9 @@
 class UserMadness extends User {
-	getActiveTokens() {
+	get activeToken() {
+		return this.activeTokens[0];
+	}
+
+	get activeTokens() {
 		if (!canvas.ready || !canvas.tokens.controlled.length) {
 			return game.user.character?.getActiveTokens(true, true) ?? [];
 		}

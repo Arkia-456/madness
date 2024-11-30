@@ -1,3 +1,32 @@
 <div>
-	{{message}}
+	{{actionMessage}}
+	<div>
+		{{#if resultMessage}}
+			<div>
+				{{resultMessage}}
+				:
+				{{roll.roll.total}}
+				{{#unless (or roll.isCritical (equal type 'parry'))}}
+					-
+					{{#if (eq roll.result 'success')}}
+						{{localize 'Madness.ChatMessage.Success'}}
+					{{else}}
+						{{localize 'Madness.ChatMessage.Failure'}}
+					{{/if}}
+				{{/unless}}
+			</div>
+		{{/if}}
+		{{#if roll.isCritical}}
+			<p class='critical'>
+				{{#if (eq roll.result 'criticalSuccess')}}
+					{{upper 'Madness.ChatMessage.CriticalHit'}}
+				{{else}}
+					{{upper 'Madness.ChatMessage.CriticalFailure'}}
+				{{/if}}
+				!
+			</p>
+		{{else}}
+			<p>{{message}}</p>
+		{{/if}}
+	</div>
 </div>
