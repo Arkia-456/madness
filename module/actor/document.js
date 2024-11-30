@@ -839,10 +839,7 @@ export class ActorMadness extends Actor {
 	 * @returns {boolean} `true` if remaining available slots, `false` otherwise
 	 */
 	checkWeaponSlots() {
-		return (
-			this.system.secondaryAttributes.inventoryMaxSlots.total >
-			this.weapons.length
-		);
+		return CONFIG.Madness.default.weaponMaxSlots > this.weapons.length;
 	}
 
 	/**
