@@ -176,6 +176,14 @@ export class ActorMadness extends Actor {
 	}
 
 	/* ------------------------------- */
+	/*  Checks                         */
+	/* ------------------------------- */
+
+	isImmune(statusId) {
+		return this.system.immunities.includes(statusId);
+	}
+
+	/* ------------------------------- */
 	/*  Data preparation               */
 	/* ------------------------------- */
 
@@ -917,86 +925,124 @@ export class ActorMadness extends Actor {
 	/*  Status effects                 */
 	/* ------------------------------- */
 
+	/**
+	 * If stackable, decrease stacks of a status effect and toggle off if not stackable or stacks equals 0
+	 * @param {string} statusId stats effect ID
+	 * @returns {Promise<ActiveEffectMadness|boolean|undefined>} updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s.
+	 * @see Actor#toggleStatusEffect for return values
+	 */
 	async decreaseStatusEffect(statusId) {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
-		if (!existing) return;
+		if (!existing) {
+			throw new Error(
+				`Active effect ${statusId} not found on actor ${this.name}`,
+			);
+		}
 
 		if (existing.system.stackable) {
-			const effect = await this.decreaseStacks(existing, 1);
-			if (effect.system.stacks) return effect;
+			await existing.decreaseStacks(1);
+			game.madness.effectsTracker.refresh();
 		}
-		return this.toggleStatusEffect(statusId);
+		return existing.system.stacks
+			? existing
+			: this.toggleStatusEffect(statusId);
 	}
 
-	decreaseStacks(statusEffect, num = 1) {
-		const currentValue = statusEffect.system.stacks ?? 0;
-		const newValue = Math.max(0, currentValue - num);
-		const effect = statusEffect.update({ 'system.stacks': newValue });
-		game.madness.effectsTracker.refresh();
-		return effect;
-	}
-
+	/**
+	 * Toggle on and, if stackable, increase stacks of a status effect
+	 * @param {string} statusId stats effect ID
+	 * @returns {Promise<ActiveEffectMadness|boolean|undefined>} updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s. `undefined` if actor is immune
+	 * @see Actor#toggleStatusEffect for return values
+	 */
 	async increaseStatusEffect(statusId) {
-		if (this.system.immunities.includes(statusId)) return;
-		const existing = this.effects.find((e) => e.system.slug === statusId);
-		if (!existing) {
-			const statusEffect = await this.toggleStatusEffect(statusId);
-			if (statusEffect.system.stackable) {
-				this.increaseStacks(statusEffect, 1);
-			}
-			return statusEffect;
+		if (this.isImmune(statusId)) {
+			this.displayImmuneMessage(statusId);
+			return;
 		}
-
-		if (!existing.system.stackable) return;
-
-		return this.increaseStacks(existing, 1);
+		let existing = this.effects.find((e) => e.system.slug === statusId);
+		if (!existing) {
+			existing = await this.toggleStatusEffect(statusId);
+		}
+		if (existing.system.stackable) {
+			await existing.increaseStacks(1);
+			game.madness.effectsTracker.refresh();
+		}
+		return existing;
 	}
 
-	increaseStacks(statusEffect, num = 1) {
-		const currentValue = statusEffect.system.stacks ?? 0;
-		const newValue = currentValue + num;
-		const effect = statusEffect.update({ 'system.stacks': newValue });
-		game.madness.effectsTracker.refresh();
-		return effect;
-	}
-
+	/**
+	 * Toggle several status effects at once
+	 * @param {Array<string>} statusIds status effect IDs
+	 * @returns {Promise<Array<ActiveEffectMadness|boolean|undefined>>} array of updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s
+	 * @see Actor#toggleStatusEffect for return values
+	 */
 	toggleStatusEffects(statusIds) {
-		const promises = [];
-		statusIds.forEach((statusId) =>
-			promises.push(this.toggleStatusEffect(statusId)),
+		return Promise.all(
+			statusIds.map((statusId) => this.toggleStatusEffect(statusId)),
 		);
-		return Promise.all(promises);
 	}
 
-	async toggleStatusEffect(statusId, options) {
+	/**
+	 * @see Actor#toggleStatusEffect
+	 */
+	async toggleStatusEffect(statusId, options = {}) {
 		const effect = await super.toggleStatusEffect(statusId, options);
 		game.madness.effectsTracker.refresh();
 		return effect;
 	}
 
+	/**
+	 * Decrease duration for several status effects
+	 * @param {Array<string>} statusIds status effect IDs for which reduce duration
+	 * @param {Function} durationFilterCallback callback to filter which duration to decrease
+	 * @returns {Promise<Array<ActiveEffectMadness|boolean|undefined>>} array of updated `ActiveEffectMadness` document instances, `boolean`s and/or `undefined`s
+	 * @see ActorMadness#_decreaseStatusEffectDuration for return values
+	 */
 	decreaseStatusEffectsDuration(statusIds, durationFilterCallback) {
-		const promises = [];
-		statusIds.forEach((statusId) =>
-			promises.push(
-				this.decreaseStatusEffectDuration(statusId, durationFilterCallback),
+		return Promise.all(
+			statusIds.map((statusId) =>
+				this._decreaseStatusEffectDuration(statusId, durationFilterCallback),
 			),
 		);
-		return Promise.all(promises);
 	}
 
-	decreaseStatusEffectDuration(statusId, durationFilterCallback) {
+	/**
+	 * Decrease status effect duration
+	 * @param {string} statusId status effect ID for which reduce duration
+	 * @param {Function} durationFilterCallback callback to filter which duration to decrease
+	 * @returns {Promise<ActiveEffectMadness|boolean|undefined>} A promise which resolves to one of the following values:
+	 * - `ActiveEffectMadness` if a new effect need to be created
+	 * - `true` if was already an existing effect
+	 * - `false` if an existing effect needed to be removed
+	 * - `undefined` if no changes need to be made
+	 */
+	async _decreaseStatusEffectDuration(statusId, durationFilterCallback) {
 		const existing = this.effects.find((e) => e.system.slug === statusId);
-		if (!existing) return;
+		if (!existing) {
+			throw new Error(
+				`Active effect ${statusId} not found on actor ${this.name}`,
+			);
+		}
+		if (existing.durations.find(durationFilterCallback)?.value <= 1) {
+			return this.toggleStatusEffect(statusId);
+		}
+		return existing.decreaseDuration(durationFilterCallback);
+	}
 
-		const durations = foundry.utils.deepClone(existing.system.durations);
-		const duration = durations.find(durationFilterCallback);
-		const durationIndex = existing.system.durations.findIndex(
-			durationFilterCallback,
+	/**
+	 * Display a notification warning the actor is immune to status effect
+	 * @param {string} statusId status effect ID actor is immune to
+	 */
+	displayImmuneMessage(statusId) {
+		const immunizedMessage = game.i18n.format(
+			'Madness.Message.Warning.ActorImmuneToStatus',
+			{
+				actor: this.name,
+				statusLabel: game.i18n.localize(
+					`Madness.StatusEffect.${capitalizeFirstLetter(statusId)}`,
+				),
+			},
 		);
-		const newValue = duration.value - 1;
-		durations[durationIndex].value = newValue;
-		return existing.update({
-			['system.durations']: durations,
-		});
+		ui.notifications.warn(immunizedMessage);
 	}
 }

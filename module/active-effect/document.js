@@ -1,3 +1,5 @@
+import { NaNError } from '../../utils/index.js';
+
 export class ActiveEffectMadness extends ActiveEffect {
 	static MODIFIABLE_SYSTEM_ENTRIES = ['attributes', 'secondaryAttributes'];
 
@@ -23,6 +25,10 @@ export class ActiveEffectMadness extends ActiveEffect {
 		return super._fromStatusEffect(statusId, effectData, options);
 	}
 
+	get durations() {
+		return this.system.durations;
+	}
+
 	get effects() {
 		return this.system.effects;
 	}
@@ -36,7 +42,7 @@ export class ActiveEffectMadness extends ActiveEffect {
 	}
 
 	get stacks() {
-		return this.system.stacks;
+		return this.system.stacks ?? 0;
 	}
 
 	/**
@@ -66,5 +72,51 @@ export class ActiveEffectMadness extends ActiveEffect {
 				}
 			}
 		});
+	}
+
+	/**
+	 * Decrease duration selected with filter callback
+	 * @param {Function} filter callback to filter which duration to decrease
+	 * @returns {Promise<ActiveEffectMadness>} updated document instance
+	 */
+	decreaseDuration(filter) {
+		const durations = foundry.utils.deepClone(this.durations);
+		const duration = durations.find(filter);
+		if (!duration) {
+			throw new Error(`Duration not found on ${this.name}: ${filter}`);
+		}
+		const durationIndex = this.durations.findIndex(filter);
+		const newValue = Math.max(0, duration.value - 1);
+		durations[durationIndex].value = newValue;
+		return this.update({ ['system.durations']: durations });
+	}
+
+	/**
+	 * Remove a certain number of stacks
+	 * @param {number} value number of stacks to remove
+	 * @returns {Promise<ActiveEffectMadness>} updated document instance
+	 */
+	decreaseStacks(value = 1) {
+		if (isNaN(value)) throw new NaNError(value);
+		return this.updateStacks(Math.max(0, this.stacks - value));
+	}
+
+	/**
+	 * Add a certain number of stacks
+	 * @param {number} value number of stacks to add
+	 * @returns {Promise<ActiveEffectMadness>} updated document instance
+	 */
+	increaseStacks(value = 1) {
+		if (isNaN(value)) throw new NaNError(value);
+		return this.updateStacks(this.stacks + value);
+	}
+
+	/**
+	 * Update stacks value
+	 * @param {number} value new stacks value
+	 * @returns {Promise<ActiveEffectMadness>} updated document instance
+	 */
+	updateStacks(value) {
+		return this.update({ 'system.stacks': value });
 	}
 }

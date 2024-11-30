@@ -200,6 +200,7 @@
 				"NoTokenSelected": "Aucun token sélectionné pour cette action"
 			},
 			"Warning": {
+				"ActorImmuneToStatus": "{actor} est immunisé à {statusLabel}",
 				"EquipmentOverweight": "Vous êtes en surcharge d'équipement",
 				"InvalidDropType": "L'objet de type \"{badType}\" ne peut pas être ajouté ici, il doit être de type \"{goodType}\"",
 				"NoAvailableWeaponSlot": "Aucun emplacement d'arme disponible"

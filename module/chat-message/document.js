@@ -284,7 +284,7 @@ class ChatMessageMadness extends ChatMessage {
 		});
 	}
 
-	async _removeBuffsAndDebuffs(actor) {
+	_removeBuffsAndDebuffs(actor) {
 		const durationFilter = (d) =>
 			d.type === 'action' && d.actionOrigin === 'other';
 		const effectsToRemove = actor.effects.filter((e) =>
@@ -292,29 +292,10 @@ class ChatMessageMadness extends ChatMessage {
 		);
 		if (!effectsToRemove) return;
 
-		const [toRemove, toDecrease] = effectsToRemove.reduce(
-			(arr, e) => {
-				const duration = e.system.durations.find(durationFilter);
-				if (duration.value > 1) {
-					arr[1].push(e);
-				} else {
-					arr[0].push(e);
-				}
-				return arr;
-			},
-			[[], []],
+		return actor.decreaseStatusEffectsDuration(
+			effectsToRemove.map((e) => e.system.slug),
+			durationFilter,
 		);
-
-		if (toRemove.length) {
-			await actor.toggleStatusEffects(toRemove.map((e) => e.system.slug));
-		}
-
-		if (toDecrease.length) {
-			await actor.decreaseStatusEffectsDuration(
-				toDecrease.map((e) => e.system.slug),
-				durationFilter,
-			);
-		}
 	}
 }
 
