@@ -161,7 +161,7 @@ class ActorSheetMadness extends ActorSheet {
 		const handlers = {};
 
 		handlers['addMP'] = () => {
-			this.actor.regenMP();
+			this.actor.addMP();
 		};
 
 		handlers['create-passive'] = () => {

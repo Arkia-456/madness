@@ -815,27 +815,43 @@ export class ActorMadness extends Actor {
 	/*  MP                             */
 	/* ------------------------------- */
 
-	addMP(mp) {
-		this.update({
-			'system.mp.value': Math.min(
-				this.system.mp.value + mp,
-				this.system.mp.max,
-			),
-		});
+	/**
+	 * Add MP
+	 * @param {number} value MP value to add
+	 * @returns {Promise<ActorMadness>} the updated document instance
+	 */
+	addMP(value = this.system.secondaryAttributes.manaRegen.total) {
+		return this._updateMP(
+			Math.min(this.system.mp.value + value, this.system.mp.max),
+		);
 	}
 
+	/**
+	 * Check if current MP are greater or equal than requested value
+	 * @param {number} value MP value to check
+	 * @returns {boolean} `true` if current MP are greater or equal to requested value, `false` otherwise
+	 */
 	checkMP(value) {
 		if (isNaN(value)) throw new Error('Invalid value');
 		return this.currentMP >= value;
 	}
 
-	regenMP() {
-		const manaRegen = this.system.secondaryAttributes.manaRegen.total;
-		this.addMP(manaRegen);
+	/**
+	 * Remove MP
+	 * @param {number} value MP value to remove
+	 * @returns {Promise<ActorMadness>} the updated document instance
+	 */
+	removeMP(value) {
+		return this._updateMP(Math.max(0, this.system.mp.value - value));
 	}
 
-	removeMP(mp) {
-		this.update({ 'system.mp.value': Math.max(0, this.system.mp.value - mp) });
+	/**
+	 * Update MP value
+	 * @param {number} value MP new value
+	 * @returns {Promise<ActorMadness>} the updated document instance
+	 */
+	_updateMP(value) {
+		return this.update({ 'system.mp.value': value });
 	}
 
 	/* ------------------------------- */
