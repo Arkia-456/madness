@@ -1,6 +1,5 @@
 import { displayError, Formula } from '../../../utils/index.js';
 import { CheckMadness } from '../../system/check/check.js';
-import Tooltip from '../../system/tooltip.js';
 import { ItemMadness } from '../index.js';
 
 class SkillMadness extends ItemMadness {
