@@ -40,7 +40,7 @@ class ItemSheetMadness extends ItemSheet {
 		const statusImmunities = objectMap(
 			CONFIG.Madness.statusEffects,
 			(statusEffect, id) =>
-				`Madness.Passives.Immunity.${capitalizeFirstLetter(id)}`,
+				`${game.i18n.localize('Madness.Label.ImmunityTo')} ${game.i18n.localize(statusEffect.name)}`,
 		);
 		const otherPassives = Object.fromEntries(
 			['armor'].map((p) => [
