@@ -3,6 +3,7 @@ import { ChatMessageMadness } from '../../chat-message/index.js';
 class CombatantMadness extends Combatant {
 	endTurn() {
 		this._applyDoT(this.actor, 'end');
+		this._applyMoT(this.actor, 'end');
 		this._removeBuffsAndDebuffs(this.actor, 'end');
 	}
 
@@ -92,6 +93,26 @@ class CombatantMadness extends Combatant {
 		await actor.applyDamage(damage, context);
 		context.passives.push({ name: 'bypassTempHP' });
 		await actor.applyDamage(bypassTempHPDamage, context);
+	}
+
+	_applyMoT(actor, applicationTime) {
+		const filter = (e) =>
+			e.type === 'add' &&
+			e.target === 'mp' &&
+			e.applicationType === 'turn' &&
+			e.applicationTime === applicationTime;
+		const motAmount = actor.effects.reduce((amount, actorEffect) => {
+			const effect = foundry.utils.deepClone(actorEffect);
+			const effects = effect.system.effects?.filter(filter);
+			if (!effects) return amount;
+			effects.forEach((e) => {
+				if (effect.system.stacks) {
+					amount += Number(e.value * effect.system.stacks);
+				}
+			});
+			return amount;
+		}, 0);
+		actor.addMP(motAmount);
 	}
 }
 

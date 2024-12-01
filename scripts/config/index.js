@@ -477,6 +477,21 @@ export const MadnessConfig = {
 			stackable: true,
 			target: 'self',
 		},
+		regenMP: {
+			description: 'Madness.StatusEffect.Description.RegenMP',
+			name: 'Madness.StatusEffect.RegenMP',
+			effects: [
+				{
+					type: 'add',
+					applicationTime: 'end',
+					applicationType: 'turn',
+					target: 'mp',
+					value: 2,
+				},
+			],
+			stackable: true,
+			target: 'self',
+		},
 		shock: {
 			description: 'Madness.StatusEffect.Description.Shock',
 			effects: [
