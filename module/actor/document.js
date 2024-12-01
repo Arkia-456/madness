@@ -907,6 +907,17 @@ export class ActorMadness extends Actor {
 	/* ------------------------------- */
 
 	/**
+	 * Add HP
+	 * @param {number} value HP value to add
+	 * @returns {Promise<ActorMadness>} the updated document instance
+	 */
+	addHP(value = 0) {
+		return this._updateHP(
+			Math.min(this.system.hp.value + value, this.system.hp.max),
+		);
+	}
+
+	/**
 	 * Add temporary HP
 	 * @param {number} value temporary HP value to add
 	 */
@@ -916,6 +927,15 @@ export class ActorMadness extends Actor {
 		if (!hitPoints) return;
 		if (hitPoints.temp >= value) return;
 		this.update({ 'system.hp.temp': value });
+	}
+
+	/**
+	 * Update HP value
+	 * @param {number} value HP new value
+	 * @returns {Promise<ActorMadness>} the updated document instance
+	 */
+	_updateHP(value) {
+		return this.update({ 'system.hp.value': value });
 	}
 
 	/* ------------------------------- */
@@ -931,33 +951,37 @@ export class ActorMadness extends Actor {
 	applyDamage(damage = 0, context = {}) {
 		const hitPoints = this.hitPoints;
 		if (!hitPoints) return;
-		const outcomeAfterParry = context?.parry
-			? this._applyParryDamageReduction(
-					damage,
-					context.modifiers?.parryDamageReduction,
-				)
-			: damage;
-		const outcomeAfterArmor = this._applyArmorDamageReduction(
-			outcomeAfterParry,
-			context.passives,
-		);
-		const minimumDamage = damage
-			? CONFIG.Madness.default.minimumDamage
-			: damage;
-		context.passives.forEach((p) => {
-			if (p.slug && CONFIG.Madness.statusEffects[p.slug]?.target !== 'self') {
-				this.increaseStatusEffect(p.slug);
+		if (damage >= 0) {
+			const outcomeAfterParry = context?.parry
+				? this._applyParryDamageReduction(
+						damage,
+						context.modifiers?.parryDamageReduction,
+					)
+				: damage;
+			const outcomeAfterArmor = this._applyArmorDamageReduction(
+				outcomeAfterParry,
+				context.passives,
+			);
+			const minimumDamage = damage
+				? CONFIG.Madness.default.minimumDamage
+				: damage;
+			context.passives.forEach((p) => {
+				if (p.slug && CONFIG.Madness.statusEffects[p.slug]?.target !== 'self') {
+					this.increaseStatusEffect(p.slug);
+				}
+			});
+			const damageResult = this._calculateHealthDelta(
+				hitPoints,
+				Math.max(minimumDamage, outcomeAfterArmor),
+				context,
+			);
+			if (damageResult.totalApplied !== 0) {
+				this.update(damageResult.updates);
 			}
-		});
-		const damageResult = this._calculateHealthDelta(
-			hitPoints,
-			Math.max(minimumDamage, outcomeAfterArmor),
-			context,
-		);
-		if (damageResult.totalApplied !== 0) {
-			this.update(damageResult.updates);
+			return damageResult.totalApplied;
+		} else {
+			return this.addHP(damage * -1);
 		}
-		return damageResult.totalApplied;
 	}
 
 	/**

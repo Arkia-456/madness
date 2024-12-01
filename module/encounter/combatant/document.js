@@ -62,41 +62,36 @@ class CombatantMadness extends Combatant {
 		);
 	}
 
-	_applyDoT(actor, applicationTime) {
+	async _applyDoT(actor, applicationTime) {
 		const filter = (e) =>
-			e.type === 'damage' &&
+			e.type === 'add' &&
+			e.target === 'hp' &&
 			e.applicationType === 'turn' &&
 			e.applicationTime === applicationTime;
-		const dotEffects = actor.effects.reduce((arr, actorEffect) => {
-			const effect = foundry.utils.deepClone(actorEffect);
-			const effects = effect.system.effects?.filter(filter);
-			if (!effects) return arr;
-			effects.forEach((e) => {
-				if (effect.system.stacks) {
-					e.value *= effect.system.stacks;
-				}
-			});
-			arr.push(...effects);
-			return arr;
-		}, []);
-		const [bypassTempHPDamage, damage] = dotEffects.reduce(
-			(arr, e) => {
-				if (e.bypassTempHP) {
-					arr[0] += e.value;
-				} else {
-					arr[1] += e.value;
-				}
+		const [bypassTempHPDamage, damage] = actor.effects.reduce(
+			(arr, actorEffect) => {
+				const effect = foundry.utils.deepClone(actorEffect);
+				const effects = effect.system.effects?.filter(filter);
+				if (!effects) return arr;
+				effects.forEach((e) => {
+					const value = (effect.system.stacks ?? 0) * -1 * e.value;
+					if (e.bypassTempHP) {
+						arr[0] += Number(value);
+					} else {
+						arr[1] += Number(value);
+					}
+				});
 				return arr;
 			},
-			[[], []],
+			[0, 0],
 		);
 		const context = {
 			source: 'activeEffect',
 			passives: [{ name: 'ignoreArmor' }],
 		};
-		actor.applyDamage(damage, context);
+		await actor.applyDamage(damage, context);
 		context.passives.push({ name: 'bypassTempHP' });
-		actor.applyDamage(bypassTempHPDamage, context);
+		await actor.applyDamage(bypassTempHPDamage, context);
 	}
 }
 

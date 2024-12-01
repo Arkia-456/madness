@@ -343,11 +343,12 @@ export const MadnessConfig = {
 			description: 'Madness.StatusEffect.Description.Bleed',
 			effects: [
 				{
-					type: 'damage',
+					type: 'add',
 					applicationTime: 'end',
 					applicationType: 'turn',
 					bypassTempHP: true,
-					value: 2,
+					target: 'hp',
+					value: -2,
 				},
 			],
 			name: 'Madness.StatusEffect.Bleed',
@@ -459,6 +460,22 @@ export const MadnessConfig = {
 			],
 			name: 'Madness.StatusEffect.Poison',
 			stackable: true,
+		},
+		regenHP: {
+			description: 'Madness.StatusEffect.Description.RegenHP',
+			name: 'Madness.StatusEffect.RegenHP',
+			effects: [
+				{
+					type: 'add',
+					applicationTime: 'end',
+					applicationType: 'turn',
+					bypassTempHP: true,
+					target: 'hp',
+					value: 2,
+				},
+			],
+			stackable: true,
+			target: 'self',
 		},
 		shock: {
 			description: 'Madness.StatusEffect.Description.Shock',
