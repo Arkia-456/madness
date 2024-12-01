@@ -114,7 +114,8 @@
 				"str": {
 					"value": 0
 				}
-			}
+			},
+			"passives": {}
 		},
 		"generic": {
 			"templates": [

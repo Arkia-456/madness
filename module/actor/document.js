@@ -738,7 +738,13 @@ export class ActorMadness extends Actor {
 
 	_prepareDataFrom(document) {
 		for (const d of document) {
+			console.log(
+				`Madness system | Actor | ${this.name} | ${capitalizeFirstLetter(d.type)} | ${d.name} | Preparing actor data...`,
+			);
 			d.prepareActorData?.();
+			console.log(
+				`Madness system | Actor | ${this.name} | ${capitalizeFirstLetter(d.type)} | ${d.name} | Actor data prepared ✅`,
+			);
 		}
 	}
 
