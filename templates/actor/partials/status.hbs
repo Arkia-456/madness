@@ -40,14 +40,16 @@
 										{{name}}
 									</div>
 									<div class='align-left'>
-										{{localize
-											(concat
-												'Madness.Passives.'
-												(capitalize type)
-												'.'
-												(capitalize passive)
-											)
-										}}
+										{{#if passive}}
+											{{localize
+												(concat
+													'Madness.Passives.'
+													(capitalize type)
+													'.'
+													(capitalize passive)
+												)
+											}}
+										{{/if}}
 										{{#if strength}}
 											:
 										{{/if}}
