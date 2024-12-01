@@ -393,6 +393,20 @@ export const MadnessConfig = {
 		},
 		cover: {
 			description: 'Madness.StatusEffect.Description.Cover',
+			durations: [
+				{
+					type: 'action',
+					actionOrigin: 'other',
+					value: 1,
+				},
+			],
+			effects: [
+				{
+					type: 'statModifier',
+					target: 'dodgeRate',
+					value: 20,
+				},
+			],
 			name: 'Madness.StatusEffect.Cover',
 		},
 		dead: {
