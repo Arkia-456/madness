@@ -2,6 +2,10 @@ import { displayError, Formula } from '../../../utils/index.js';
 import { SkillMadness } from '../skill/index.js';
 
 class WeaponMadness extends SkillMadness {
+	get isWeapon() {
+		return this.type === 'weapon';
+	}
+
 	get nbModules() {
 		return Object.values(this.system.modules).filter((el) => el.id).length;
 	}
@@ -51,7 +55,7 @@ class WeaponMadness extends SkillMadness {
 	}
 
 	get useAmmo() {
-		return !this.passives.some((p) => p.name === 'noAmmo');
+		return this.isWeapon && !this.passives.some((p) => p.name === 'noAmmo');
 	}
 
 	get passives() {
@@ -103,7 +107,10 @@ class WeaponMadness extends SkillMadness {
 	}
 
 	removeResources() {
-		if (this.useAmmo) this.removeAmmo();
+		if (this.useAmmo) return this.removeAmmo();
+		if (!this.isWeapon) {
+			this.delete();
+		}
 	}
 
 	checkAmmo() {

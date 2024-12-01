@@ -1,4 +1,6 @@
-{{> 'madness.partials.passives'}}
+{{#if (equal type 'weapon')}}
+	{{> 'madness.partials.passives'}}
+{{/if}}
 <table>
 	<thead>
 		<tr class='table-header'>
@@ -52,60 +54,70 @@
 		</tr>
 	</tbody>
 </table>
-<table>
-	<thead>
+{{#if (equal type 'weapon')}}
+	<table>
+		<thead>
+			<tr>
+				{{#if isOwned}}
+					<td>{{localize 'Madness.Item.Weapon.Ammo'}}</td>
+				{{/if}}
+				<td>{{localize 'Madness.Item.Weapon.MaxAmmo'}}</td>
+				<td>{{localize 'Madness.Label.Reloadable'}}</td>
+				<td>{{localize 'Madness.Label.Weight'}}</td>
+				<td>{{localize 'Madness.Item.Range'}}</td>
+			</tr>
+		</thead>
 		<tr>
 			{{#if isOwned}}
-				<td>{{localize 'Madness.Item.Weapon.Ammo'}}</td>
+				<td>
+					<input
+						type='number'
+						name='system.ammo.value'
+						value='{{system.ammo.value}}'
+						data-dtype='number'
+					/>
+				</td>
 			{{/if}}
-			<td>{{localize 'Madness.Item.Weapon.MaxAmmo'}}</td>
-			<td>{{localize 'Madness.Label.Reloadable'}}</td>
-			<td>{{localize 'Madness.Label.Weight'}}</td>
-			<td>{{localize 'Madness.Item.Range'}}</td>
-		</tr>
-	</thead>
-	<tr>
-		{{#if isOwned}}
 			<td>
 				<input
 					type='number'
-					name='system.ammo.value'
-					value='{{system.ammo.value}}'
+					name='system.ammo.max'
+					value='{{system.ammo.max}}'
 					data-dtype='number'
 				/>
 			</td>
-		{{/if}}
-		<td>
-			<input
-				type='number'
-				name='system.ammo.max'
-				value='{{system.ammo.max}}'
-				data-dtype='number'
-			/>
-		</td>
-		<td>
-			<input
-				type='checkbox'
-				name='system.allowReload'
-				{{checked system.allowReload}}
-			/>
-		</td>
-		<td>
-			<input
-				type='number'
-				name='system.weight'
-				value='{{system.weight}}'
-				data-dtype='number'
-			/>
-		</td>
-		<td>
-			<input
-				type='number'
-				name='system.range.value'
-				value='{{system.range.value}}'
-				data-dtype='number'
-			/>
-		</td>
-	</tr>
-</table>
+			<td>
+				<input
+					type='checkbox'
+					name='system.allowReload'
+					{{checked system.allowReload}}
+				/>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.weight'
+					value='{{system.weight}}'
+					data-dtype='number'
+				/>
+			</td>
+			<td>
+				<input
+					type='number'
+					name='system.range.value'
+					value='{{system.range.value}}'
+					data-dtype='number'
+				/>
+			</td>
+		</tr>
+	</table>
+{{else}}
+	<label>{{localize 'Madness.Item.Range'}}</label>
+	<input
+		type='number'
+		name='system.range.value'
+		value='{{system.range.value}}'
+		data-dtype='number'
+	/>
+{{/if}}
 {{> 'madness.item.skill.details'}}

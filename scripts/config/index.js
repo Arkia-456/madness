@@ -100,6 +100,7 @@ export const MadnessConfig = {
 	},
 	item: {
 		documentClasses: {
+			'consumable-weapon': WeaponMadness,
 			equipment: EquipmentMadness,
 			ethnicity: EthnicityMadness,
 			effect: EffectMadness,

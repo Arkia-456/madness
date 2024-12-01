@@ -151,7 +151,7 @@
 					<td>{{localize 'Madness.Label.Description'}}</td>
 					<td class='actions'></td>
 				</tr>
-				{{#each generics}}
+				{{#each items}}
 					<tr data-id='{{id}}'>
 						<td>{{name}}</td>
 						<td>{{{system.description}}}</td>
@@ -169,7 +169,7 @@
 				{{/each}}
 				{{#times
 					(minus
-						system.secondaryAttributes.inventoryMaxSlots.total generics.length
+						system.secondaryAttributes.inventoryMaxSlots.total items.length
 					)
 				}}
 					<tr class='placeholder'>

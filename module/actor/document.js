@@ -61,6 +61,10 @@ export class ActorMadness extends Actor {
 	/*  Items                          */
 	/* ------------------------------- */
 
+	get consumableWeapons() {
+		return this.items.filter((i) => i.type === 'consumable-weapon');
+	}
+
 	get equipments() {
 		return this.items.filter((i) => i.type === 'equipment');
 	}
@@ -69,12 +73,18 @@ export class ActorMadness extends Actor {
 		return this.items.filter((i) => i.type === 'generic');
 	}
 
+	get skills() {
+		return this.items.filter((i) =>
+			['consumable-weapon', 'spell', 'weapon'].includes(i.type),
+		);
+	}
+
 	get spells() {
 		return this.items.filter((i) => i.type === 'spell');
 	}
 
 	get weapons() {
-		return this.items.filter((i) => i.type === 'weapon');
+		return this.items.filter((i) => i.isWeapon);
 	}
 
 	/* ------------------------------- */
@@ -679,7 +689,7 @@ export class ActorMadness extends Actor {
 	 */
 	_prepareWeight() {
 		const equipments = this.items.filter(
-			(i) => i.type === 'equipment' || i.type === 'weapon',
+			(i) => i.type === 'equipment' || i.isWeapon,
 		);
 		this.system.currentEquipmentWeight = equipments.reduce(
 			(weight, e) => (weight += Number(e.system.weight)),

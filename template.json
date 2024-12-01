@@ -63,6 +63,7 @@
 	},
 	"Item": {
 		"types": [
+			"consumable-weapon",
 			"effect",
 			"equipment",
 			"ethnicity",
@@ -78,6 +79,15 @@
 		"htmlFields": [
 			"description"
 		],
+		"consumable-weapon": {
+			"templates": [
+				"common"
+			],
+			"modules": {
+				"module0": {},
+				"module1": {}
+			}
+		},
 		"equipment": {
 			"templates": [
 				"common"

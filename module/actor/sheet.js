@@ -32,6 +32,15 @@ class ActorSheetMadness extends ActorSheet {
 		return options;
 	}
 
+	get consumableWeapons() {
+		return this.actor.consumableWeapons.map((weapon) =>
+			foundry.utils.mergeObject(weapon, {
+				minDamage: weapon.getMinDamage(this.actor.system.attributes),
+				maxDamage: weapon.getMaxDamage(this.actor.system.attributes),
+			}),
+		);
+	}
+
 	get equipments() {
 		const equipments = {};
 		this.actor.equipments.forEach((e) => (equipments[e.system.slot] = e));
@@ -123,10 +132,11 @@ class ActorSheetMadness extends ActorSheet {
 		sheetData.system = actor.system;
 		sheetData.ethnicity = actor.ethnicity;
 
+		sheetData.consumableWeapons = this.consumableWeapons;
 		sheetData.spells = this.spells;
 		sheetData.equipments = this.equipments;
 		sheetData.weapons = this.weapons;
-		sheetData.generics = this.genericItems;
+		sheetData.items = [...this.genericItems, ...this.consumableWeapons];
 		sheetData.otherPassives = this.otherPassives;
 
 		sheetData.config = CONFIG.Madness.default;
@@ -260,10 +270,7 @@ class ActorSheetMadness extends ActorSheet {
 			...system.secondaryAttributes,
 			...system.magics,
 		});
-		this._generateSkillsTooltips(
-			html,
-			this.actor.items.filter((i) => ['spell', 'weapon'].includes(i.type)),
-		);
+		this._generateSkillsTooltips(html, this.actor.skills);
 	}
 
 	_generateArmorTooltip(html, armor) {
@@ -311,9 +318,11 @@ class ActorSheetMadness extends ActorSheet {
 		skills.forEach((skill) => {
 			Tooltip.generate(
 				skill,
-				{ templatePath: `${ActorSheetMadness.TOOLTIPS_PATH}${skill.type}.hbs` },
+				{
+					templatePath: `${ActorSheetMadness.TOOLTIPS_PATH}${skill.sheetType}.hbs`,
+				},
 				html,
-				`.${skill.type}[data-id='${skill.id}']`,
+				`.${skill.sheetType}[data-id='${skill.id}']`,
 			);
 		});
 	}
@@ -544,6 +553,7 @@ class ActorSheetMadness extends ActorSheet {
 			case 'spell':
 				allowDrop = tab === 'actions';
 				break;
+			case 'consumable-weapon':
 			case 'equipment':
 			case 'generic':
 				allowDrop = tab === 'inventory';
@@ -555,13 +565,13 @@ class ActorSheetMadness extends ActorSheet {
 				break;
 		}
 		if (allowDrop) {
-			if (itemSource.type === 'equipment' || itemSource.type === 'weapon') {
+			if (itemSource.type === 'equipment' || itemSource.isWeapon) {
 				const weightOk = this.actor.checkWeightWithNewItem(itemSource);
 				if (!weightOk) {
 					displayWarning('Madness.Message.Warning.EquipmentOverweight');
 				}
 			}
-			if (itemSource.type === 'weapon') {
+			if (itemSource.isWeapon) {
 				const weaponSlotsOk = this.actor.checkWeaponSlots();
 				if (!weaponSlotsOk) {
 					displayWarning('Madness.Message.Warning.NoAvailableWeaponSlot');

@@ -55,8 +55,9 @@ class ItemSheetMadness extends ItemSheet {
 			system: item.system,
 			enrichedContent,
 			detailsTemplate: options.hasDetails
-				? `madness.item.${item.type}.details`
+				? `madness.item.${item.sheetType}.details`
 				: null,
+			type: item.type,
 			passivesEffects: {
 				...attributesPassives,
 				...magicsPassives,

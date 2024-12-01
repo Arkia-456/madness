@@ -118,6 +118,54 @@
 					</div>
 				</div>
 			{{/each}}
+			{{#each consumableWeapons}}
+				<div class='item weapon' data-id='{{id}}'>
+					<div class='row'>
+						<div class='item-name'>{{name}}</div>
+						<div>
+							{{#if reloadable}}
+								{{#if @root.editable}}
+									<button class='action reload' data-action='reload-weapon'>
+										{{localize 'Madness.Controls.Reload'}}
+									</button>
+								{{/if}}
+							{{/if}}
+						</div>
+						<div class='ammo'>
+							{{#if (and useAmmo system.ammo.max)}}
+								{{system.ammo.value}}/{{system.ammo.max}}
+							{{else}}
+								-
+							{{/if}}
+						</div>
+						<div>
+							{{#if (and useAmmo system.ammo.max)}}
+								<button class='add-ammo' data-action='add-ammo'>+</button>
+								<button class='remove-ammo' data-action='remove-ammo'>-</button>
+							{{/if}}
+						</div>
+						<div>
+							{{minDamage}}
+							-
+							{{maxDamage}}
+						</div>
+						<div>{{range}}</div>
+						{{#if @root.editable}}
+							<button class='action' data-action='roll-weapon'>
+								{{localize 'Madness.Controls.Attack'}}
+							</button>
+							<div class='delete'>
+								<a data-action='delete'>
+									<i class='fa fa-trash'></i>
+								</a>
+								<a data-action='edit-item'>
+									<i class='fa-solid fa-fw fa-edit'></i>
+								</a>
+							</div>
+						{{/if}}
+					</div>
+				</div>
+			{{/each}}
 		</div>
 
 	</section>

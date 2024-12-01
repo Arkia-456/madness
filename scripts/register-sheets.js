@@ -37,7 +37,7 @@ export function registerSheets() {
 		makeDefault: true,
 	});
 	Items.registerSheet('madness', WeaponSheetMadness, {
-		types: ['weapon'],
+		types: ['consumable-weapon', 'weapon'],
 		makeDefault: true,
 	});
 }

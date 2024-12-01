@@ -2,6 +2,10 @@ import { ChatMessageMadness } from '../chat-message/index.js';
 import { capitalizeFirstLetter, Formula } from '../../utils/index.js';
 
 class ItemMadness extends Item {
+	get sheetType() {
+		return this.type === 'consumable-weapon' ? 'weapon' : this.type;
+	}
+
 	prepareActorData() {
 		console.log(
 			`Madness system | Actor | ${this.actor.name} | ${capitalizeFirstLetter(this.type)} | ${this.name} | Preparing actor data...`,
@@ -170,7 +174,7 @@ class ItemMadness extends Item {
 	}
 
 	async toMessage(options) {
-		const template = `systems/madness/templates/chat/${this.type}-card.hbs`;
+		const template = `systems/madness/templates/chat/${this.sheetType}-card.hbs`;
 		const actor = this.actor;
 		const token = actor.token;
 		const templateData = {
