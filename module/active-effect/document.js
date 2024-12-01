@@ -92,7 +92,11 @@ export class ActiveEffectMadness extends ActiveEffect {
 		const durationIndex = this.durations.findIndex(filter);
 		const newValue = Math.max(0, duration.value - 1);
 		durations[durationIndex].value = newValue;
-		return this.update({ ['system.durations']: durations });
+		const updates = { ['system.durations']: durations };
+		if (this.stackable && durations.some((d) => d.valueOrigin === 'stack')) {
+			updates['system.stacks'] = this.stacks - 1;
+		}
+		return this.update(updates);
 	}
 
 	/**
@@ -121,6 +125,14 @@ export class ActiveEffectMadness extends ActiveEffect {
 	 * @returns {Promise<ActiveEffectMadness>} updated document instance
 	 */
 	updateStacks(value) {
-		return this.update({ 'system.stacks': value });
+		const updates = { 'system.stacks': value };
+		const durations = foundry.utils.deepClone(this.durations);
+		if (durations) {
+			durations.forEach((d) => {
+				if (d.valueOrigin === 'stack') d.value = value;
+			});
+			updates['system.durations'] = durations;
+		}
+		return this.update(updates);
 	}
 }

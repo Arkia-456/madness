@@ -356,7 +356,15 @@ export const MadnessConfig = {
 		},
 		blind: {
 			description: 'Madness.StatusEffect.Description.Blind',
+			durations: [
+				{
+					type: 'turn',
+					valueOrigin: 'stack',
+					applicationTime: 'end',
+				},
+			],
 			name: 'EFFECT.StatusBlind',
+			stackable: true,
 		},
 		burn: {
 			description: 'Madness.StatusEffect.Description.Burn',
