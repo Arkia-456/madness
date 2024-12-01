@@ -4,6 +4,7 @@ import {
 	elide,
 	uncapitalizeFirstLetter,
 } from '../../utils/index.js';
+import { ItemProxyMadness } from '../item/document.js';
 
 class ChatMessageMadness extends ChatMessage {
 	get actor() {
@@ -15,7 +16,11 @@ class ChatMessageMadness extends ChatMessage {
 		const origin = this.flags.madness?.origin ?? null;
 		const match = /Item\.(\w+)/.exec(origin?.uuid ?? '') ?? [];
 		const itemId = match[1] ?? '';
-		return actor?.items.get(itemId) ?? null;
+		return (
+			actor?.items.get(itemId) ??
+			new ItemProxyMadness(this.flags.madness?.context?.item) ??
+			null
+		);
 	}
 
 	get visible() {

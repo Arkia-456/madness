@@ -195,11 +195,10 @@ class SkillMadness extends ItemMadness {
 	async roll(options = {}) {
 		if (!this.checkBeforeRoll()) return;
 		await this.beforeRoll();
-		const context = {
+		const context = foundry.utils.mergeObject(this.getContext(), {
 			...options,
-			...this.getContext(),
 			formulaAttributes: ['damage', 'critRate', 'critFailureRate'],
-		};
+		});
 		const roll = await CheckMadness.roll(context);
 		if (roll.critOutcome.result === 'success') {
 			if (options.removeResources) this.removeResources();

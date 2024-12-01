@@ -177,10 +177,7 @@ class ItemMadness extends Item {
 
 		const outcome = options.roll.outcome;
 
-		const contextFlag = {
-			outcome,
-			...options.context,
-		};
+		const contextFlag = foundry.utils.mergeObject(options.context, { outcome });
 
 		const chatData = {
 			speaker: ChatMessageMadness.getSpeaker({
