@@ -114,7 +114,7 @@ export class ActorMadness extends Actor {
 	/* ------------------------------- */
 
 	get canUseMagic() {
-		return this.preventMagicUseEffects.length > 0;
+		return !this.preventMagicUseEffects.length > 0;
 	}
 
 	get firstUpdater() {
