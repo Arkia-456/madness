@@ -421,7 +421,7 @@ export const MadnessConfig = {
 		},
 		dead: {
 			description: 'Madness.StatusEffect.Description.Dead',
-			name: 'EFFECT.StatusDead',
+			name: 'Madness.StatusEffect.Dead',
 		},
 		down: {
 			description: 'Madness.StatusEffect.Description.Down',
