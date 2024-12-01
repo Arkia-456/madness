@@ -2,7 +2,8 @@
 
 #token-hud {
 	.status-effects {
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(5, 1fr);
+		width: auto;
 
 		.effect-control {
 			height: 36px;
@@ -26,6 +27,22 @@
 				z-index: 1;
 				font-style: normal;
 				line-height: 1em;
+			}
+		}
+
+		.effect-name {
+			position: absolute;
+			top: -36px;
+			width: 100%;
+			padding: 4px;
+			background-color: @madness-background-color-secondary;
+			color: white;
+			font-family: 'Signika Light';
+			font-size: 1.5em;
+			visibility: hidden;
+
+			&.active {
+				visibility: visible;
 			}
 		}
 	}

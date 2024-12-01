@@ -2,6 +2,8 @@ import { htmlQueryAll } from '../../utils/index.js';
 
 export class StatusEffects {
 	static EFFECT_CONTROL_CLASS = 'effect-control';
+	static EFFECT_NAME_CONTAINER_CLASS = 'effect-name';
+	static EFFECTS_GRID_SELECTOR = '.status-effects';
 	static ICONS_PATH = 'systems/madness/resources/icons/status-effects/';
 
 	/**
@@ -30,13 +32,20 @@ export class StatusEffects {
 		const token = canvas.tokens.get(tokenData._id);
 		if (!token) return;
 
-		const iconGrid = html.querySelector('.status-effects');
+		const iconGrid = html.querySelector(StatusEffects.EFFECTS_GRID_SELECTOR);
 		if (!iconGrid) {
 			throw new Error('Unexpected error retrieving status effects grid');
 		}
 
+		StatusEffects._createStatusNameContainer(iconGrid);
 		StatusEffects._replaceIcons(iconGrid, token);
 		StatusEffects._activateListeners(iconGrid);
+	}
+
+	static _createStatusNameContainer(grid) {
+		const container = document.createElement('div');
+		container.classList.add(StatusEffects.EFFECT_NAME_CONTAINER_CLASS);
+		grid.append(container);
 	}
 
 	/**
@@ -113,6 +122,12 @@ export class StatusEffects {
 				control.addEventListener('contextmenu', (event) =>
 					StatusEffects._setStatusValue(control, event),
 				);
+				control.addEventListener('mouseover', () =>
+					StatusEffects._showStatusName(control, true),
+				);
+				control.addEventListener('mouseout', () =>
+					StatusEffects._showStatusName(control, false),
+				);
 			},
 		);
 	}
@@ -140,5 +155,24 @@ export class StatusEffects {
 				token.actor.decreaseStatusEffect(slug);
 			}
 		});
+	}
+
+	/**
+	 * A mouse event handler that show or hide status name
+	 * @param {HTMLElement} control
+	 * @param {boolean} show
+	 */
+	static _showStatusName(control, show = false) {
+		const namecontainer = control
+			.closest(StatusEffects.EFFECTS_GRID_SELECTOR)
+			?.querySelector(`.${StatusEffects.EFFECT_NAME_CONTAINER_CLASS}`);
+		if (namecontainer && control.title) {
+			namecontainer.innerText = control.title;
+			if (show) {
+				namecontainer.classList.add('active');
+				return;
+			}
+		}
+		namecontainer.classList.remove('active');
 	}
 }
